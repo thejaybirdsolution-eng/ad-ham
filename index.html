@@ -2781,12 +2781,16 @@ a.row-main:active { transform: scale(.992); }
 }
 .stat-combo-nums .stat-n { font-size: clamp(.94rem, 3.8vw, 1.1rem); }
 .stat-combo-nums .stat-l { font-size: .55rem; }
+/* --p-dim is documented at its definition as rules-and-glyphs only
+   (2.9:1, below AA) — this is a real sentence someone is meant to
+   read, so it takes the same supporting-note tier as .why-ast: --p-mid
+   (5.8:1, AA) at the same size and leading. */
 .why-foot {
   margin: 11px 0 0;
   font-family: var(--face-data);
-  font-size: .6rem;
-  line-height: 1.6;
-  color: var(--p-dim);
+  font-size: .62rem;
+  line-height: 1.65;
+  color: var(--p-mid);
 }
 
 /* ── The case ─────────────────────────────────────────────────────
@@ -2795,10 +2799,11 @@ a.row-main:active { transform: scale(.992); }
    more warmth in the colour, both light enough that the fit ladder can
    still shrink the paragraph under them without a fight. */
 .doss-quote {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.5em;
+  font-family: var(--face-panel);
+  font-weight: 800;
+  font-size: 1.3em;
   line-height: 0;
-  vertical-align: -.32em;
+  vertical-align: -.28em;
   margin-right: 2px;
   color: var(--p-hot);
   opacity: .68;
