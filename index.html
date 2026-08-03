@@ -214,8 +214,16 @@ svg { display: block; }
 .stage {
   width: 100%;
   max-width: 1180px;
+  /* 860 gave the readout 690px of glass to carry 160px of type, and no
+     amount of work inside the tube fixes a tube that is simply too
+     tall — a bank with five channels cannot fill it however the rows
+     are arranged. 780 is the floor the controls set, not a taste call:
+     four keys at their 84px minimum, plus the finder, the legend, the
+     deck and the contact slot, need about 600px of banks column, and
+     the two rails take 100 of the rest. It also puts the case at
+     1.51:1, which is where bench instruments actually sit. */
+  max-height: 780px;
   height: 100%;
-  max-height: 860px;
   perspective: 1600px;
   perspective-origin: 50% 45%;
 }
@@ -489,6 +497,14 @@ svg { display: block; }
   position: relative;
   z-index: 1;
   height: 100%;
+  /* The raster is a GRID item of .tube, and a grid item's automatic
+     minimum is its min-content — which outranks height:100% the moment
+     the content is taller than the tube. That is how a 595px tube came
+     to hold a 743px raster: the height was set and then overruled. The
+     same omission on .tube-face below it, so both are pinned; fixing
+     only the face left it stretching to fill a parent that had already
+     grown. */
+  min-height: 0;
   display: flex;
   flex-direction: column;
   transform-origin: 50% 50%;
@@ -498,6 +514,16 @@ svg { display: block; }
 .tube-face {
   position: relative;
   height: 100%;
+  /* height:100% sets the height; it does not stop a COLUMN flex item's
+     automatic minimum from stretching it back out to min-content. The
+     face is a flex item of .tube-raster, so until the directory gave
+     it something tall to hold, nothing here ever exceeded the glass
+     and the omission never showed. At 1024px the idle list drops to
+     one column, 16 rows tall, and the face grew 972px inside a 620px
+     tube — clipped by .tube's overflow, so rows simply vanished with
+     no fade to say so. Zero lets the face hold its height and the
+     list shrink inside it, which is what the mask is drawn for. */
+  min-height: 0;
   display: flex;
   flex-direction: column;
   padding: clamp(18px, 2.8vh, 30px) clamp(20px, 3vw, 34px);
@@ -805,6 +831,154 @@ svg { display: block; }
   animation: annunBreathe 3.4s var(--ease-io) infinite;
 }
 
+/* ── The directory ────────────────────────────────────────────────
+   The readout is the largest, brightest surface on the panel, and at
+   rest it was carrying a 112px identity block and a 50px score inside
+   a 690px tube — 73% of it empty, and empty in phosphor, which does
+   not read as neutral the way bare chassis does. Anchoring the
+   composition at both ends settled WHERE the slack sat. It could not
+   settle how much of it there was, and half a screen of it reads as a
+   panel that failed to load rather than as an instrument with room.
+
+   So the middle register earns its height instead of being given it:
+   the readout lists what it is pointed at. Idle, that is a
+   cross-section of the whole catalogue — the 47 services a visitor
+   otherwise cannot see without clicking. Pointed at a bank, it is that
+   bank's channels. Both are read off CFG at paint time, exactly like
+   the entry price in the strip, so the directory cannot advertise
+   something the list no longer carries.
+
+   Balanced columns rather than `column-fill: auto`: filling the first
+   column to the floor before starting the second would leave a
+   five-row bank stacked down the left with the right half bare, which
+   is the same mistake in the other axis. */
+.hero-dir {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex; flex-direction: column;
+  margin-top: clamp(10px, 1.8vh, 20px);
+  overflow: hidden;
+}
+.hero-dir-head {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 clamp(6px, 1vh, 10px);
+  font-size: clamp(.5rem, 1.05vh, .57rem);
+  font-weight: 500;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--p-dim);
+  white-space: nowrap;
+}
+/* Same trailing-letter-spacing correction as .legend, same reason. */
+.hero-dir-head::after {
+  content: ""; flex: 1; height: 1px;
+  margin-left: -.26em;
+  background: linear-gradient(90deg, rgba(255,150,40,.24), transparent);
+}
+.hero-dir-count {
+  color: var(--p-mid);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+.hero-dir-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0; padding: 0;
+  list-style: none;
+  display: grid;
+  column-gap: clamp(18px, 2.6vw, 34px);
+  align-content: start;
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 20px), transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 20px), transparent 100%);
+}
+
+/* ── Density ──────────────────────────────────────────────────────
+   Balanced columns were the first attempt and they were wrong: multicol
+   sizes its columns to the SHORTEST height that fits, so the list
+   packed itself against the ceiling and pooled 266px underneath —
+   the same void, moved. Grid tracks do the opposite. `minmax(0, cap)`
+   lets every row grow to share whatever height the tube has, and the
+   cap is what stops five services from becoming five 90px rows.
+
+   Which cap, and how many columns, is a function of how much the bank
+   has to say — so JS sets the mode off the row count and the numbers
+   below are measured against the 376px the trimmed tube leaves:
+
+     s  ≤6 rows   one column, note line shown
+     m  7–10      one column, no notes
+     l  ≥11       two columns where they fit, no notes
+
+   Every mode sizes its tracks the same way — `minmax(26px, 1fr)` —
+   and the modes differ only in how many columns they ask for and
+   whether the note comes along. 1fr means the tracks divide whatever
+   the tube has and leave nothing over at either end: five services get
+   75px rows and the note to fill them with, eight get 47px, sixteen in
+   two columns get 47px, sixteen in one get 26.
+
+   The 26px floor is what stops the last case from squeezing an 11px
+   line into 17px of track. When the floor binds, the list overflows
+   and the mask fades the tail, which is the honest outcome — a
+   preview losing its last row and saying so beats every row in it
+   being shaved. The one bound worth naming: below about four rows a
+   free share turns absurd. The smallest bank in the catalogue holds
+   five, so nothing reaches it today; a three-service bank would need
+   a cap here.
+
+   A row is a flex COLUMN so its content centres in a track it no
+   longer determines the height of, and so the note has somewhere to
+   go in `s` without a second set of rules. */
+.hero-dir-list { grid-auto-rows: minmax(26px, 1fr); }
+.hero-dir[data-dir="s"] .hero-dir-list,
+.hero-dir[data-dir="m"] .hero-dir-list { grid-template-columns: 1fr; }
+/* auto-fit, so the narrow tube collapses to one column and the rows
+   get shorter rather than every name in the list ellipsising. */
+.hero-dir[data-dir="l"] .hero-dir-list {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.dir-row {
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 3px;
+  min-height: 0;
+  overflow: hidden;
+  font-size: clamp(.62rem, 1.25vh, .72rem);
+  letter-spacing: .04em;
+}
+.dir-line { display: flex; align-items: baseline; gap: 8px; }
+.dir-note {
+  font-size: .92em;
+  color: var(--p-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.hero-dir:not([data-dir="s"]) .dir-note { display: none; }
+.dir-n {
+  /* min-width:0 explicitly: a flex item's automatic minimum is its
+     content, so without this the name refuses to shrink, shoves the
+     leader out of the row and overflows the column instead of
+     ellipsising. `overflow:hidden` happens to resolve it too, but by
+     side effect — this says it. */
+  min-width: 0;
+  font-weight: 500;
+  color: var(--p);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* The leader is what makes a directory read as a directory rather than
+   as two ragged columns of text. Decorative, so it carries no glyphs. */
+.dir-lead {
+  flex: 1 1 auto;
+  min-width: 12px;
+  height: 1px;
+  transform: translateY(-3px);
+  background: repeating-linear-gradient(90deg,
+    rgba(255,150,40,.34) 0 1px, transparent 1px 5px);
+}
+.dir-m {
+  flex: 0 0 auto;
+  font-style: normal;
+  color: var(--p-mid);
+  font-variant-numeric: tabular-nums slashed-zero;
+  white-space: nowrap;
+}
+
 /* ── The strip ─────────────────────────────────────────────────────
    Two cells track what the readout is pointed at and one is a standing
    fact, which is how a real panel divides its gauges: some channels
@@ -816,11 +990,16 @@ svg { display: block; }
   align-items: flex-end;
   /* Pulled out to the tube wall and padded back in, so the score runs
      edge to edge the way a milled line would. */
-  /* `auto` takes the slack so the strip sits on the floor; the minimum
-     gap above it is the identity block's own bottom margin, because an
-     auto margin collapses to nothing exactly when there is no room and
-     that is precisely when the score must not butt against the note. */
-  margin: auto calc(-1 * clamp(20px, 3vw, 34px)) 0;
+  /* The top margin used to be `auto`, which is how the strip found the
+     floor when nothing sat between it and the identity block. The
+     directory sits there now and grows into the slack instead — and an
+     auto margin absorbs free space BEFORE flex-grow gets a look at it,
+     so leaving it here would have starved the directory to nothing and
+     changed the void's shape without closing it. The floor is held by
+     the growing block above. Where that block is suppressed — the
+     phone, and short landscape — `auto` is put back in the query that
+     suppresses it. */
+  margin: 0 calc(-1 * clamp(20px, 3vw, 34px)) 0;
   padding: clamp(9px, 1.4vh, 13px) clamp(20px, 3vw, 34px) 0;
   border-top: 1px solid rgba(255,150,40,.2);
 }
@@ -1089,6 +1268,15 @@ svg { display: block; }
 }
 .bank-list {
   display: flex; flex-direction: column; gap: 7px;
+  /* The same failure the keypad had, and the same fix. Without a grow
+     the list is sized by its content, so a five-channel bank stopped
+     220px short of the tube beside it and left the column with a
+     ragged bottom edge — while the bottom mask below faded the end of
+     a list that had nothing to scroll to. `auto` rather than `0` for
+     the basis: at the tablet width this same element turns into a
+     horizontal rail inside an auto-height row, and a zero basis in an
+     indefinite container is exactly where flex sizing gets uncertain. */
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -2999,10 +3187,14 @@ a.row-main:active { transform: scale(.992); }
     margin: 10px 0 9px;
   }
   .hero-note { font-size: .72rem; line-height: 1.5; letter-spacing: .05em; }
-  /* Only the gap and the score — margin-top stays `auto` so the strip
-     keeps sitting on the floor of the tube at every size. */
+  /* The phone tube is 148–240px and already well filled — the void the
+     directory was cut to solve is a desktop condition and does not
+     exist here. Suppressed, and the strip goes back to finding the
+     floor with an auto margin, which is what it did before there was
+     anything between it and the identity block. */
+  .hero-dir { display: none; }
   .hero-id { margin-bottom: 11px; }
-  .hero-strip { padding-top: 9px; }
+  .hero-strip { margin-top: auto; padding-top: 9px; }
   .hcell { padding-left: 13px; }
   .hcell-n { font-size: 1rem; }
   .hcell-l { font-size: .5rem; letter-spacing: .2em; margin-right: -.2em; }
@@ -3359,6 +3551,11 @@ a.row-main:active { transform: scale(.992); }
      scroll. Four rows sharing whatever height exists always fits. */
   .keypad, .contact-slot { grid-auto-rows: minmax(0, 1fr); padding: 8px; gap: 6px; }
   .hero .tube-face { padding-block: 16px; }
+  /* Same reasoning as the phone: under 560px of viewport the tube has
+     no slack to give away, so the directory would be competing with
+     the name rather than filling behind it. */
+  .hero-dir { display: none; }
+  .hero-strip { margin-top: auto; }
   .tube-title { min-height: 1.1em; }
 }
 
@@ -3481,6 +3678,17 @@ a.row-main:active { transform: scale(.992); }
               </p>
               <h1 class="hero-line" id="hero-line">&nbsp;</h1>
               <p class="hero-note" id="hero-note">&nbsp;</p>
+            </div>
+            <!-- Hidden from AT: it is a pointer-driven preview of lists
+                 the keypad and the finder already expose properly, and
+                 announcing sixteen more rows on every hover would make
+                 the readout hostile to read. -->
+            <div class="hero-dir" id="hero-dir" aria-hidden="true">
+              <p class="hero-dir-head">
+                <span id="hero-dir-label">Directory</span>
+                <span class="hero-dir-count" id="hero-dir-count">—</span>
+              </p>
+              <ul class="hero-dir-list" id="hero-dir-list"></ul>
             </div>
             <div class="hero-strip" id="hero-strip">
               <span class="hcell"><b class="hcell-n" id="hs-n1">—</b><i class="hcell-l" id="hs-l1">—</i></span>
@@ -3785,6 +3993,11 @@ const CFG = {
        here, one table changes every sentence on the panel. */
     words: {
       services:  'services',
+      /* Heading over the readout's middle register when it is pointed
+         at nothing in particular. Pointed at a bank it borrows
+         ui.bankLabel instead, so the two lists are named the same
+         thing on the readout as they are on the category screen. */
+      directory: 'Directory',
       options:   'options',
       optionsIn: 'options inside.',
       bankUp:    'BANK',
@@ -4140,6 +4353,8 @@ const D = {
   home: $('#view-home'), cat: $('#view-cat'),
   heroRaster: $('#hero-raster'), heroFlash: $('#hero-flash'),
   heroKicker: $('#hero-kicker'), heroLine: $('#hero-line'), heroNote: $('#hero-note'),
+  heroDir: $('#hero-dir'), heroDirLabel: $('#hero-dir-label'),
+  heroDirCount: $('#hero-dir-count'), heroDirList: $('#hero-dir-list'),
   hsN1: $('#hs-n1'), hsL1: $('#hs-l1'),
   hsN2: $('#hs-n2'), hsL2: $('#hs-l2'),
   hsN3: $('#hs-n3'), hsL3: $('#hs-l3'),
@@ -4545,6 +4760,81 @@ function entryFrom(b) {
 }
 const SVC_TOTAL = CFG.banks.reduce((n, b) => n + services(b), 0);
 
+/* ── The directory ────────────────────────────────────────────────
+   What the middle of the readout lists. A bank lists its own rows —
+   the same rows the channel list will show when the key is pressed,
+   so the preview and the destination cannot disagree. Idle it lists a
+   round-robin across all four banks rather than the top of bank 01,
+   because the point of the resting state is that the catalogue is
+   wider than the four keys beside it.
+
+   A group row is a folder, so it reports what is inside rather than a
+   price it does not have — the same distinction leafCount draws for
+   the bank counts. */
+const DIR_CAP = 16;
+const dirRow = x => ({
+  name: x.name,
+  meta: x.group ? `${leafCount(x.items)} ${CFG.ui.words.options}` : x.rate,
+  /* A group has no note of its own worth showing — its children carry
+     those — so it falls back to the count it already reports. */
+  note: x.group ? '' : (x.note || '')
+});
+function dirRows(b) {
+  if (b) return b.items.slice(0, DIR_CAP).map(dirRow);
+  const lists = CFG.banks.map(x => x.items);
+  const out = [];
+  for (let r = 0; out.length < DIR_CAP; r++) {
+    let any = false;
+    for (const list of lists) {
+      if (!list[r]) continue;
+      any = true;
+      out.push(dirRow(list[r]));
+      if (out.length >= DIR_CAP) break;
+    }
+    if (!any) break;
+  }
+  return out;
+}
+function paintDir(b) {
+  D.heroDirLabel.textContent = b ? CFG.ui.bankLabel : CFG.ui.words.directory;
+  D.heroDirCount.textContent = b ? pad2(b.items.length) : SVC_TOTAL;
+
+  const rows = dirRows(b);
+  /* Thresholds, not measurements. The tube's height is fixed by the
+     chassis and the row counts are fixed by the catalogue, so the mode
+     is knowable without touching layout — which keeps this off the
+     resize path entirely. */
+  D.heroDir.dataset.dir = rows.length <= 6 ? 's' : rows.length <= 10 ? 'm' : 'l';
+
+  const frag = document.createDocumentFragment();
+  for (const r of rows) {
+    const li = document.createElement('li');
+    li.className = 'dir-row';
+
+    const line = document.createElement('span');
+    line.className = 'dir-line';
+    const n = document.createElement('b');
+    n.className = 'dir-n';
+    n.textContent = r.name;
+    const lead = document.createElement('i');
+    lead.className = 'dir-lead';
+    const m = document.createElement('em');
+    m.className = 'dir-m';
+    m.textContent = r.meta || '';
+    line.append(n, lead, m);
+    li.appendChild(line);
+
+    if (r.note) {
+      const note = document.createElement('span');
+      note.className = 'dir-note';
+      note.textContent = r.note;
+      li.appendChild(note);
+    }
+    frag.appendChild(li);
+  }
+  D.heroDirList.replaceChildren(frag);
+}
+
 function setHero(i, force) {
   if (i === heroAt && !force) return;
   heroAt = i;
@@ -4554,6 +4844,8 @@ function setHero(i, force) {
   D.heroKicker.textContent = b ? bankKicker(i, b) : H.kicker;
   D.heroLine.textContent   = b ? b.name  : H.line;
   D.heroNote.textContent   = b ? b.blurb : H.note;
+
+  paintDir(b);
 
   D.hsN1.textContent = b ? services(b) : SVC_TOTAL;  D.hsL1.textContent = T.svc;
   D.hsN2.textContent = entryFrom(b);                 D.hsL2.textContent = T.from;
@@ -6333,6 +6625,7 @@ const ES = {
 
   /* ── Words the engine assembles sentences from ────────────────── */
   'services': 'servicios',
+  'Directory': 'Directorio',
   'options': 'opciones',
   'platforms': 'plataformas',
   'options inside.': 'opciones adentro.',
