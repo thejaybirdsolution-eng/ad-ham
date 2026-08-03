@@ -786,7 +786,13 @@ svg { display: block; }
    readout reads that bank instead. The identity block floats in the
    space above the strip; the strip sits on the floor of the tube where
    an instrument puts its constants. */
-.hero-id { margin-block: auto; }
+/* Letterhead at the top, gauges on the floor, and the tube's own space
+   between them. Centring the identity block put half the free height
+   above the name and half below it, which on a desktop tube is 120px of
+   gap on each side — text floating rather than type placed. Anchored at
+   both ends it reads as a composition, and the space in the middle
+   reads as the instrument having room rather than as a mistake. */
+.hero-id { margin-bottom: clamp(12px, 2vh, 20px); }
 .hero-top { display: flex; align-items: center; gap: 8px; }
 .hero-pip {
   flex: 0 0 auto;
@@ -810,7 +816,11 @@ svg { display: block; }
   align-items: flex-end;
   /* Pulled out to the tube wall and padded back in, so the score runs
      edge to edge the way a milled line would. */
-  margin: clamp(12px, 2vh, 20px) calc(-1 * clamp(20px, 3vw, 34px)) 0;
+  /* `auto` takes the slack so the strip sits on the floor; the minimum
+     gap above it is the identity block's own bottom margin, because an
+     auto margin collapses to nothing exactly when there is no room and
+     that is precisely when the score must not butt against the note. */
+  margin: auto calc(-1 * clamp(20px, 3vw, 34px)) 0;
   padding: clamp(9px, 1.4vh, 13px) clamp(20px, 3vw, 34px) 0;
   border-top: 1px solid rgba(255,150,40,.2);
 }
@@ -2422,7 +2432,20 @@ a.row-main:active { transform: scale(.992); }
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   font-variant-numeric: tabular-nums slashed-zero;
 }
-.doss-rail .deck { flex: 0 0 auto; }
+/* The deck is `display: none` at the component level and switched on
+   by whoever is using it — the results deck only when a search is
+   showing, the bank deck never, because the desktop shows every row and
+   the phone replaces the list with the tuner. The dossier is the first
+   consumer that needs it on ALWAYS and on every screen, and inheriting
+   that default meant I shipped a four-page sheet last pass whose page
+   keys did not render. On a phone, with no arrow keys to fall back on,
+   that made pages two to four unreachable. */
+.doss-rail .deck {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
 
 /* The close of the argument is a control, not a full stop. The sheet
    used to end on a footnote and leave the visitor to find their own
@@ -2976,7 +2999,10 @@ a.row-main:active { transform: scale(.992); }
     margin: 10px 0 9px;
   }
   .hero-note { font-size: .72rem; line-height: 1.5; letter-spacing: .05em; }
-  .hero-strip { margin-top: 11px; padding-top: 9px; }
+  /* Only the gap and the score — margin-top stays `auto` so the strip
+     keeps sitting on the floor of the tube at every size. */
+  .hero-id { margin-bottom: 11px; }
+  .hero-strip { padding-top: 9px; }
   .hcell { padding-left: 13px; }
   .hcell-n { font-size: 1rem; }
   .hcell-l { font-size: .5rem; letter-spacing: .2em; margin-right: -.2em; }
@@ -3276,7 +3302,8 @@ a.row-main:active { transform: scale(.992); }
     display: -webkit-box; -webkit-box-orient: vertical;
     -webkit-line-clamp: 2; overflow: hidden;
   }
-  #view-home .tube-face.fit-1 .hero-strip { margin-top: 9px; padding-top: 8px; }
+  #view-home .tube-face.fit-1 .hero-id    { margin-bottom: 9px; }
+  #view-home .tube-face.fit-1 .hero-strip { padding-top: 8px; }
   #view-home .tube-face.fit-2 .hero-note  { -webkit-line-clamp: 1; }
   #view-home .tube-face.fit-2 .hcell {
     flex-direction: row; align-items: baseline; gap: 6px;
@@ -5505,8 +5532,21 @@ function showWhy(n) {
   kids.forEach((el, i) => el.classList.toggle('is-off', i < from || i >= to));
 
   deckWhy.set(whyBreaks.length, whyPage, 'var(--lamp-1)');
-  const sec = +kids[from].dataset.sec || 0;
-  D.whyTab.textContent = `${pad2(whyPage + 1)}/${pad2(whyBreaks.length)} · ${CFG.ui.why.pages[sec]}`;
+
+  /* The pips already carry position, and this panel's own rule is pips
+     XOR a counter, never both — so the rail carries the NAME. The one
+     case a name alone fails is a section long enough to span two pages:
+     press next, read the same two words, and nothing appears to have
+     happened. So a counter appears exactly there, and it counts within
+     the section rather than repeating what the pips are showing. */
+  const secAt = i => +kids[whyBreaks[i]].dataset.sec || 0;
+  const sec = secAt(whyPage);
+  const all = whyBreaks.map((_, i) => secAt(i));
+  const span = all.filter(x => x === sec).length;
+  const within = all.slice(0, whyPage + 1).filter(x => x === sec).length;
+  D.whyTab.textContent = span > 1
+    ? `${CFG.ui.why.pages[sec]} · ${within}/${span}`
+    : CFG.ui.why.pages[sec];
   D.whyPages.setAttribute('aria-label',
     `${CFG.ui.why.pages[sec]} — ${whyPage + 1} / ${whyBreaks.length}`);
   replay(D.whyPages, 'doss-in');
