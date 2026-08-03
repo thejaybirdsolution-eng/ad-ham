@@ -625,9 +625,24 @@ svg { display: block; }
 
 /* ── Phosphor typography ──────────────────────────────────────────── */
 
+/* .tube-face is a flex column with a fixed, clipped height on mobile
+   (#view-cat .tube-face { overflow: hidden }), and fitFace() decides
+   whether to shrink type by comparing scrollHeight to clientHeight.
+   Plain flex children default to flex-shrink:1, which lets the flex
+   algorithm silently compress a child's box below its own text's
+   natural height to make everything "fit" the container — the box
+   shrinks but the wrapped lines inside it do not, so the last line
+   renders past the box's bottom edge and straight into whatever comes
+   next. That compression also makes the box's own height agree with
+   its shrunk allotment, so the container's scrollHeight never exceeds
+   clientHeight and fitFace() never sees a reason to step in. Pinning
+   flex-shrink to 0 on every text-bearing child keeps each one honest
+   about the height its content actually needs, which is what lets the
+   overflow reach fitFace() in the first place. */
 .tube-eyebrow {
   display: flex; justify-content: space-between; align-items: baseline;
   gap: 16px;
+  flex-shrink: 0;
   font-size: .64rem;
   font-weight: 500;
   letter-spacing: .26em;
@@ -636,6 +651,7 @@ svg { display: block; }
 }
 .tube-rule {
   height: 1px;
+  flex-shrink: 0;
   margin: clamp(10px, 1.6vh, 15px) 0;
   background: linear-gradient(90deg, var(--p-dim), transparent 88%);
 }
@@ -651,6 +667,7 @@ svg { display: block; }
   color: var(--p-hot);
   /* Reserve two lines so specs never jump when the title wraps. */
   min-height: 2.16em;
+  flex-shrink: 0;
   overflow-wrap: anywhere;
 }
 
@@ -659,12 +676,14 @@ svg { display: block; }
   line-height: 1.68;
   color: var(--p);
   max-width: 62ch;
+  flex-shrink: 0;
   margin-top: clamp(8px, 1.4vh, 14px);
   margin-bottom: auto;            /* collect all slack in one place */
 }
 
 .tube-specs {
   display: flex; flex-direction: column;
+  flex-shrink: 0;
   gap: clamp(6px, 1vh, 10px);
   margin-top: clamp(14px, 2.2vh, 22px);
   padding-top: clamp(12px, 1.8vh, 18px);
@@ -694,6 +713,7 @@ svg { display: block; }
   padding-top: clamp(12px, 1.8vh, 18px);
   border-top: 1px solid var(--p-ghost);
   display: flex; justify-content: space-between; align-items: baseline;
+  flex-shrink: 0;
   gap: 14px;
   font-size: .64rem;
   letter-spacing: .2em;
@@ -818,7 +838,11 @@ svg { display: block; }
    gap on each side — text floating rather than type placed. Anchored at
    both ends it reads as a composition, and the space in the middle
    reads as the instrument having room rather than as a mistake. */
-.hero-id { margin-bottom: clamp(12px, 2vh, 20px); }
+/* Same flex-shrink protection as the category tube-face below, and the
+   same reason: a flex column can silently compress a child's box below
+   its text's natural height to make everything "fit", which is exactly
+   the condition fitFace() relies on scrollHeight to catch. */
+.hero-id { flex-shrink: 0; margin-bottom: clamp(12px, 2vh, 20px); }
 .hero-top { display: flex; align-items: center; gap: 8px; }
 .hero-pip {
   flex: 0 0 auto;
@@ -866,7 +890,7 @@ svg { display: block; }
   font-weight: 500;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: var(--p-dim);
+  color: var(--p-mid);
   white-space: nowrap;
 }
 /* Same trailing-letter-spacing correction as .legend, same reason. */
@@ -946,7 +970,7 @@ svg { display: block; }
 .dir-line { display: flex; align-items: baseline; gap: 8px; }
 .dir-note {
   font-size: .92em;
-  color: var(--p-dim);
+  color: var(--p-mid);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .hero-dir:not([data-dir="s"]) .dir-note { display: none; }
@@ -987,6 +1011,7 @@ svg { display: block; }
    drift from the prices it is quoting. */
 .hero-strip {
   display: flex;
+  flex-shrink: 0;
   align-items: flex-end;
   /* Pulled out to the tube wall and padded back in, so the score runs
      edge to edge the way a milled line would. */
@@ -2314,7 +2339,7 @@ a.row-main:active { transform: scale(.992); }
   font-weight: 500;
   letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--p-dim);
+  color: var(--p-mid);
   opacity: 0;
   transition: opacity var(--t-slow) var(--ease-out);
 }
@@ -2582,50 +2607,80 @@ a.row-main:active { transform: scale(.992); }
   overflow: hidden;          /* the rule, enforced rather than hoped for */
 }
 .doss-head { flex: 0 0 auto; }
+/* Three fixed pages — one per argument — rather than a measured column
+   of blocks. Only the active page is ever in flow, so it always gets
+   the argument's full stage instead of sharing it with a break that
+   might land unevenly. overflow-y is a backstop, not the mechanism: the
+   fit ladder below absorbs almost every case, and this only catches the
+   rare one it can't (a phone this small deserves its content over a
+   promise of no scrollbar). */
 .doss {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: clamp(11px, 1.8vh, 16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,179,71,.32) transparent;
+}
+.doss::-webkit-scrollbar { width: 5px; }
+.doss::-webkit-scrollbar-thumb { background: rgba(255,179,71,.3); border-radius: 4px; }
+/* Only present on the rare page the ladder's floor still could not
+   fit (long Spanish prose on the smallest phones). A static fade would
+   keep implying more text after the reader has already scrolled to the
+   end, so this is toggled on scroll rather than left running. */
+.doss.has-more {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent 100%);
+}
+.doss > .is-off { display: none; }
+.doss-page {
   display: flex;
   flex-direction: column;
   gap: clamp(9px, 1.5vh, 13px);
   flex: 1 1 auto;
   min-height: 0;
-  margin-top: clamp(11px, 1.8vh, 16px);
-  overflow: hidden;
 }
-.doss > .is-off { display: none; }
 .doss-in { animation: dossIn 340ms var(--ease-out) both; }
 @keyframes dossIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: none; }
 }
-/* The ladder is the backstop, not the mechanism. Paging handles a
-   section that is too long; this handles a single BLOCK that is too
-   long — one paragraph taller than the whole stage, which no amount of
-   paging can fix because there is nowhere to break it. */
-.doss.dfit-1 .card-sub  { font-size: .76rem; line-height: 1.52; }
-.doss.dfit-1 .stat      { padding: 9px 10px 10px; gap: 3px; }
-.doss.dfit-1 .why-foot  { font-size: .56rem; line-height: 1.5; }
-.doss.dfit-2 .card-sub  { font-size: .7rem;  line-height: 1.42; }
-.doss.dfit-2 .stat-ico  { display: none; }
-.doss.dfit-2 .why-ast   { font-size: .56rem; line-height: 1.5; }
+/* The ladder is the backstop, not the mechanism. Each page holds a
+   whole argument, and most fit at full size — this only steps in for
+   one that runs long on a short phone, tightening type and the gap
+   between blocks before anything is allowed to scroll or clip. */
+.doss-page.dfit-1        { gap: 7px; }
+.doss-page.dfit-1 .card-sub  { font-size: .76rem; line-height: 1.52; }
+.doss-page.dfit-1 .stat      { padding: 9px 10px 10px; gap: 3px; }
+.doss-page.dfit-1 .why-foot  { font-size: .56rem; line-height: 1.5; }
+.doss-page.dfit-2        { gap: 5px; }
+.doss-page.dfit-2 .card-sub  { font-size: .7rem;  line-height: 1.36; }
+.doss-page.dfit-2 .stat-ico  { display: none; }
+.doss-page.dfit-2 .why-ast   { font-size: .56rem; line-height: 1.5; }
+/* Third and last rung — "My Approach" carries three paragraphs, the
+   most prose any page holds, and is the one page that can still
+   overflow a small phone after dfit-2. This is the floor: small enough
+   to close the gap, not so small it stops reading as body copy. */
+.doss-page.dfit-3        { gap: 4px; }
+.doss-page.dfit-3 .card-sub  { font-size: .64rem; line-height: 1.3; }
 
-/* A page the balancer could not fill — the tail of an argument with
-   nothing left to share the stage with. It sits centred and set a
-   little larger rather than clinging to the top edge above a void,
-   which is what made the last approach page read as a loading error.
-   Applied from a measurement taken with this class off, so the extra
-   size can never feed back into the decision to apply it. */
-.doss.doss-airy {
+/* A page shorter than the stage — most often "My Promise", the
+   shortest argument. It sits centred and set a little larger rather
+   than clinging to the top edge above a void. Applied from a
+   measurement taken with this class off, so the extra size can never
+   feed back into the decision to apply it. */
+.doss-page.doss-airy {
   justify-content: center;
   gap: clamp(12px, 2vh, 17px);
 }
-.doss.doss-airy .card-sub {
+.doss-page.doss-airy .card-sub {
   font-size: calc(.75rem * var(--doss-grow, 1.15));
   line-height: 1.62;
 }
-.doss.doss-airy .why-ast { font-size: .66rem; }
-/* The closing page ends on the call key, which is pinned to the foot
-   by margin-top:auto — centring the column would fight it. */
-.doss.doss-airy:has(.doss-cta:not(.is-off)) { justify-content: flex-start; }
+.doss-page.doss-airy .why-ast { font-size: .66rem; }
 
 /* The rail under the screen: which page, and the keys to turn it. The
    console puts its controls on chassis below the glass, so this card
@@ -2663,10 +2718,13 @@ a.row-main:active { transform: scale(.992); }
 
 /* The close of the argument is a control, not a full stop. The sheet
    used to end on a footnote and leave the visitor to find their own
-   way back to a phone number. */
+   way back to a phone number. It stays in normal flow rather than
+   pinned to the foot with margin-top:auto — a pinned button reports
+   its own page as full-height to the fit measurement (the gap above it
+   counts as "content"), which is exactly what hid the empty stretch
+   this page used to leave between its note and its button. */
 .doss-cta {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-  margin-top: auto;
   padding: 12px 18px;
   border-radius: 11px;
   font-family: var(--face-panel);
@@ -2716,13 +2774,66 @@ a.row-main:active { transform: scale(.992); }
   text-transform: uppercase;
   color: var(--p-mid);
 }
+/* The two marketplace counts are the same claim made on two storefronts,
+   so they share one wide tile — a single rating and heading standing
+   over both — instead of repeating the label and the five stars twice
+   for what reads as one fact. */
+.stat-combo { grid-column: 1 / -1; }
+.stat-combo-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+}
+.stat-combo-row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+}
+.stat-combo-part {
+  display: flex; align-items: center;
+  gap: 9px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.stat-combo-div {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(255,179,71,.22);
+}
+.stat-combo-nums {
+  display: flex; flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.stat-combo-nums .stat-n { font-size: clamp(.94rem, 3.8vw, 1.1rem); }
+.stat-combo-nums .stat-l { font-size: .55rem; }
+/* --p-dim is documented at its definition as rules-and-glyphs only
+   (2.9:1, below AA) — this is a real sentence someone is meant to
+   read, so it takes the same supporting-note tier as .why-ast: --p-mid
+   (5.8:1, AA) at the same size and leading. */
 .why-foot {
   margin: 11px 0 0;
   font-family: var(--face-data);
-  font-size: .6rem;
-  line-height: 1.6;
-  color: var(--p-dim);
+  font-size: .62rem;
+  line-height: 1.65;
+  color: var(--p-mid);
 }
+
+/* ── The case ─────────────────────────────────────────────────────
+   The opening line of "My Approach" reads as a statement rather than
+   the start of a wall of type: a quote mark ahead of it and a touch
+   more warmth in the colour, both light enough that the fit ladder can
+   still shrink the paragraph under them without a fight. */
+.doss-quote {
+  font-family: var(--face-panel);
+  font-weight: 800;
+  font-size: 1.3em;
+  line-height: 0;
+  vertical-align: -.28em;
+  margin-right: 2px;
+  color: var(--p-hot);
+  opacity: .68;
+}
+.card-sub-lead { color: var(--p-hot); font-weight: 500; }
 
 /* ── The closing offer ────────────────────────────────────────────
    Last thing read, so it gets a rule above it and a little more weight
@@ -2743,18 +2854,20 @@ a.row-main:active { transform: scale(.992); }
 }
 /* Three equal columns, not a wrapping flex row: the set has to survive
    a narrow card without one chip dropping to a line of its own, so the
-   type steps down before the row breaks. */
+   type steps down before the row breaks. Each carries a check mark
+   rather than a footnote asterisk, so the promise reads on its own and
+   the note below no longer has to be decoded before it can be read. */
 .why-chips {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 7px;
 }
 .why-chip {
-  display: inline-flex; align-items: baseline;
-  justify-content: center; gap: 1px;
+  display: inline-flex; align-items: center;
+  justify-content: center; gap: 5px;
   min-width: 0;
   white-space: nowrap;
-  padding: 6px 8px;
+  padding: 7px 8px;
   border-radius: 999px;
   font-family: var(--face-panel);
   font-weight: 700; font-stretch: 106%;
@@ -2764,7 +2877,7 @@ a.row-main:active { transform: scale(.992); }
   background: rgba(255,179,71,.1);
   box-shadow: inset 0 0 0 1px rgba(255,179,71,.34);
 }
-.why-chip sup { font-size: .68em; color: var(--p-hot); }
+.why-chip-ico { width: 11px; height: 11px; stroke-width: 3; flex: 0 0 auto; color: var(--p-hot); }
 .why-ast {
   margin: 0;
   font-family: var(--face-data);
@@ -2772,7 +2885,6 @@ a.row-main:active { transform: scale(.992); }
   line-height: 1.65;
   color: var(--p-mid);
 }
-.why-ast b { color: var(--p-hot); font-weight: 600; }
 
 /* ═══════════════════════════════════════════════════════════════════
    THE TUNER (phone only)
@@ -3340,18 +3452,6 @@ a.row-main:active { transform: scale(.992); }
      control on the home screen was the same offer twice — and it cost
      88px of the fold that the keys wanted. */
   .contact-slot { display: none; }
-
-  /* The plate is the last thing on the panel before the dock, which
-     puts it squarely in the thumb arc and makes it the natural fourth
-     stop after readout, finder and keys. It takes the slack the keypad
-     was centring away, so nothing else moves to make room. */
-  .why-slot { margin-top: 9px; }
-  .btn-why { padding: 11px 12px 11px 14px; }
-  .why-line { font-size: .86rem; }
-  .why-sub { font-size: .59rem; }
-  /* A search replaces the keys, and the plate goes with them — it
-     belongs to the home face, not to a list of results. */
-  #keypad[hidden] ~ .why-slot { display: none; }
 
   .annun { padding: 6px 10px 6px 9px; gap: 7px; border-radius: 6px; }
   .annun-line { font-size: .66rem; letter-spacing: .03em; }
@@ -4071,15 +4171,19 @@ const CFG = {
       /* One per page of the dossier, shown on the rail under the glass.
          Three, because the argument has three parts. */
       pages: ['My Record', 'My Approach', 'My Promise'],
+      /* Heading over the first two stats, which are the same claim on
+         two marketplaces — grouped under one roof instead of read as
+         two separate facts. */
+      marketLabel: 'Marketplace Sales',
       body: [
         'I guarantee you will experience a level of comfort and confidence shopping with me that you haven’t felt anywhere else. As a fellow gamer and enthusiast, I genuinely care about the community I serve and take immense pride in delivering high-quality work. My primary goal is to help others and provide a great experience.',
         'When you work with me, you are buying directly from the source. That means you skip the extra fees, markups, and middleman costs that often come with other services. I focus on delivering premium results without cutting corners, and I explain everything in clear, everyday language — no unnecessary jargon or buzzwords.',
         'I design my mods to be seamless and intuitive, ensuring they are easy for absolutely anyone to use, and I will set yours up exactly the way you want it.'
       ],
       stats: [
-        { n: '1,000+', l: 'Sold on Facebook', stars: true,
+        { n: '1,000+', l: 'Sold on Facebook', short: 'Facebook', stars: true,
           icon: '<path d="M4 8.5 12 4l8 4.5M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M9.5 20v-5.5h5V20"/>' },
-        { n: '1,000+', l: 'Sold on eBay', stars: true,
+        { n: '1,000+', l: 'Sold on eBay', short: 'eBay', stars: true,
           icon: '<path d="M20.6 12.4 12.4 20.6a2 2 0 0 1-2.8 0l-6.2-6.2a2 2 0 0 1-.6-1.4V4.6a1.6 1.6 0 0 1 1.6-1.6h8.4a2 2 0 0 1 1.4.6l6.4 6.4a2 2 0 0 1 0 2.4Z"/><circle cx="7.8" cy="7.8" r="1.4"/>' },
         { n: '16 Years', l: 'Serving the Community',
           icon: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/>' },
@@ -4913,6 +5017,13 @@ function repageAll() {
 }
 addEventListener('resize', repageAll);
 addEventListener('orientationchange', repageAll);
+/* font-display:swap paints the metric-matched fallback immediately and
+   swaps to Archivo/IBM Plex Mono whenever they finish fetching — which,
+   on a slow connection, can land well after fitFace() already measured
+   and decided a title fit. The fallback is matched closely but never
+   exactly, so a title sitting right on the wrap boundary can gain a
+   line on the swap with nothing left to notice or re-measure it. */
+document.fonts?.ready?.then(repageAll);
 
 /* ═══ FINDER ════════════════════════════════════════════════════════
    The keypad and the results share one slot: typing swaps the four
@@ -5746,66 +5857,104 @@ function stars(cls) {
 }
 
 /* ── The dossier ───────────────────────────────────────────────────
-   The card's contents as a flat column of BLOCKS, each tagged with the
-   argument it belongs to. Nothing here decides what a page is — that
-   is measured at open time, because the answer is different on a
-   laptop and on a phone and hard-coding either one is how you end up
-   with a scrollbar on the other. */
+   Three pages, fixed — one per argument (record, approach, promise) —
+   rather than a flat column of blocks whose page breaks had to be
+   measured and could split an argument unevenly across two screens.
+   Each page owns its whole argument; if it does not fit at full size
+   the type steps down (the fit ladder), and if it comes out short the
+   content centres instead of hanging from the top edge. */
 function buildWhy() {
   const W = CFG.ui.why;
   $('#why-name').textContent = W.title;
 
   const host = D.whyPages;
   host.textContent = '';
-  const add = (el, sec) => { el.dataset.sec = sec; host.appendChild(el); return el; };
 
   /* ── 01 · the record ── numbers first. A stranger believes a figure
      before he believes a sentence, and these are the only claims in
-     here that can be checked from outside. */
+     here that can be checked from outside. The two marketplace counts
+     are the same claim made twice, so they share one tile instead of
+     each claiming a full stat card. */
+  const page0 = mk('div', 'doss-page');
   const stats = mk('div', 'why-stats');
-  W.stats.forEach(x => {
+
+  const [fb, ebay, ...rest] = W.stats;
+  const combo = mk('div', 'stat stat-combo');
+  const comboHead = mk('div', 'stat-combo-head');
+  comboHead.appendChild(mk('span', 'stat-l', W.marketLabel));
+  comboHead.appendChild(stars('stat-stars'));
+  combo.appendChild(comboHead);
+  const comboRow = mk('div', 'stat-combo-row');
+  [fb, ebay].forEach((x, i) => {
+    if (i) {
+      const div = mk('span', 'stat-combo-div');
+      div.setAttribute('aria-hidden', 'true');
+      comboRow.appendChild(div);
+    }
+    const part = mk('div', 'stat-combo-part');
+    part.appendChild(svgIcon(x.icon, 'stat-ico'));
+    const nums = mk('span', 'stat-combo-nums');
+    nums.appendChild(mk('span', 'stat-n', x.n));
+    nums.appendChild(mk('span', 'stat-l', x.short));
+    part.appendChild(nums);
+    comboRow.appendChild(part);
+  });
+  combo.appendChild(comboRow);
+  combo.setAttribute('role', 'group');
+  combo.setAttribute('aria-label',
+    `${W.marketLabel}: ${fb.n} ${fb.l}, ${ebay.n} ${ebay.l}, ${CFG.ui.words.fiveStar}`);
+  stats.appendChild(combo);
+
+  rest.forEach(x => {
     const tile = mk('div', 'stat');
     const top = mk('div', 'stat-top');
     top.appendChild(svgIcon(x.icon, 'stat-ico'));
-    if (x.stars) top.appendChild(stars('stat-stars'));
     tile.appendChild(top);
     tile.appendChild(mk('span', 'stat-n', x.n));
     tile.appendChild(mk('span', 'stat-l', x.l));
-    /* The stars are decorative in the tile, so the rating has to reach
-       a screen reader some other way. */
     tile.setAttribute('role', 'group');
-    tile.setAttribute('aria-label', `${x.n} ${x.l}${x.stars ? ', ' + CFG.ui.words.fiveStar : ''}`);
+    tile.setAttribute('aria-label', `${x.n} ${x.l}`);
     stats.appendChild(tile);
   });
-  add(stats, 0);
-  add(mk('p', 'why-foot', W.foot), 0);
+  page0.appendChild(stats);
+  page0.appendChild(mk('p', 'why-foot', W.foot));
+  host.appendChild(page0);
 
-  /* ── 02 · the case ── his own words. One paragraph per block, so a
-     break can only ever land between two of them. */
-  W.body.forEach(t => add(mk('p', 'card-sub', t), 1));
+  /* ── 02 · the case ── his own words. The opening line carries a
+     decorative quote mark and a touch more weight, so a page of prose
+     reads as a statement rather than a wall of type. */
+  const page1 = mk('div', 'doss-page');
+  W.body.forEach((t, i) => {
+    const p = mk('p', 'card-sub' + (i === 0 ? ' card-sub-lead' : ''));
+    if (i === 0) {
+      const q = mk('span', 'doss-quote', '“');
+      q.setAttribute('aria-hidden', 'true');
+      p.appendChild(q);
+    }
+    p.appendChild(document.createTextNode(t));
+    page1.appendChild(p);
+  });
+  host.appendChild(page1);
 
-  /* ── 03 · the offer ── chips rather than a sentence, because the
+  /* ── 03 · the offer ── badges rather than a sentence, because the
      three words are the point and someone skimming to the end should
-     get them without parsing a clause. */
+     get them without parsing a clause. A check mark reads faster than
+     a footnote asterisk, so the note underneath is now plain support
+     copy instead of something the reader has to decode first. */
+  const page2 = mk('div', 'doss-page');
   const C = W.closing;
   const row = mk('div', 'why-offer');
   row.appendChild(mk('span', 'why-offer-lead', C.lead));
-  /* The three words are the point, so they read as a set of three
-     abreast rather than a sentence that happens to wrap after the
-     second one. Equal columns, so no chip looks more important than
-     the two beside it. */
   const chips = mk('div', 'why-chips');
   C.chips.forEach(label => {
-    const chip = mk('span', 'why-chip', label);
-    chip.appendChild(mk('sup', null, '*'));
+    const chip = mk('span', 'why-chip');
+    chip.appendChild(svgIcon('<path d="m4.5 12.5 5 5 10-11"/>', 'why-chip-ico'));
+    chip.appendChild(document.createTextNode(label));
     chips.appendChild(chip);
   });
   row.appendChild(chips);
-  add(row, 2);
-  const ast = mk('p', 'why-ast');
-  ast.appendChild(mk('b', null, '*'));
-  ast.appendChild(document.createTextNode(' ' + C.note));
-  add(ast, 2);
+  page2.appendChild(row);
+  page2.appendChild(mk('p', 'why-ast', C.note));
 
   /* The argument closes on a control. It used to close on a footnote
      and leave the reader to find their own way back to a phone number,
@@ -5814,135 +5963,71 @@ function buildWhy() {
   cta.type = 'button';
   cta.appendChild(svgIcon('M4 6.5A2.5 2.5 0 0 1 6.5 4h2l1.6 4-2 1.4a11 11 0 0 0 6.5 6.5l1.4-2 4 1.6v2a2.5 2.5 0 0 1-2.5 2.5A15.5 15.5 0 0 1 4 6.5Z'));
   cta.addEventListener('click', () => { D.whyCard.close(); openCard(); });
-  add(cta, 2);
-
-  whyBreaks = null;
+  page2.appendChild(cta);
+  host.appendChild(page2);
 }
 
-/* Where the pages fall. Two rules: a page fills until the next block
-   will not fit, and an argument never shares a page with another one —
-   a section change forces a break even with room to spare, because
-   "and lastly, I offer" arriving under the third paragraph of
-   something else reads as a mistake. */
-let whyBreaks = null, whyPage = 0, whyFill = [];
+let whyPage = 0;
 
-/* Greedy fill of one section at a given capacity. Returns either the
-   page count or the indices the pages start at, since the balancer
-   needs to count far more often than it needs to commit. */
-function dossFit(hs, cap, gap, base) {
-  const starts = base == null ? null : [base];
-  let pages = 1, used = 0;
-  hs.forEach((h, i) => {
-    if (used && used + gap + h > cap) {
-      pages++; used = h;
-      if (starts) starts.push(base + i);
-    } else used += used ? gap + h : h;
-  });
-  return starts || pages;
+/* The page itself stretches to fill the stage (flex:1 1 auto), so its
+   own scrollHeight is useless for "how much content is actually in it"
+   — it always reads as full. Its children do not stretch, so their own
+   rendered heights, summed with the row gap between them, are the real
+   content height. */
+function contentHeight(el) {
+  const gap = parseFloat(getComputedStyle(el).rowGap) || 0;
+  const kids = [...el.children];
+  return kids.reduce((sum, k, i) => sum + k.offsetHeight + (i ? gap : 0), 0);
 }
 
-function dossBreaks(kids, availH, gap) {
-  const breaks = [];
-  let i = 0;
-  while (i < kids.length) {
-    const sec = kids[i].dataset.sec;
-    let j = i;
-    while (j < kids.length && kids[j].dataset.sec === sec) j++;
-    const hs = kids.slice(i, j).map(el => el.offsetHeight);
-
-    /* How many pages this argument needs at full height — then the
-       smallest capacity that still needs only that many. Greedy fill
-       was leaving a two-page section as one full page and one nearly
-       empty one (a single short closing paragraph adrift in half a
-       screen); squeezing the capacity down to the tightest that does
-       not cost an extra page spreads the same blocks evenly instead.
-       Sections that fit on one page are untouched. */
-    const need = dossFit(hs, availH, gap);
-    let lo = Math.max(...hs), hi = availH, cap = availH;
-    while (lo <= hi) {
-      const mid = (lo + hi) >> 1;
-      if (dossFit(hs, mid, gap) <= need) { cap = mid; hi = mid - 1; }
-      else lo = mid + 1;
-    }
-    breaks.push(...dossFit(hs, cap, gap, i));
-    i = j;
-  }
-  return breaks.length ? breaks : [0];
-}
-
-/* How full each page ends up, measured once at layout time. Read back
-   in showWhy so a page that still comes out short can be set to fill
-   its stage rather than hang from the top of it — and measured HERE,
-   never while the airy class is applied, so the two can't chase each
-   other. */
-function dossFill(kids, breaks, availH, gap) {
-  if (!(availH > 0)) return breaks.map(() => 1);
-  return breaks.map((from, p) => {
-    const to = (p + 1 < breaks.length) ? breaks[p + 1] : kids.length;
-    let t = 0;
-    for (let i = from; i < to; i++) t += kids[i].offsetHeight + (i > from ? gap : 0);
-    return t / availH;
-  });
-}
-
-/* Measure, then page. Runs on open and on resize; the ladder only gets
-   involved if a single block is taller than the whole stage, which no
-   amount of paging can fix because there is nowhere left to break. */
+/* Measure, then show. Runs on open, on resize, and on every page turn:
+   each page is its whole argument, so there is nothing left to break
+   across screens — only whether it fits at full size (the ladder) or
+   comes out short of the stage (centred instead of hung from the top). */
 function layoutDoss(page) {
-  const host = D.whyPages, kids = [...host.children];
-  if (!kids.length) return;
-  kids.forEach(k => k.classList.remove('is-off'));
-  host.classList.remove('dfit-1', 'dfit-2', 'doss-airy');
-
-  const cs = getComputedStyle(host);
-  const gap = parseFloat(cs.rowGap) || 0;
-  const availH = host.clientHeight;
-  if (availH > 0) {
-    for (const step of ['dfit-1', 'dfit-2']) {
-      if (!kids.some(k => k.offsetHeight > availH)) break;
-      host.classList.add(step);
-    }
-  }
-  whyBreaks = availH > 0 ? dossBreaks(kids, availH, gap) : [0];
-  whyFill = dossFill(kids, whyBreaks, availH, gap);
   showWhy(page == null ? whyPage : page);
 }
 
-/* Turning a page is a state change, not a scroll: the blocks that are
-   not on it leave the layout entirely. */
 function showWhy(n) {
-  const kids = [...D.whyPages.children];
-  if (!kids.length || !whyBreaks) return;
-  whyPage = clamp(n, 0, whyBreaks.length - 1);
-  const from = whyBreaks[whyPage];
-  const to = (whyPage + 1 < whyBreaks.length) ? whyBreaks[whyPage + 1] : kids.length;
-  kids.forEach((el, i) => el.classList.toggle('is-off', i < from || i >= to));
-  /* The ladder is already shrinking type to make a block fit, so the
-     two must never run at once. */
-  const laddered = D.whyPages.classList.contains('dfit-1') ||
-                   D.whyPages.classList.contains('dfit-2');
-  D.whyPages.classList.toggle('doss-airy', !laddered && (whyFill[whyPage] ?? 1) < .72);
+  const host = D.whyPages, kids = [...host.children];
+  if (!kids.length) return;
+  whyPage = clamp(n, 0, kids.length - 1);
+  kids.forEach((el, i) => el.classList.toggle('is-off', i !== whyPage));
 
-  deckWhy.set(whyBreaks.length, whyPage, 'var(--lamp-1)');
+  const active = kids[whyPage];
+  active.classList.remove('dfit-1', 'dfit-2', 'dfit-3', 'doss-airy');
+  const availH = host.clientHeight;
+  if (availH > 0) {
+    for (const step of ['dfit-1', 'dfit-2', 'dfit-3']) {
+      if (contentHeight(active) <= availH) break;
+      active.classList.add(step);
+    }
+    const laddered = active.classList.contains('dfit-1') || active.classList.contains('dfit-2') ||
+                      active.classList.contains('dfit-3');
+    active.classList.toggle('doss-airy', !laddered && (contentHeight(active) / availH) < .72);
+  }
 
-  /* The pips already carry position, and this panel's own rule is pips
-     XOR a counter, never both — so the rail carries the NAME. The one
-     case a name alone fails is a section long enough to span two pages:
-     press next, read the same two words, and nothing appears to have
-     happened. So a counter appears exactly there, and it counts within
-     the section rather than repeating what the pips are showing. */
-  const secAt = i => +kids[whyBreaks[i]].dataset.sec || 0;
-  const sec = secAt(whyPage);
-  const all = whyBreaks.map((_, i) => secAt(i));
-  const span = all.filter(x => x === sec).length;
-  const within = all.slice(0, whyPage + 1).filter(x => x === sec).length;
-  D.whyTab.textContent = span > 1
-    ? `${CFG.ui.why.pages[sec]} · ${within}/${span}`
-    : CFG.ui.why.pages[sec];
+  /* The ladder's floor is a readable font, not "whatever fits" — Spanish
+     running longer than English on the smallest phones can still lose
+     the argument to genuine overflow here. Rather than clip it silently,
+     the stage scrolls and fades at the edge that still has more behind
+     it, same as the service sheet already does. */
+  host.scrollTop = 0;
+  syncDossFade(host);
+
+  deckWhy.set(kids.length, whyPage, 'var(--lamp-1)');
+  D.whyTab.textContent = CFG.ui.why.pages[whyPage];
   D.whyPages.setAttribute('aria-label',
-    `${CFG.ui.why.pages[sec]} — ${whyPage + 1} / ${whyBreaks.length}`);
+    `${CFG.ui.why.pages[whyPage]} — ${whyPage + 1} / ${kids.length}`);
   replay(D.whyPages, 'doss-in');
 }
+
+function syncDossFade(host) {
+  const hasMore = host.scrollHeight > host.clientHeight + 2 &&
+                  host.scrollTop + host.clientHeight < host.scrollHeight - 2;
+  host.classList.toggle('has-more', hasMore);
+}
+D.whyPages.addEventListener('scroll', () => syncDossFade(D.whyPages));
 
 /* ── The thirty-second flare ──────────────────────────────────────
    Deliberately conditional. It skips while the tab is in the
@@ -6758,6 +6843,7 @@ const ES = {
   'Why shop with me — my credentials and guarantees':
     'Por qué comprar conmigo — mis credenciales y garantías',
   'Why shop with me?': '¿Por qué comprar conmigo?',
+  'Marketplace Sales': 'Ventas en Mercados',
   'Language': 'Idioma',
   'Switch to Spanish': 'Cambiar a español',
   'Switch to English': 'Cambiar a inglés'
@@ -6787,7 +6873,7 @@ function langWalk(fn) {
   ['idle', 'busy', 'done'].forEach(k => P(U.state, k));
   ['title', 'body', 'bank'].forEach(k => P(U.empty, k));
   ['legend', 'banks', 'noneHead', 'noneBody'].forEach(k => P(U.find, k));
-  P(U.why, 'title'); A(U.why, 'body'); P(U.why, 'foot');
+  P(U.why, 'title'); A(U.why, 'body'); P(U.why, 'foot'); P(U.why, 'marketLabel');
   U.why.stats.forEach(x => { P(x, 'n'); P(x, 'l'); });
   A(U.why, 'pages');
   P(U.why.closing, 'lead'); A(U.why.closing, 'chips');
