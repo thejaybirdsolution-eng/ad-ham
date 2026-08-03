@@ -3606,17 +3606,29 @@ a.row-main:active { transform: scale(.992); }
 
   /* ── Stage 2: the readout ──────────────────────────────────────
      Full height, and the phosphor finally gets the room the type was
-     drawn for. The face scrolls behind the fixed scanline glass. */
-  #view-cat .tube-face { overflow: hidden; padding: 0 18px 20px; }
+     drawn for. overflow-y:auto is the backstop, not the mechanism —
+     the ladder below absorbs nearly every channel, and this only
+     catches the rare one that still runs long after it. */
+  #view-cat .tube-face {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 18px 20px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,179,71,.32) transparent;
+  }
+  #view-cat .tube-face::-webkit-scrollbar { width: 5px; }
+  #view-cat .tube-face::-webkit-scrollbar-thumb { background: rgba(255,179,71,.3); border-radius: 4px; }
 
   /* A readout that overflows steps down one notch at a time rather
      than scrolling. Measured per channel, so the long descriptions
      tighten and the short ones keep the full size — the alternative
-     was setting every channel to whatever the worst case needed. */
+     was setting every channel to whatever the worst case needed.
+     The title never joins the ladder: the name is the reason the
+     card exists (the hero readout holds its name to the same rule),
+     and a headline that changes size from channel to channel reads
+     as broken instead of adaptive. Only the copy beneath it gives. */
   #view-cat .tube-face.fit-1 .tube-body  { font-size: .78rem; line-height: 1.55; }
-  #view-cat .tube-face.fit-1 .tube-title { font-size: 1.06rem; }
   #view-cat .tube-face.fit-2 .tube-body  { font-size: .73rem; line-height: 1.46; }
-  #view-cat .tube-face.fit-2 .tube-title { font-size: .98rem; }
   #view-cat .tube-face.fit-2 .spec       { padding-block: 4px; }
   #view-cat .tube-face.fit-3 .tube-status { display: none; }
 
@@ -3663,8 +3675,11 @@ a.row-main:active { transform: scale(.992); }
   #view-cat .tube-rule { margin-top: 0; }
   /* The two-line reserve exists to stop specs jumping as titles wrap.
      Here the face scrolls and the title is the first thing read, so
-     the reserve is only dead space. */
-  .tube-title { min-height: 0; font-size: clamp(1.45rem, 7.4vw, 2rem); }
+     the reserve is only dead space. Sized on its own — never by the
+     fit ladder — so every channel's name reads at the same size; the
+     narrow clamp range still gives a big phone a touch more than a
+     small one without the swing being visible channel to channel. */
+  .tube-title { min-height: 0; font-size: clamp(1.32rem, 6vw, 1.5rem); }
   .tube-body  { font-size: .88rem; line-height: 1.7; max-width: none; }
   .spec       { font-size: .8rem; }
   .tube-status { font-size: .6rem; }
