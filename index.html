@@ -625,9 +625,24 @@ svg { display: block; }
 
 /* ── Phosphor typography ──────────────────────────────────────────── */
 
+/* .tube-face is a flex column with a fixed, clipped height on mobile
+   (#view-cat .tube-face { overflow: hidden }), and fitFace() decides
+   whether to shrink type by comparing scrollHeight to clientHeight.
+   Plain flex children default to flex-shrink:1, which lets the flex
+   algorithm silently compress a child's box below its own text's
+   natural height to make everything "fit" the container — the box
+   shrinks but the wrapped lines inside it do not, so the last line
+   renders past the box's bottom edge and straight into whatever comes
+   next. That compression also makes the box's own height agree with
+   its shrunk allotment, so the container's scrollHeight never exceeds
+   clientHeight and fitFace() never sees a reason to step in. Pinning
+   flex-shrink to 0 on every text-bearing child keeps each one honest
+   about the height its content actually needs, which is what lets the
+   overflow reach fitFace() in the first place. */
 .tube-eyebrow {
   display: flex; justify-content: space-between; align-items: baseline;
   gap: 16px;
+  flex-shrink: 0;
   font-size: .64rem;
   font-weight: 500;
   letter-spacing: .26em;
@@ -636,6 +651,7 @@ svg { display: block; }
 }
 .tube-rule {
   height: 1px;
+  flex-shrink: 0;
   margin: clamp(10px, 1.6vh, 15px) 0;
   background: linear-gradient(90deg, var(--p-dim), transparent 88%);
 }
@@ -651,6 +667,7 @@ svg { display: block; }
   color: var(--p-hot);
   /* Reserve two lines so specs never jump when the title wraps. */
   min-height: 2.16em;
+  flex-shrink: 0;
   overflow-wrap: anywhere;
 }
 
@@ -659,12 +676,14 @@ svg { display: block; }
   line-height: 1.68;
   color: var(--p);
   max-width: 62ch;
+  flex-shrink: 0;
   margin-top: clamp(8px, 1.4vh, 14px);
   margin-bottom: auto;            /* collect all slack in one place */
 }
 
 .tube-specs {
   display: flex; flex-direction: column;
+  flex-shrink: 0;
   gap: clamp(6px, 1vh, 10px);
   margin-top: clamp(14px, 2.2vh, 22px);
   padding-top: clamp(12px, 1.8vh, 18px);
@@ -694,6 +713,7 @@ svg { display: block; }
   padding-top: clamp(12px, 1.8vh, 18px);
   border-top: 1px solid var(--p-ghost);
   display: flex; justify-content: space-between; align-items: baseline;
+  flex-shrink: 0;
   gap: 14px;
   font-size: .64rem;
   letter-spacing: .2em;
@@ -818,7 +838,11 @@ svg { display: block; }
    gap on each side — text floating rather than type placed. Anchored at
    both ends it reads as a composition, and the space in the middle
    reads as the instrument having room rather than as a mistake. */
-.hero-id { margin-bottom: clamp(12px, 2vh, 20px); }
+/* Same flex-shrink protection as the category tube-face below, and the
+   same reason: a flex column can silently compress a child's box below
+   its text's natural height to make everything "fit", which is exactly
+   the condition fitFace() relies on scrollHeight to catch. */
+.hero-id { flex-shrink: 0; margin-bottom: clamp(12px, 2vh, 20px); }
 .hero-top { display: flex; align-items: center; gap: 8px; }
 .hero-pip {
   flex: 0 0 auto;
@@ -987,6 +1011,7 @@ svg { display: block; }
    drift from the prices it is quoting. */
 .hero-strip {
   display: flex;
+  flex-shrink: 0;
   align-items: flex-end;
   /* Pulled out to the tube wall and padded back in, so the score runs
      edge to edge the way a milled line would. */
@@ -4992,6 +5017,13 @@ function repageAll() {
 }
 addEventListener('resize', repageAll);
 addEventListener('orientationchange', repageAll);
+/* font-display:swap paints the metric-matched fallback immediately and
+   swaps to Archivo/IBM Plex Mono whenever they finish fetching — which,
+   on a slow connection, can land well after fitFace() already measured
+   and decided a title fit. The fallback is matched closely but never
+   exactly, so a title sitting right on the wrap boundary can gain a
+   line on the swap with nothing left to notice or re-measure it. */
+document.fonts?.ready?.then(repageAll);
 
 /* ═══ FINDER ════════════════════════════════════════════════════════
    The keypad and the results share one slot: typing swaps the four
