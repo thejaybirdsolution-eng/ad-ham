@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jaybird Solutions — Operator Console">
 <meta property="og:description" content="Computers, video games, marketing, and everything else. Forty-seven services, one operator.">
-<title>Jaybird Solutions — Computer Repair, Console Modding &amp; Web Work</title>
+<title>Jaybird Solutions — Computer Repair, Console Modding, and Web Development</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1875,6 +1875,13 @@ a.row-main:active { transform: scale(.992); }
   background: rgba(34,37,31,.12);
 }
 
+/* The dossier's foot carries no note beside the key, so the key aligns
+   under the page arrows on the rail above it rather than floating
+   alone against the left edge of the chassis. Without this the button
+   was a direct child of the dialog — no padding, no bezel, clipped by
+   the card's own overflow. */
+.why-foot-bar { justify-content: flex-end; padding-top: 2px; }
+
 /* ── Card on a phone: a sheet, not a centred box ──────────────────
    Pinned to the bottom edge so the whole thing sits in thumb reach,
    dismissable by dragging the head, and the close control becomes a
@@ -2601,6 +2608,25 @@ a.row-main:active { transform: scale(.992); }
 .doss.dfit-2 .stat-ico  { display: none; }
 .doss.dfit-2 .why-ast   { font-size: .56rem; line-height: 1.5; }
 
+/* A page the balancer could not fill — the tail of an argument with
+   nothing left to share the stage with. It sits centred and set a
+   little larger rather than clinging to the top edge above a void,
+   which is what made the last approach page read as a loading error.
+   Applied from a measurement taken with this class off, so the extra
+   size can never feed back into the decision to apply it. */
+.doss.doss-airy {
+  justify-content: center;
+  gap: clamp(12px, 2vh, 17px);
+}
+.doss.doss-airy .card-sub {
+  font-size: calc(.75rem * var(--doss-grow, 1.15));
+  line-height: 1.62;
+}
+.doss.doss-airy .why-ast { font-size: .66rem; }
+/* The closing page ends on the call key, which is pinned to the foot
+   by margin-top:auto — centring the column would fight it. */
+.doss.doss-airy:has(.doss-cta:not(.is-off)) { justify-content: flex-start; }
+
 /* The rail under the screen: which page, and the keys to turn it. The
    console puts its controls on chassis below the glass, so this card
    does too. */
@@ -2704,8 +2730,9 @@ a.row-main:active { transform: scale(.992); }
    "what happens if it goes wrong", which is the last thing anyone
    wants to know before they get in touch. */
 .why-offer {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: 7px;
+  display: flex; flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
   margin-bottom: 9px;
 }
 .why-offer-lead {
@@ -2714,14 +2741,25 @@ a.row-main:active { transform: scale(.992); }
   letter-spacing: .04em;
   color: var(--p);
 }
+/* Three equal columns, not a wrapping flex row: the set has to survive
+   a narrow card without one chip dropping to a line of its own, so the
+   type steps down before the row breaks. */
+.why-chips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
 .why-chip {
-  display: inline-flex; align-items: baseline; gap: 1px;
-  padding: 5px 10px 5px 11px;
+  display: inline-flex; align-items: baseline;
+  justify-content: center; gap: 1px;
+  min-width: 0;
+  white-space: nowrap;
+  padding: 6px 8px;
   border-radius: 999px;
   font-family: var(--face-panel);
   font-weight: 700; font-stretch: 106%;
-  font-size: .7rem;
-  letter-spacing: .03em;
+  font-size: clamp(.55rem, 2.4vw, .7rem);
+  letter-spacing: .02em;
   color: #ffe6bd;
   background: rgba(255,179,71,.1);
   box-shadow: inset 0 0 0 1px rgba(255,179,71,.34);
@@ -3654,9 +3692,9 @@ a.row-main:active { transform: scale(.992); }
     </div>
     <div class="vent" aria-hidden="true"></div>
     <button class="annun" id="btn-why" type="button" aria-haspopup="dialog"
-            aria-label="Why choose me — credentials and guarantees">
+            aria-label="Why shop with me — my credentials and guarantees">
       <span class="annun-lamp" aria-hidden="true"></span>
-      <span class="annun-line">Why choose me?</span>
+      <span class="annun-line">Why shop with me?</span>
     </button>
   </header>
 
@@ -3664,10 +3702,10 @@ a.row-main:active { transform: scale(.992); }
   <div class="bay">
 
     <!-- ── HOME ────────────────────────────────────────────────── -->
-    <section class="view" id="view-home" data-active aria-label="Main menu">
+    <section class="view" id="view-home" data-active aria-label="Main Menu">
 
       <div class="module m-readout">
-      <p class="legend">Readout</p>
+      <p class="legend">Overview</p>
       <div class="tube hero">
         <div class="tube-raster" id="hero-raster">
           <div class="tube-face">
@@ -3707,22 +3745,22 @@ a.row-main:active { transform: scale(.992); }
 
       <div class="finder">
         <svg class="finder-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.2 16.2 4.3 4.3"/></svg>
-        <input class="finder-in" id="find" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" placeholder="Search every service" aria-label="Search every service" aria-describedby="find-hits">
-        <button class="finder-x" id="find-x" type="button" hidden aria-label="Clear search">
+        <input class="finder-in" id="find" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" placeholder="Search All Services" aria-label="Search All Services" aria-describedby="find-hits">
+        <button class="finder-x" id="find-x" type="button" hidden aria-label="Clear Search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
         </button>
       </div>
 
-      <p class="legend" id="banks-legend">Bank select</p>
-      <div class="keypad" id="keypad" role="group" aria-label="Service categories"></div>
-      <div class="results" id="results" hidden role="group" aria-label="Search results"></div>
+      <p class="legend" id="banks-legend">Categories</p>
+      <div class="keypad" id="keypad" role="group" aria-label="Service Categories"></div>
+      <div class="results" id="results" hidden role="group" aria-label="Search Results"></div>
       <div class="deck" id="deck-home">
-        <button class="pg" type="button" data-dir="-1" aria-label="Previous page">
+        <button class="pg" type="button" data-dir="-1" aria-label="Previous Page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg>
         </button>
         <span class="deck-dots" role="presentation"></span>
         <span class="deck-at"></span>
-        <button class="pg" type="button" data-dir="1" aria-label="Next page">
+        <button class="pg" type="button" data-dir="1" aria-label="Next Page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         </button>
       </div>
@@ -3732,14 +3770,14 @@ a.row-main:active { transform: scale(.992); }
           <span class="key-idx">✽</span>
           <span class="lamp lit" style="--c: var(--lamp-3)" aria-hidden="true"></span>
           <svg class="key-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.2"/><path d="m3.5 7 7.4 5.3a2 2 0 0 0 2.2 0L20.5 7"/></svg>
-          <span class="key-name">Contact<span class="key-count">Available now</span></span>
+          <span class="key-name">Contact<span class="key-count">Available Now</span></span>
         </button>
       </div>
       </div>
     </section>
 
     <!-- ── CATEGORY ────────────────────────────────────────────── -->
-    <section class="view" id="view-cat" aria-label="Category detail">
+    <section class="view" id="view-cat" aria-label="Category Details">
 
       <div class="cat-bar">
         <button class="btn-back" id="btn-back" type="button">
@@ -3747,7 +3785,7 @@ a.row-main:active { transform: scale(.992); }
           <span id="back-label">Menu</span> <kbd>Esc</kbd>
         </button>
         <div class="cat-id">
-          <span class="cat-kicker" id="cat-kicker">Bank</span>
+          <span class="cat-kicker" id="cat-kicker">Category</span>
           <span class="cat-name"><span class="lamp lit" id="cat-lamp" aria-hidden="true"></span><span id="cat-name">—</span></span>
         </div>
         <div class="vent" aria-hidden="true"></div>
@@ -3756,15 +3794,15 @@ a.row-main:active { transform: scale(.992); }
       <div class="workspace">
         <div class="bank">
           <div class="bank-head">
-            <span id="bank-label">Channels</span>
+            <span id="bank-label">Services</span>
             <span id="bank-count">00</span>
           </div>
-          <div class="bank-list" id="bank" role="group" aria-label="Available services"></div>
+          <div class="bank-list" id="bank" role="group" aria-label="Available Services"></div>
         </div>
 
         <div class="tube" id="tube">
           <div class="tube-raster" id="raster">
-            <div class="tube-face" id="panel" role="region" aria-label="Service detail" tabindex="0">
+            <div class="tube-face" id="panel" role="region" aria-label="Service Details" tabindex="0">
               <div class="tube-eyebrow">
                 <span id="t-ref">—</span>
                 <span id="t-rate">—</span>
@@ -3775,7 +3813,7 @@ a.row-main:active { transform: scale(.992); }
               <div class="tube-specs" id="t-specs"></div>
               <div class="tube-status">
                 <span id="t-seq">Ch —</span>
-                <b id="t-state" data-state="idle">Standby</b>
+                <b id="t-state" data-state="idle">Ready</b>
               </div>
             </div>
           </div>
@@ -3786,37 +3824,37 @@ a.row-main:active { transform: scale(.992); }
       </div>
 
       <div class="tuner" id="tuner">
-        <button class="pg tuner-arrow" type="button" data-dir="-1" aria-label="Previous service">
+        <button class="pg tuner-arrow" type="button" data-dir="-1" aria-label="Previous Service">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg>
         </button>
-        <div class="tuner-track" id="tuner-track" role="group" aria-label="Services in this bank"></div>
-        <button class="pg tuner-arrow" type="button" data-dir="1" aria-label="Next service">
+        <div class="tuner-track" id="tuner-track" role="group" aria-label="Services in This Category"></div>
+        <button class="pg tuner-arrow" type="button" data-dir="1" aria-label="Next Service">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         </button>
       </div>
 
       <div class="deck" id="deck-bank">
-        <button class="pg" type="button" data-dir="-1" aria-label="Previous page">
+        <button class="pg" type="button" data-dir="-1" aria-label="Previous Page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg>
         </button>
         <span class="deck-dots" role="presentation"></span>
         <span class="deck-at"></span>
-        <button class="pg" type="button" data-dir="1" aria-label="Next page">
+        <button class="pg" type="button" data-dir="1" aria-label="Next Page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         </button>
       </div>
       <div class="pager" id="pager">
-        <button class="pg" id="pg-prev" type="button" aria-label="Previous service">
+        <button class="pg" id="pg-prev" type="button" aria-label="Previous Service">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg>
         </button>
         <span class="pg-at" id="pg-at">—</span>
-        <button class="pg" id="pg-next" type="button" aria-label="Next service">
+        <button class="pg" id="pg-next" type="button" aria-label="Next Service">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         </button>
       </div>
 
       <button class="commit" id="commit" type="button">
-        <span id="commit-label">Request this service</span>
+        <span id="commit-label">Request This Service</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
       </button>
     </section>
@@ -3837,7 +3875,7 @@ a.row-main:active { transform: scale(.992); }
       <span class="pwr-label lang-b">ES</span>
       <span class="lang-code" aria-hidden="true">EN</span>
     </button>
-    <button class="pwr" id="pwr" type="button" aria-pressed="false" aria-label="Panel audio">
+    <button class="pwr" id="pwr" type="button" aria-pressed="false" aria-label="Panel Audio">
       <span class="pwr-label">Audio</span>
       <span class="pwr-track" aria-hidden="true"><span class="pwr-knob"></span></span>
       <svg class="pwr-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.4 4.9 6.7 9H3.6v6h3.1l4.7 4.1V4.9Z"/><path class="ico-wave" d="M15 9.5a3.6 3.6 0 0 1 0 5"/><path class="ico-wave" d="M17.7 6.8a7.4 7.4 0 0 1 0 10.4"/><path class="ico-mute" d="m15.4 9.7 4.6 4.6m0-4.6-4.6 4.6"/></svg>
@@ -3855,15 +3893,15 @@ a.row-main:active { transform: scale(.992); }
   <span class="card-grip" aria-hidden="true"></span>
   <div class="card-head" id="why-head">
     <span class="lamp lit" style="--c: var(--lamp-1)" aria-hidden="true"></span>
-    <span>Why choose me</span>
+    <span>Why Shop With Me</span>
     <span class="card-reg">Ref OP-01</span>
   </div>
   <div class="card-screen">
     <div class="tube-raster" id="why-raster">
       <div class="card-face" id="why-face" tabindex="-1" autofocus>
         <div class="doss-head">
-          <span class="card-kicker">The case, plainly</span>
-          <h2 class="card-name" id="why-name">Straight from the source</h2>
+          <span class="card-kicker">In My Own Words</span>
+          <h2 class="card-name" id="why-name">Buying Direct From the Source</h2>
         </div>
         <div class="doss" id="why-pages" aria-live="polite"></div>
       </div>
@@ -3875,17 +3913,19 @@ a.row-main:active { transform: scale(.992); }
   <div class="doss-rail">
     <span class="doss-tab" id="why-tab"></span>
     <div class="deck" id="deck-why">
-      <button class="pg" type="button" data-dir="-1" aria-label="Previous page">
+      <button class="pg" type="button" data-dir="-1" aria-label="Previous Page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg>
       </button>
       <span class="deck-dots" role="presentation"></span>
       <span class="deck-at"></span>
-      <button class="pg" type="button" data-dir="1" aria-label="Next page">
+      <button class="pg" type="button" data-dir="1" aria-label="Next Page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
       </button>
     </div>
   </div>
-  <button class="card-close" id="why-close" type="button">Close <kbd>Esc</kbd></button>
+  <div class="card-foot why-foot-bar">
+    <button class="card-close" id="why-close" type="button">Close <kbd>Esc</kbd></button>
+  </div>
 </dialog>
 
 <dialog class="card" id="contact-card" aria-labelledby="card-name">
@@ -3946,9 +3986,10 @@ a.row-main:active { transform: scale(.992); }
     .fallback h1 { font-size: 1.05rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
   </style>
   <div class="fallback">
-    <h1>Console offline</h1>
-    <p>This page needs JavaScript to run the catalogue. Turn it on and reload —
-       or just get in touch and I'll walk you through the service list directly.</p>
+    <h1>Page Unavailable</h1>
+    <p>This page requires JavaScript to display the service catalogue. Please enable
+       it and reload the page, or contact me directly and I will walk you through the
+       full list of services myself.</p>
     <p style="margin-top:14px">
       <a href="mailto:jaybirdsolutions@proton.me">jaybirdsolutions@proton.me</a><br>
       <a href="tel:+15612481234">(561) 248-1234</a>
@@ -3969,25 +4010,25 @@ const CFG = {
     /* Who, and where, before what. The panel already tells you it is
        ready — the lamps, the pip and the serial all say so — and the
        one thing it never said was whose panel it is. */
-    kicker: 'OPERATOR · SOUTH FLORIDA + ONLINE',
+    kicker: 'OWNER · SOUTH FLORIDA & ONLINE',
     line:   'Adam Jaybird',
-    note:   'Computers, consoles, websites, smart home. Pick a bank, or search all 47.',
+    note:   'Computers, consoles, websites, and smart home. Choose a category, or search all 47 services.',
     /* The strip along the floor of the readout. Two of the three cells
        retarget with the tube; `sold` is the standing one. Only the
        labels and the standing figure live here — the service count and
        the entry price are counted off the catalogue itself. */
-    stats: { svc: 'Services', from: 'From', sold: 'Units sold', soldN: '2,000+' }
+    stats: { svc: 'Services', from: 'From', sold: 'Units Sold', soldN: '2,000+' }
   },
-  commit: 'Request this service',
+  commit: 'Request This Service',
 
   /* Strings the engine needs that are not part of a service. */
   ui: {
-    bankLabel:  'Channels',
-    openGroup:  'Open this list',
+    bankLabel:  'Services',
+    openGroup:  'View All Options',
     up:         '◂ Back to',
-    seq:        'Ch',
-    serial:     'Ser',
-    boot:       'WARMING UP',
+    seq:        'Service',
+    serial:     'Serial',
+    boot:       'STARTING UP',
     /* Words the engine builds sentences out of that belong to no one
        service. Inline in the template literals they were unreachable;
        here, one table changes every sentence on the panel. */
@@ -3999,58 +4040,58 @@ const CFG = {
          thing on the readout as they are on the category screen. */
       directory: 'Directory',
       options:   'options',
-      optionsIn: 'options inside.',
-      bankUp:    'BANK',
+      optionsIn: 'options available.',
+      bankUp:    'CATEGORY',
       servicesUp:'SERVICES',
       inPath:    'In',
       fiveStar:  'five star rating',
-      allChan:   'all contact channels',
-      whySay:    'Why choose me.',
+      allChan:   'all contact methods',
+      whySay:    'Why shop with me.',
       skipKey:   'Press any key to skip',
       skipTap:   'Tap to skip'
     },
-    state:      { idle: 'Standby', busy: 'Linking', done: 'Contact open' },
+    state:      { idle: 'Ready', busy: 'Connecting', done: 'Contact Open' },
     empty: {
-      title: 'No channel selected',
-      body:  'Pick a channel from the list to see what the work covers and what it costs.',
-      bank:  'Nothing in this bank yet. Ask me directly and I\'ll tell you whether I can do it.'
+      title: 'No Service Selected',
+      body:  'Choose a service from the list to see what it includes and what it costs.',
+      bank:  'There is nothing in this category yet. Contact me directly and I will let you know whether I can help.'
     },
     /* Finder */
     find: {
       legend:   'Results',
-      banks:    'Bank select',
-      noneHead: 'Nothing matches that.',
-      noneBody: 'Try a platform (Vita, Steam Deck), a symptom (slow, crash, dead), or a job (website, backup, mod). If it is not listed, ask me anyway — the list is what I do most, not everything I can do.',
+      banks:    'Categories',
+      noneHead: 'No Results Found',
+      noneBody: 'Try searching by device (Vita, Steam Deck), by symptom (slow, crashing, will not turn on), or by job (website, backup, mod). If you do not see what you need, please ask anyway — this list covers the work I do most often, not everything I am able to do.',
       hits:     m => `${m} ${m === 1 ? 'service matches' : 'services match'}`
     },
     /* The credential window. Copy is the operator's own, kept close to
        verbatim — it is a personal claim and reads as one. */
     why: {
-      title: 'Straight from the source',
+      title: 'Buying Direct From the Source',
       /* One per page of the dossier, shown on the rail under the glass.
          Three, because the argument has three parts. */
-      pages: ['The record', 'The case', 'The offer'],
+      pages: ['My Record', 'My Approach', 'My Promise'],
       body: [
-        'I guarantee you\u2019ll feel a level of comfort and confidence shopping with me that you haven\u2019t found anywhere else. That\u2019s because I genuinely care about the people I serve and the work I do. I\u2019m an enthusiast and a gamer myself, and I take pride in doing a great job. I\u2019m not in this for anything tangible \u2014 my goal is simply to help people and do good.',
-        'When you buy from me you skip the extra fees and the markups others charge for lower-quality work. Some of those people bring their modding to me, then turn around and upcharge you while pretending to be engineers and throwing around buzzwords.',
-        'Coming to me is buying straight from the source. No middleman, no cut corners. You will know exactly what you are getting, because I explain everything in plain everyday terms. I build my mods to be seamless and intuitive enough that anyone can use them, and I can set yours up exactly the way you want it.'
+        'I guarantee you will experience a level of comfort and confidence shopping with me that you haven’t felt anywhere else. As a fellow gamer and enthusiast, I genuinely care about the community I serve and take immense pride in delivering high-quality work. My primary goal is to help others and provide a great experience.',
+        'When you work with me, you are buying directly from the source. That means you skip the extra fees, markups, and middleman costs that often come with other services. I focus on delivering premium results without cutting corners, and I explain everything in clear, everyday language — no unnecessary jargon or buzzwords.',
+        'I design my mods to be seamless and intuitive, ensuring they are easy for absolutely anyone to use, and I will set yours up exactly the way you want it.'
       ],
       stats: [
         { n: '1,000+', l: 'Sold on Facebook', stars: true,
           icon: '<path d="M4 8.5 12 4l8 4.5M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M9.5 20v-5.5h5V20"/>' },
         { n: '1,000+', l: 'Sold on eBay', stars: true,
           icon: '<path d="M20.6 12.4 12.4 20.6a2 2 0 0 1-2.8 0l-6.2-6.2a2 2 0 0 1-.6-1.4V4.6a1.6 1.6 0 0 1 1.6-1.6h8.4a2 2 0 0 1 1.4.6l6.4 6.4a2 2 0 0 1 0 2.4Z"/><circle cx="7.8" cy="7.8" r="1.4"/>' },
-        { n: '16 yrs', l: 'In the community',
+        { n: '16 Years', l: 'Serving the Community',
           icon: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/>' },
-        { n: 'On ask', l: 'Proof of any of it',
+        { n: 'On Request', l: 'Proof of Any Claim',
           icon: '<path d="M12 3l7.5 3v6c0 4.4-3 8.2-7.5 9.4C7.5 20.2 4.5 16.4 4.5 12V6Z"/><path d="m9 12 2 2 4.2-4.2"/>' }
       ],
-      foot: 'Active helper in most of the groups I am in. Happy to show receipts, feedback pages or records for anything above \u2014 just ask.',
+      foot: 'I am an active helper in most of the communities I belong to. I am glad to provide receipts, feedback pages, or records for anything listed above — just ask.',
       closing: {
-        lead: 'And lastly, I offer',
-        chips: ['Guarantees', 'Warranties', 'Support'],
-        note: 'Feel free to talk to me directly about your expectations \u2014 and I will make them a guarantee.',
-        cta:  'Get in touch'
+        lead: 'Finally, I stand by my work. I offer',
+        chips: ['Guarantees', 'Warranties', 'Ongoing Support'],
+        note: 'Feel free to talk to me directly about your specific expectations, and I will turn them into a guarantee.',
+        cta:  'Get in Touch'
       }
     },
     /* Dock keys, in thumb order. `use` names the contact channel in
@@ -4068,11 +4109,11 @@ const CFG = {
   },
 
   contact: {
-    kicker:  'OPERATOR',
+    kicker:  'OWNER',
     name:    'Adam Jaybird',
-    station: 'South Florida — and anywhere online',
-    hours:   'No fixed hours. Days, nights, and weekends, by arrangement.',
-    note:    'Every channel here reaches me directly. No queue, no ticket system.',
+    station: 'Based in South Florida, available anywhere online',
+    hours:   'No fixed hours. Available days, nights, and weekends by arrangement.',
+    note:    'Every method listed here reaches me directly. No queues and no ticket system.',
     /* Bezel strip above the screen, and the two states of every copy
        chip. Kept here so the card needs no edits below this block. */
     headLabel: 'CONTACT CARD',
@@ -4085,7 +4126,7 @@ const CFG = {
     subject:  'Service request:',
     /* Section rules inside the screen. Channels marked primary get the
        first group; everything else falls into the second. */
-    sections: { primary: 'Direct lines', handles: 'Messaging', hours: 'Availability' },
+    sections: { primary: 'Direct Contact', handles: 'Messaging Apps', hours: 'Availability' },
     channels: [
       { label: 'Email', value: 'jaybirdsolutions@proton.me', href: 'mailto:jaybirdsolutions@proton.me', primary: true,
         icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/>' },
@@ -4103,7 +4144,7 @@ const CFG = {
   banks: [
     {
       id: "computer", name: "Computers", lamp: 'var(--lamp-4)',
-      blurb: "Repairs, tune-ups, custom builds, networking, and one-on-one help.",
+      blurb: "Repairs, tune-ups, custom builds, networking, and one-on-one support.",
       icon: '<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
       items: [
         { ref: "CP-01", alt: "antivirus spyware ransomware popups trojan infected", name: "Virus & Malware Removal", rate: "$75 flat",
@@ -4162,7 +4203,7 @@ const CFG = {
     },
     {
       id: "games", name: "Video Games", lamp: 'var(--lamp-1)',
-      blurb: "Console modding across seventeen platforms, plus handhelds and retro setups.",
+      blurb: "Console modding across seventeen platforms, plus handhelds and retro systems.",
       icon: '<path d="M7 9h10a5 5 0 0 1 4.9 4l.6 3.2A2.5 2.5 0 0 1 20 19c-.9 0-1.5-.4-2-.9l-1.1-1.1a2 2 0 0 0-1.4-.6H8.5a2 2 0 0 0-1.4.6L6 18.1c-.5.5-1.1.9-2 .9a2.5 2.5 0 0 1-2.5-2.8l.6-3.2A5 5 0 0 1 7 9Z"/><path d="M7.5 12v2.2M6.4 13.1h2.2"/><circle cx="16.2" cy="12.4" r=".9"/><circle cx="18.2" cy="14.2" r=".9"/>',
       items: [
         { ref: "VG-00", name: "Game Console Modifications", group: true, countLabel: "platforms",
@@ -4258,7 +4299,7 @@ const CFG = {
     },
     {
       id: "marketing", name: "Marketing", lamp: 'var(--lamp-2)',
-      blurb: "Websites, custom software, SEO, content, and social media.",
+      blurb: "Websites, custom software, SEO, content creation, and social media.",
       icon: '<circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 15.5a5 5 0 0 0 0-7"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 18.4a9 9 0 0 0 0-12.8"/>',
       items: [
         { ref: "MK-01", alt: "web site landing page wordpress build", name: "Website Design", rate: "From $1,000",
@@ -4297,7 +4338,7 @@ const CFG = {
     },
     {
       id: "other", name: "Other", lamp: 'var(--lamp-3)',
-      blurb: "Smart home installs, data recovery, security checkups, and restoration.",
+      blurb: "Smart home installation, data recovery, security checkups, and restoration.",
       icon: '<path d="M3 12.4V5a2 2 0 0 1 2-2h7.4a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8l-7.4 7.4a2 2 0 0 1-2.8 0l-7-7a2 2 0 0 1-.6-1.4Z"/><circle cx="7.8" cy="7.8" r="1.4"/>',
       items: [
         { ref: "OS-01", alt: "alexa google home ring hue automation iot", name: "Smart Home Setup", rate: "From $150",
@@ -5749,11 +5790,17 @@ function buildWhy() {
   const C = W.closing;
   const row = mk('div', 'why-offer');
   row.appendChild(mk('span', 'why-offer-lead', C.lead));
+  /* The three words are the point, so they read as a set of three
+     abreast rather than a sentence that happens to wrap after the
+     second one. Equal columns, so no chip looks more important than
+     the two beside it. */
+  const chips = mk('div', 'why-chips');
   C.chips.forEach(label => {
     const chip = mk('span', 'why-chip', label);
     chip.appendChild(mk('sup', null, '*'));
-    row.appendChild(chip);
+    chips.appendChild(chip);
   });
+  row.appendChild(chips);
   add(row, 2);
   const ast = mk('p', 'why-ast');
   ast.appendChild(mk('b', null, '*'));
@@ -5777,18 +5824,65 @@ function buildWhy() {
    a section change forces a break even with room to spare, because
    "and lastly, I offer" arriving under the third paragraph of
    something else reads as a mistake. */
-let whyBreaks = null, whyPage = 0;
-function dossBreaks(kids, availH, gap) {
-  const breaks = [0];
-  let used = 0, sec = kids[0] ? kids[0].dataset.sec : '0';
-  kids.forEach((el, i) => {
-    const h = el.offsetHeight;
-    const changed = el.dataset.sec !== sec;
-    if (used && (changed || used + h + gap > availH)) {
-      breaks.push(i); used = h; sec = el.dataset.sec;
-    } else used += used ? h + gap : h;
+let whyBreaks = null, whyPage = 0, whyFill = [];
+
+/* Greedy fill of one section at a given capacity. Returns either the
+   page count or the indices the pages start at, since the balancer
+   needs to count far more often than it needs to commit. */
+function dossFit(hs, cap, gap, base) {
+  const starts = base == null ? null : [base];
+  let pages = 1, used = 0;
+  hs.forEach((h, i) => {
+    if (used && used + gap + h > cap) {
+      pages++; used = h;
+      if (starts) starts.push(base + i);
+    } else used += used ? gap + h : h;
   });
-  return breaks;
+  return starts || pages;
+}
+
+function dossBreaks(kids, availH, gap) {
+  const breaks = [];
+  let i = 0;
+  while (i < kids.length) {
+    const sec = kids[i].dataset.sec;
+    let j = i;
+    while (j < kids.length && kids[j].dataset.sec === sec) j++;
+    const hs = kids.slice(i, j).map(el => el.offsetHeight);
+
+    /* How many pages this argument needs at full height — then the
+       smallest capacity that still needs only that many. Greedy fill
+       was leaving a two-page section as one full page and one nearly
+       empty one (a single short closing paragraph adrift in half a
+       screen); squeezing the capacity down to the tightest that does
+       not cost an extra page spreads the same blocks evenly instead.
+       Sections that fit on one page are untouched. */
+    const need = dossFit(hs, availH, gap);
+    let lo = Math.max(...hs), hi = availH, cap = availH;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (dossFit(hs, mid, gap) <= need) { cap = mid; hi = mid - 1; }
+      else lo = mid + 1;
+    }
+    breaks.push(...dossFit(hs, cap, gap, i));
+    i = j;
+  }
+  return breaks.length ? breaks : [0];
+}
+
+/* How full each page ends up, measured once at layout time. Read back
+   in showWhy so a page that still comes out short can be set to fill
+   its stage rather than hang from the top of it — and measured HERE,
+   never while the airy class is applied, so the two can't chase each
+   other. */
+function dossFill(kids, breaks, availH, gap) {
+  if (!(availH > 0)) return breaks.map(() => 1);
+  return breaks.map((from, p) => {
+    const to = (p + 1 < breaks.length) ? breaks[p + 1] : kids.length;
+    let t = 0;
+    for (let i = from; i < to; i++) t += kids[i].offsetHeight + (i > from ? gap : 0);
+    return t / availH;
+  });
 }
 
 /* Measure, then page. Runs on open and on resize; the ladder only gets
@@ -5798,7 +5892,7 @@ function layoutDoss(page) {
   const host = D.whyPages, kids = [...host.children];
   if (!kids.length) return;
   kids.forEach(k => k.classList.remove('is-off'));
-  host.classList.remove('dfit-1', 'dfit-2');
+  host.classList.remove('dfit-1', 'dfit-2', 'doss-airy');
 
   const cs = getComputedStyle(host);
   const gap = parseFloat(cs.rowGap) || 0;
@@ -5810,6 +5904,7 @@ function layoutDoss(page) {
     }
   }
   whyBreaks = availH > 0 ? dossBreaks(kids, availH, gap) : [0];
+  whyFill = dossFill(kids, whyBreaks, availH, gap);
   showWhy(page == null ? whyPage : page);
 }
 
@@ -5822,6 +5917,11 @@ function showWhy(n) {
   const from = whyBreaks[whyPage];
   const to = (whyPage + 1 < whyBreaks.length) ? whyBreaks[whyPage + 1] : kids.length;
   kids.forEach((el, i) => el.classList.toggle('is-off', i < from || i >= to));
+  /* The ladder is already shrinking type to make a block fit, so the
+     two must never run at once. */
+  const laddered = D.whyPages.classList.contains('dfit-1') ||
+                   D.whyPages.classList.contains('dfit-2');
+  D.whyPages.classList.toggle('doss-airy', !laddered && (whyFill[whyPage] ?? 1) < .72);
 
   deckWhy.set(whyBreaks.length, whyPage, 'var(--lamp-1)');
 
@@ -6124,59 +6224,50 @@ addEventListener('keydown', e => {
 const ES = {
 
   /* ── Readout, finder, panel furniture ─────────────────────────── */
-  'OPERATOR · SOUTH FLORIDA + ONLINE': 'OPERADOR · SUR DE FLORIDA + EN LÍNEA',
-  'Computers, consoles, websites, smart home. Pick a bank, or search all 47.':
-    'Computadoras, consolas, sitios web, casa inteligente. Elige un banco, o busca los 47.',
+  'OWNER · SOUTH FLORIDA & ONLINE': 'PROPIETARIO · SUR DE FLORIDA Y EN LÍNEA',
+  'Computers, consoles, websites, and smart home. Choose a category, or search all 47 services.': 'Computadoras, consolas, sitios web y casa inteligente. Elige una categoría o busca los 47 servicios.',
   'Services': 'Servicios',
   'From': 'Desde',
-  'Units sold': 'Vendidos',
-  'Request this service': 'Solicitar este servicio',
-  'Channels': 'Canales',
-  'Open this list': 'Abrir esta lista',
+  'Units Sold': 'Unidades vendidas',
+  'Request This Service': 'Solicitar este servicio',
+  'Services': 'Servicios',
+  'View All Options': 'Ver todas las opciones',
   '◂ Back to': '◂ Volver a',
-  'Ch': 'Cn',
-  'Ser': 'Núm',
-  'WARMING UP': 'CALENTANDO',
-  'Standby': 'En espera',
-  'Linking': 'Conectando',
-  'Contact open': 'Contacto abierto',
-  'No channel selected': 'Ningún canal seleccionado',
-  'Pick a channel from the list to see what the work covers and what it costs.':
-    'Elige un canal de la lista para ver qué incluye el trabajo y cuánto cuesta.',
-  'Nothing in this bank yet. Ask me directly and I\'ll tell you whether I can do it.':
-    'Todavía no hay nada en este banco. Pregúntame directamente y te digo si puedo hacerlo.',
+  'Service': 'Servicio',
+  'Serial': 'Serie',
+  'STARTING UP': 'INICIANDO',
+  'Ready': 'Listo',
+  'Connecting': 'Conectando',
+  'Contact Open': 'Contacto abierto',
+  'No Service Selected': 'Ningún servicio seleccionado',
+  'Choose a service from the list to see what it includes and what it costs.': 'Elige un servicio de la lista para ver qué incluye y cuánto cuesta.',
+  'There is nothing in this category yet. Contact me directly and I will let you know whether I can help.': 'Todavía no hay nada en esta categoría. Contáctame directamente y te diré si puedo ayudarte.',
   'Results': 'Resultados',
-  'Bank select': 'Selección de banco',
-  'Nothing matches that.': 'Nada coincide con eso.',
-  'Try a platform (Vita, Steam Deck), a symptom (slow, crash, dead), or a job (website, backup, mod). If it is not listed, ask me anyway — the list is what I do most, not everything I can do.':
-    'Prueba con una plataforma (Vita, Steam Deck), un síntoma (lento, se traba, no enciende) o un trabajo (sitio web, respaldo, mod). Si no aparece, pregúntame igual — la lista es lo que más hago, no todo lo que puedo hacer.',
+  'Categories': 'Categorías',
+  'No Results Found': 'No se encontraron resultados',
+  'Try searching by device (Vita, Steam Deck), by symptom (slow, crashing, will not turn on), or by job (website, backup, mod). If you do not see what you need, please ask anyway — this list covers the work I do most often, not everything I am able to do.': 'Prueba buscando por dispositivo (Vita, Steam Deck), por síntoma (lento, se traba, no enciende) o por trabajo (sitio web, respaldo, mod). Si no encuentras lo que necesitas, pregúntame de todos modos — esta lista cubre el trabajo que hago con más frecuencia, no todo lo que puedo hacer.',
 
   /* ── Credential card ──────────────────────────────────────────── */
-  'Straight from the source': 'Directo desde la fuente',
-  'I guarantee you\u2019ll feel a level of comfort and confidence shopping with me that you haven\u2019t found anywhere else. That\u2019s because I genuinely care about the people I serve and the work I do. I\u2019m an enthusiast and a gamer myself, and I take pride in doing a great job. I\u2019m not in this for anything tangible \u2014 my goal is simply to help people and do good.':
-    'Te garantizo que vas a sentir un nivel de tranquilidad y confianza comprando conmigo que no has encontrado en ningún otro lado. Es porque de verdad me importan las personas a las que atiendo y el trabajo que hago. Yo también soy entusiasta y jugador, y me enorgullece hacer un buen trabajo. No estoy en esto por nada material \u2014 mi meta es simplemente ayudar a la gente y hacer las cosas bien.',
-  'When you buy from me you skip the extra fees and the markups others charge for lower-quality work. Some of those people bring their modding to me, then turn around and upcharge you while pretending to be engineers and throwing around buzzwords.':
-    'Cuando me compras a mí te ahorras los cargos extra y los sobreprecios que otros cobran por un trabajo de menor calidad. Algunos de ellos me traen sus mods a mí, y después te los cobran más caro haciéndose pasar por ingenieros y soltando palabras técnicas.',
-  'Coming to me is buying straight from the source. No middleman, no cut corners. You will know exactly what you are getting, because I explain everything in plain everyday terms. I build my mods to be seamless and intuitive enough that anyone can use them, and I can set yours up exactly the way you want it.':
-    'Venir conmigo es comprar directo desde la fuente. Sin intermediarios y sin atajos. Vas a saber exactamente qué estás recibiendo, porque te explico todo en palabras normales del día a día. Hago mis mods limpios e intuitivos para que cualquiera pueda usarlos, y puedo dejarte el tuyo exactamente como lo quieras.',
-  'Active helper in most of the groups I am in. Happy to show receipts, feedback pages or records for anything above \u2014 just ask.':
-    'Ayudo activamente en casi todos los grupos en los que estoy. Con gusto te muestro recibos, páginas de reseñas o registros de cualquier cosa de arriba \u2014 solo pídelo.',
+  'Buying Direct From the Source': 'Comprar directo desde la fuente',
+  'I guarantee you will experience a level of comfort and confidence shopping with me that you haven’t felt anywhere else. As a fellow gamer and enthusiast, I genuinely care about the community I serve and take immense pride in delivering high-quality work. My primary goal is to help others and provide a great experience.': 'Te garantizo que vas a experimentar un nivel de tranquilidad y confianza comprando conmigo que no has sentido en ningún otro lugar. Como jugador y entusiasta, de verdad me importa la comunidad a la que atiendo y me enorgullece enormemente entregar un trabajo de alta calidad. Mi objetivo principal es ayudar a los demás y brindar una gran experiencia.',
+  'When you work with me, you are buying directly from the source. That means you skip the extra fees, markups, and middleman costs that often come with other services. I focus on delivering premium results without cutting corners, and I explain everything in clear, everyday language — no unnecessary jargon or buzzwords.': 'Cuando trabajas conmigo, compras directamente desde la fuente. Eso significa que te ahorras los cargos extra, los sobreprecios y los costos de intermediarios que suelen venir con otros servicios. Me enfoco en entregar resultados de primera sin tomar atajos, y te explico todo en lenguaje claro y cotidiano — sin tecnicismos ni palabras rebuscadas.',
+  'I design my mods to be seamless and intuitive, ensuring they are easy for absolutely anyone to use, and I will set yours up exactly the way you want it.': 'Diseño mis mods para que sean fluidos e intuitivos, garantizando que sean fáciles de usar para absolutamente cualquier persona, y configuraré el tuyo exactamente como lo quieras.',
+  'I am an active helper in most of the communities I belong to. I am glad to provide receipts, feedback pages, or records for anything listed above — just ask.': 'Ayudo activamente en la mayoría de las comunidades a las que pertenezco. Con gusto te proporciono recibos, páginas de reseñas o registros de cualquier cosa mencionada arriba — solo pídelo.',
   'Sold on Facebook': 'Vendidos en Facebook',
   'Sold on eBay': 'Vendidos en eBay',
-  '16 yrs': '16 años',
-  'In the community': 'En la comunidad',
-  'On ask': 'A pedido',
-  'Proof of any of it': 'Pruebas de todo esto',
-  'The record': 'El historial',
-  'The case': 'El argumento',
-  'The offer': 'La oferta',
-  'Get in touch': 'Contáctame',
-  'And lastly, I offer': 'Y por último, ofrezco',
+  '16 Years': '16 años',
+  'Serving the Community': 'Sirviendo a la comunidad',
+  'On Request': 'A pedido',
+  'Proof of Any Claim': 'Pruebas de cualquier afirmación',
+  'My Record': 'Mi historial',
+  'My Approach': 'Mi enfoque',
+  'My Promise': 'Mi compromiso',
+  'Get in Touch': 'Contáctame',
+  'Finally, I stand by my work. I offer': 'Por último, respaldo mi trabajo. Ofrezco',
   'Guarantees': 'Garantías',
   'Warranties': 'Cobertura',
-  'Support': 'Soporte',
-  'Feel free to talk to me directly about your expectations \u2014 and I will make them a guarantee.':
-    'Háblame directamente sobre lo que esperas \u2014 y lo convierto en una garantía.',
+  'Ongoing Support': 'Soporte continuo',
+  'Feel free to talk to me directly about your specific expectations, and I will turn them into a guarantee.': 'Habla conmigo directamente sobre tus expectativas específicas, y las convertiré en una garantía.',
 
   /* ── Contact card ─────────────────────────────────────────────── */
   'Call': 'Llamar',
@@ -6184,25 +6275,22 @@ const ES = {
   'Email': 'Correo',
   'Phone': 'Teléfono',
   'Card': 'Tarjeta',
-  'OPERATOR': 'OPERADOR',
-  'South Florida — and anywhere online': 'Sur de Florida — y en cualquier lugar en línea',
-  'No fixed hours. Days, nights, and weekends, by arrangement.':
-    'Sin horario fijo. Días, noches y fines de semana, coordinando antes.',
-  'Every channel here reaches me directly. No queue, no ticket system.':
-    'Todos estos canales llegan directo a mí. Sin colas y sin sistema de tickets.',
+  'OWNER': 'PROPIETARIO',
+  'Based in South Florida, available anywhere online': 'Con base en el sur de Florida, disponible en cualquier lugar en línea',
+  'No fixed hours. Available days, nights, and weekends by arrangement.': 'Sin horario fijo. Disponible días, noches y fines de semana, coordinando antes.',
+  'Every method listed here reaches me directly. No queues and no ticket system.': 'Todos los métodos aquí llegan directo a mí. Sin colas y sin sistema de tickets.',
   'CONTACT CARD': 'TARJETA DE CONTACTO',
   'Copy': 'Copiar',
   'Copied': 'Copiado',
   'Requesting': 'Solicitando',
   'Service request:': 'Solicitud de servicio:',
-  'Direct lines': 'Líneas directas',
-  'Messaging': 'Mensajería',
+  'Direct Contact': 'Contacto directo',
+  'Messaging Apps': 'Aplicaciones de mensajería',
   'Availability': 'Disponibilidad',
 
   /* ── Bank 01 · Computers ──────────────────────────────────────── */
   'Computers': 'Computadoras',
-  'Repairs, tune-ups, custom builds, networking, and one-on-one help.':
-    'Reparaciones, mantenimiento, equipos armados a medida, redes y ayuda personalizada.',
+  'Repairs, tune-ups, custom builds, networking, and one-on-one support.': 'Reparaciones, optimizaciones, equipos a medida, redes y soporte personalizado.',
 
   'Virus & Malware Removal': 'Eliminación de virus y malware',
   'Clear the infection, then close the door behind it.':
@@ -6324,8 +6412,7 @@ const ES = {
 
   /* ── Bank 02 · Video Games ────────────────────────────────────── */
   'Video Games': 'Videojuegos',
-  'Console modding across seventeen platforms, plus handhelds and retro setups.':
-    'Modificación de consolas en diecisiete plataformas, más portátiles y equipos retro.',
+  'Console modding across seventeen platforms, plus handhelds and retro systems.': 'Modificación de consolas en diecisiete plataformas, más portátiles y sistemas retro.',
 
   'Game Console Modifications': 'Modificación de consolas',
   'Seventeen platforms, from the PS3 to the Steam Deck.':
@@ -6500,8 +6587,7 @@ const ES = {
 
   /* ── Bank 03 · Marketing ──────────────────────────────────────── */
   'Marketing': 'Marketing',
-  'Websites, custom software, SEO, content, and social media.':
-    'Sitios web, software a medida, SEO, contenido y redes sociales.',
+  'Websites, custom software, SEO, content creation, and social media.': 'Sitios web, software a medida, SEO, creación de contenido y redes sociales.',
 
   'Website Design': 'Diseño de sitios web',
   'Fast, modern sites that work on a phone.':
@@ -6575,8 +6661,7 @@ const ES = {
 
   /* ── Bank 04 · Other ──────────────────────────────────────────── */
   'Other': 'Otros',
-  'Smart home installs, data recovery, security checkups, and restoration.':
-    'Instalación de casa inteligente, recuperación de datos, revisión de seguridad y restauración.',
+  'Smart home installation, data recovery, security checkups, and restoration.': 'Instalación de casa inteligente, recuperación de datos, revisiones de seguridad y restauración.',
 
   'Smart Home Setup': 'Configuración de casa inteligente',
   'Get everything into one app.': 'Deja todo en una sola aplicación.',
@@ -6628,49 +6713,51 @@ const ES = {
   'Directory': 'Directorio',
   'options': 'opciones',
   'platforms': 'plataformas',
-  'options inside.': 'opciones adentro.',
-  'BANK': 'BANCO',
+  'options available.': 'opciones disponibles.',
+  'CATEGORY': 'CATEGORÍA',
   'SERVICES': 'SERVICIOS',
   'In': 'En',
   'five star rating': 'calificación de cinco estrellas',
-  'all contact channels': 'todos los canales de contacto',
-  'Why choose me.': 'Por qué elegirme.',
+  'all contact methods': 'todos los métodos de contacto',
+  'Why shop with me.': 'Por qué comprar conmigo.',
   'Press any key to skip': 'Pulsa cualquier tecla para saltar',
   'Tap to skip': 'Toca para saltar',
 
   /* ── Silkscreen: the fixed labels printed on the panel itself ─── */
   'Why choose me?': '¿Por qué elegirme?',
-  'Why choose me': 'Por qué elegirme',
+  'Why Shop With Me': 'Por qué comprar conmigo',
   'Why choose me — credentials and guarantees': 'Por qué elegirme — credenciales y garantías',
-  'The case, plainly': 'El argumento, sin adornos',
+  'In My Own Words': 'En mis propias palabras',
   'Close': 'Cerrar',
-  'Readout': 'Pantalla',
-  'Search every service': 'Buscar en todos los servicios',
-  'Clear search': 'Borrar la búsqueda',
-  'Service categories': 'Categorías de servicio',
-  'Search results': 'Resultados de búsqueda',
-  'Main menu': 'Menú principal',
-  'Category detail': 'Detalle de categoría',
-  'Available services': 'Servicios disponibles',
-  'Services in this bank': 'Servicios de este banco',
-  'Service detail': 'Detalle del servicio',
-  'Previous page': 'Página anterior',
-  'Next page': 'Página siguiente',
-  'Previous service': 'Servicio anterior',
-  'Next service': 'Servicio siguiente',
+  'Overview': 'Resumen',
+  'Search All Services': 'Buscar todos los servicios',
+  'Clear Search': 'Borrar la búsqueda',
+  'Service Categories': 'Categorías de servicio',
+  'Search Results': 'Resultados de búsqueda',
+  'Main Menu': 'Menú principal',
+  'Category Details': 'Detalles de la categoría',
+  'Available Services': 'Servicios disponibles',
+  'Services in This Category': 'Servicios de esta categoría',
+  'Service Details': 'Detalles del servicio',
+  'Previous Page': 'Página anterior',
+  'Next Page': 'Página siguiente',
+  'Previous Service': 'Servicio anterior',
+  'Next Service': 'Servicio siguiente',
   'Contact': 'Contacto',
-  'Available now': 'Disponible ahora',
+  'Available Now': 'Disponible ahora',
   'Menu': 'Menú',
-  'Bank': 'Banco',
+  'Category': 'Categoría',
   'open': 'abrir',
   'select': 'elegir',
   'confirm': 'confirmar',
   'back': 'volver',
   'Contact Adam': 'Contactar a Adam',
-  'Panel audio': 'Audio del panel',
+  'Panel Audio': 'Audio del panel',
   'Audio': 'Audio',
-  'Jaybird Solutions — Computer Repair, Console Modding & Web Work':
-    'Jaybird Solutions — Reparación de computadoras, modificación de consolas y trabajo web',
+  'Jaybird Solutions — Computer Repair, Console Modding, and Web Development': 'Jaybird Solutions — Reparación de computadoras, modificación de consolas y desarrollo web',
+  'Why shop with me — my credentials and guarantees':
+    'Por qué comprar conmigo — mis credenciales y garantías',
+  'Why shop with me?': '¿Por qué comprar conmigo?',
   'Language': 'Idioma',
   'Switch to Spanish': 'Cambiar a español',
   'Switch to English': 'Cambiar a inglés'
@@ -6891,7 +6978,7 @@ function coldReport() {
   L.push({ t: '' });
   L.push({ t: chk('PLATFORMS', `${platforms} TOTAL`) });
   L.push({ t: chk('SERVICE INDEX', `${total} SVC`) });
-  L.push({ t: row('OPERATOR', CFG.contact.name.toUpperCase()) });
+  L.push({ t: row('OWNER', CFG.contact.name.toUpperCase()) });
   L.push({ t: row('STATION', 'SOUTH FLORIDA + ONLINE') });
   L.push({ t: '' });
   L.push({ t: 'READY', hot: true, ready: true });
