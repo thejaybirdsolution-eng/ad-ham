@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Set before the stylesheet is parsed, so the static catalogue at
+     the foot of the body is hidden without ever being painted. With
+     scripting off the class never lands, the console stays hidden by
+     the <noscript> rule, and the catalogue is the page. -->
+<script>document.documentElement.className = 'js';</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#c3c6bd">
@@ -14,7 +19,897 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jaybird Solutions — Operator Console">
 <meta property="og:description" content="Computers, video games, marketing, and everything else. Forty-seven services, one operator.">
+<!-- Without these the link previews blank everywhere it gets pasted —
+     Facebook, Discord, iMessage, WhatsApp — which for a card that is
+     mostly shared by pasting is most of its first impressions. The
+     image is a 1200x630 render of the console's own readout. -->
+<link rel="canonical" href="https://ad-ham.com/">
+<meta property="og:url" content="https://ad-ham.com/">
+<meta property="og:site_name" content="Jaybird Solutions">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_US">
+<meta property="og:image" content="https://ad-ham.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jaybird Solutions operator console: Adam Jaybird, computer repair, console modding, websites and smart home in South Florida.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jaybird Solutions — Operator Console">
+<meta name="twitter:description" content="Computers, video games, marketing, and everything else. Forty-seven services, one operator.">
+<meta name="twitter:image" content="https://ad-ham.com/og-image.png">
+<link rel="apple-touch-icon" href="https://ad-ham.com/apple-touch-icon.png">
 <title>Jaybird Solutions — Computer Repair, Console Modding, and Web Development</title>
+<!-- Generated from the CFG object at the foot of this file, so the
+     catalogue a search engine reads and the catalogue the panel draws
+     cannot disagree. Regenerate it if you add a service. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "ProfessionalService",
+ "@id": "https://ad-ham.com/#business",
+ "name": "Jaybird Solutions",
+ "alternateName": "AD-HAM.COM",
+ "description": "Computers, consoles, websites, and smart home. Choose a category, or search all 47 services.",
+ "url": "https://ad-ham.com/",
+ "telephone": "+15612481234",
+ "email": "jaybirdsolutions@proton.me",
+ "founder": {
+  "@type": "Person",
+  "name": "Adam Jaybird"
+ },
+ "areaServed": [
+  {
+   "@type": "AdministrativeArea",
+   "name": "South Florida"
+  },
+  {
+   "@type": "Country",
+   "name": "Worldwide (online services)"
+  }
+ ],
+ "address": {
+  "@type": "PostalAddress",
+  "addressRegion": "FL",
+  "addressCountry": "US"
+ },
+ "openingHours": "Mo-Su 00:00-23:59",
+ "sameAs": [
+  "https://t.me/jaybirdsolutions"
+ ],
+ "hasOfferCatalog": {
+  "@type": "OfferCatalog",
+  "name": "Services",
+  "itemListElement": [
+   {
+    "@type": "OfferCatalog",
+    "name": "Computers",
+    "description": "Repairs, tune-ups, custom builds, networking, and one-on-one support.",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Virus & Malware Removal",
+       "description": "Deep scans that find and remove stubborn viruses, malware, and pop-ups — and then shut the way they got in. Your machine gets its speed back, and your personal files stop being someone else's business.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$75 flat",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Computer Tune-Up",
+       "description": "Junk files cleared, startup programs trimmed, drivers brought current, and settings adjusted so the machine stops fighting you. Cheaper than replacing something that was never broken.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $50",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Custom Office & Work PCs",
+       "description": "Quiet and modest for spreadsheets, or serious horsepower for video and design — specified for the job instead of whatever was on sale that week. Parts chosen to last past the warranty.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Parts + $150",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Custom Gaming Computers",
+       "description": "Tell me the games and the number, and I'll spec the build that gets the most out of it. Assembled clean, stress-tested, and tuned before it leaves the bench.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Parts + $150",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Refurbished Computers",
+       "description": "Fully tested, cleaned, and updated machines with a fresh Windows install. Plug it in and get on with your day.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Varies",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Computer Parts",
+       "description": "Graphics cards, processors, memory, and drives — inspected before they are sold. If an upgrade will not actually help you, I will say so before you spend.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Varies",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "General Tech Support",
+       "description": "Diagnosis first, then a clear plan and a real number. You will know what is wrong and what it costs before anything gets replaced.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$80/hr",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Wi-Fi & Internet Setup",
+       "description": "Routers set up properly, coverage pushed into the corners of the house, and the network locked down so it stays yours.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $90",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Personal Tech Help",
+       "description": "Setting up a new computer, moving years of photos off the old one, or just learning to use what you already own. No question is too basic here.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$75/hr",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Business IT Services",
+       "description": "Office network managed, employee machines set up the same way every time, data secured and backed up, and someone on call when it matters.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Monthly",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Sell Your Old Computer",
+       "description": "Working or not, bring it in for a fair evaluation based on what is actually inside. The drive is wiped for good before anything moves on.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Cash offer",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "AI Workflow Setup",
+       "description": "I will find the tasks eating your week, set up tools that handle them, and show you how to drive it. The point is hours back, not a novelty.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Quoted",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Intro to AI Training",
+       "description": "A hands-on beginner session on using tools like ChatGPT for real work — writing, drafting, brainstorming, and speeding up the parts of your day that drag.",
+       "serviceType": "Computers",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$150/session",
+       "priceCurrency": "USD"
+      }
+     }
+    ]
+   },
+   {
+    "@type": "OfferCatalog",
+    "name": "Video Games",
+    "description": "Console modding across seventeen platforms, plus handhelds and retro systems.",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "PlayStation 3",
+       "description": "Custom firmware installed, years of dust pulled out of the heatsink, and the storage opened up. An old PS3 that runs hot and loud usually just needs opening.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $60",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "PlayStation 4",
+       "description": "The jet-engine noise is dust and dried thermal paste, not a dying console. Deep clean, fresh paste, and a bigger drive if you want one.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $50",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "PlayStation 5",
+       "description": "An internal SSD fitted and formatted, the dust channels cleared, and custom covers swapped if you would rather it stopped looking like everyone else's.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $40",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "PlayStation Portable",
+       "description": "Permanent custom firmware, a microSD adapter so you are not hunting Memory Sticks, and a fresh battery in place of the puffy original.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $30",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "PlayStation Vita",
+       "description": "Permanent custom firmware and an SD2Vita conversion, so ordinary microSD replaces Sony's expensive cards. Custom apps set up while I am in there.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $45",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Nintendo Wii",
+       "description": "Homebrew installed so the console runs your own backups off a drive, plus retro emulation set up and organised.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $45",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Nintendo Wii U",
+       "description": "The latest custom firmware, an SD card partitioned properly, and your digital library backed up somewhere you can actually reach it.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $55",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Nintendo 3DS",
+       "description": "Custom firmware that survives updates, themes if you want them, and hardware repair for cracked screens and tired hinges.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $45",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Nintendo DS",
+       "description": "A fresh outer shell makes a beaten DS look new. Flash cartridges configured, and broken hinges — the classic DS failure — repaired.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $35",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Original Xbox",
+       "description": "Every original Xbox carries a clock capacitor that eventually leaks and destroys the motherboard. It comes out first. Then a bigger drive and a custom dashboard.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $85",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Xbox 360",
+       "description": "Custom software and a dashboard worth looking at, plus a full cooling service on a console famous for cooking itself.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $75",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Xbox One",
+       "description": "An SSD cuts loading times hard on an Xbox One. Dead disc drives replaced, and the inside cleaned properly while it is open.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $65",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Steam Deck",
+       "description": "Internal storage upgraded, and hall-effect sticks fitted so drift stops being a question you have to keep asking. Custom shells if you want one.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $50",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Windows Handhelds",
+       "description": "Cooling improved, storage upgraded, and the casing replaced if it has taken a knock. Small machines run hot, and that is usually the fixable part.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $60",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Gaming Computers",
+       "description": "Custom cooling, lighting that is actually synced instead of five apps arguing with each other, and case modification done properly.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Quoted",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Arcade Cabinets",
+       "description": "Worn joysticks and mushy buttons replaced with parts that feel right, and the internal wiring traced and repaired where it has failed.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$85/hr",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Arcade1Up Cabinets",
+       "description": "A proper computer behind the marquee turns a twelve-game cabinet into whatever you want, with premium buttons and a custom marquee to match.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $120",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Handheld PC Optimization",
+       "description": "Bloat stripped, a launcher set up so you are not poking at a desktop with your thumbs, and power settings tuned so the battery lasts a session.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $60",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Custom PC Assembly",
+       "description": "Compatibility checked before anything is ordered, assembled with cables you would be happy to show people, and stress-tested before pickup.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Parts + $150",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Gaming PC Repair",
+       "description": "A mid-game shutdown is a symptom, not a diagnosis. I will find the part that is actually failing and get the machine running properly again.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$80/hr",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Retro Game Setup",
+       "description": "Emulation set up on your PC or console, menus organised so you can actually find anything, and your controllers mapped the way they should be.",
+       "serviceType": "Video Games",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $75",
+       "priceCurrency": "USD"
+      }
+     }
+    ]
+   },
+   {
+    "@type": "OfferCatalog",
+    "name": "Marketing",
+    "description": "Websites, custom software, SEO, content creation, and social media.",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Website Design",
+       "description": "Built to load quickly and read well on the device most people will actually use, with the path to contacting you or buying from you kept short.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $1,000",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Custom Business Software",
+       "description": "Web applications built around your workflow — tracking inventory, managing clients, or automating the thing you currently do by hand every Friday.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Quoted",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Mobile App Development",
+       "description": "Designed and built to run properly on both platforms, with help getting through App Store and Play Store review instead of stalling at the last step.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Quoted",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Search Engine Optimization",
+       "description": "The right search terms identified, the technical problems holding your site back fixed, and local ranking worked until you show up where you should.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $300/mo",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Content & Graphic Creation",
+       "description": "Per-piece work for your site, emails, and social — designed and written to look like it came from a business that knows what it is doing.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $75",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Social Media Management",
+       "description": "Content created and scheduled on a real rhythm, comments and messages answered, and a monthly report that tells you honestly whether it is working.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $400/mo",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Marketing Strategy Planning",
+       "description": "A step-by-step plan covering what to post, what to advertise, and where the budget goes — written for your business rather than pulled off a template.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$350 flat",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Direct Advertising",
+       "description": "Paid campaigns and landing pages aimed at return on spend rather than impressions. If it is not making money, it gets changed or killed.",
+       "serviceType": "Marketing",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "Quoted",
+       "priceCurrency": "USD"
+      }
+     }
+    ]
+   },
+   {
+    "@type": "OfferCatalog",
+    "name": "Other",
+    "description": "Smart home installation, data recovery, security checkups, and restoration.",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Smart Home Setup",
+       "description": "Doorbell cameras, smart locks, and lighting installed and connected so they work together from your phone, instead of four apps that ignore each other.",
+       "serviceType": "Other",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $150",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Data Recovery",
+       "description": "Deleted by accident, or trapped in a machine that will not turn on. Specialist tools, careful handling, and a straight answer about what is recoverable.",
+       "serviceType": "Other",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "From $100",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Tech Buying Advice",
+       "description": "Tell me what you need it to do. I will research the market and come back with the specific laptop, TV, or office kit that fits — and what to skip.",
+       "serviceType": "Other",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$50 flat",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Digital Security Checkup",
+       "description": "A password manager set up and explained, two-step login enabled on your bank and email, and a backup that runs whether you remember it or not.",
+       "serviceType": "Other",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$120 flat",
+       "priceCurrency": "USD"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Retro Tech Restoration",
+       "description": "Vintage electronics, early computers, and classic consoles taken apart, deep cleaned, de-yellowed, and repaired until they look the way they did new.",
+       "serviceType": "Other",
+       "provider": {
+        "@id": "https://ad-ham.com/#business"
+       }
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "description": "$65/hr",
+       "priceCurrency": "USD"
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -90,14 +985,22 @@
 
 /* Metric-matched fallbacks: the panel face is expanded, so an
    unadjusted Arial substitution reflows the whole layout on swap. */
+/* Every face named here is one that ships with a platform, ordered so
+   the first hit on each platform is the closest metric match to the
+   real thing. The original stack listed Helvetica Neue, Arial and
+   Liberation Sans and stopped — none of which exist on Android, which
+   is where most of a Marketplace link's traffic lands. Roboto and Noto
+   are the Android entries; Segoe UI is the Windows one. */
 @font-face {
   font-family: "Panel Fallback";
-  src: local("Helvetica Neue"), local("Arial"), local("Liberation Sans");
+  src: local("Helvetica Neue"), local("Arial"), local("Roboto"),
+       local("Segoe UI"), local("Noto Sans"), local("Liberation Sans");
   size-adjust: 104%; ascent-override: 90%; descent-override: 22%; line-gap-override: 0%;
 }
 @font-face {
   font-family: "Data Fallback";
-  src: local("Menlo"), local("Consolas"), local("DejaVu Sans Mono");
+  src: local("Menlo"), local("Consolas"), local("Roboto Mono"),
+       local("Noto Sans Mono"), local("DejaVu Sans Mono");
   size-adjust: 96%; ascent-override: 92%; descent-override: 24%; line-gap-override: 0%;
 }
 
@@ -196,6 +1099,72 @@ svg { display: block; }
 .key-count, .key-idx, .deck-at, .pg-at, .card-reg {
   text-shadow: 0 1px 0 var(--etch);
 }
+
+/* ═══ PAPER ═════════════════════════════════════════════════════════
+   The whole catalogue as text, sitting at the foot of the body. It is
+   the page when scripting is off, and it is what a crawler reads
+   without having to run the console first — which matters, because
+   forty-seven service names and every line of copy describing them
+   were previously reachable only by executing a 200KB script.
+
+   Hidden the instant the document is known to be scripted, by a class
+   set in <head> before this sheet is parsed, so it never paints. Not
+   `display:none` in the base sheet with JS turning it on: that is the
+   version that breaks if the class fails, and the version that leaves
+   a crawler reading a hidden element. The default is visible; script
+   is what hides it.
+
+   Styled plainly and on purpose. Nobody arriving here is getting the
+   console, so the job is legibility, not atmosphere. ═════════════ */
+html.js #paper { display: none; }
+
+#paper {
+  max-width: 72ch;
+  /* A printed sheet set down on the bench, not text floating on the
+     room colour — which was where the first pass left it, and where
+     the secondary greys fell under 4.5:1. */
+  margin: clamp(16px, 4vw, 46px) auto;
+  background: linear-gradient(178deg, var(--mag-hi), #dfe1d9);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.9), 0 22px 44px -18px rgba(0,0,0,.45);
+  padding: clamp(24px, 5vw, 56px) clamp(20px, 4vw, 44px) 72px;
+  font-family: var(--face-panel);
+  font-size: .95rem;
+  line-height: 1.62;
+  color: var(--ink);
+}
+#paper a { color: #1f4a6d; }
+.paper-kicker {
+  font-family: var(--face-data);
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--ink-70);
+}
+#paper h1 {
+  margin: 8px 0 6px;
+  font-size: clamp(1.5rem, 4.6vw, 2.1rem);
+  font-weight: 800; font-stretch: 112%;
+  line-height: 1.12;
+}
+.paper-sub { color: var(--ink-70); }
+.paper-contact { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 6px; font-family: var(--face-data); font-size: .82rem; }
+.paper-hours { font-family: var(--face-data); font-size: .78rem; color: var(--ink-70); }
+.paper-head { padding-bottom: 22px; border-bottom: 2px solid var(--ink-45); }
+#paper section { margin-top: 40px; }
+#paper h2 {
+  font-size: 1.35rem; font-weight: 800; font-stretch: 108%;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--ink-30);
+}
+.paper-blurb { margin-top: 8px; color: var(--ink-70); }
+.paper-fit { margin-top: 4px; font-family: var(--face-data); font-size: .78rem; color: var(--ink-70); }
+.paper-group { margin-top: 26px; font-size: 1.05rem; letter-spacing: .02em; }
+#paper article { margin-top: 22px; }
+#paper h3 { font-size: 1rem; font-weight: 700; }
+.paper-rate { font-family: var(--face-data); font-size: .78rem; font-weight: 600; color: var(--ink-70); }
+.paper-path { font-family: var(--face-data); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-70); }
+#paper ul { margin: 6px 0 0 1.1em; font-size: .88rem; color: var(--ink-70); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px;
@@ -678,14 +1647,97 @@ svg { display: block; }
   max-width: 62ch;
   flex-shrink: 0;
   margin-top: clamp(8px, 1.4vh, 14px);
-  margin-bottom: auto;            /* collect all slack in one place */
+  /* The slack used to collect here, which pinned the specs to the
+     floor and left up to 105px of dead phosphor mid-screen on a
+     desktop — the largest, brightest surface on the panel showing
+     nothing. It collects on .tube-meta now, which has something to
+     say in it. */
+  margin-bottom: clamp(10px, 1.6vh, 16px);
 }
+
+/* ── Middle register: where the work happens, and how long ─────────
+   The two questions that arrive the instant after "what is it and
+   what does it cost", and the readout was answering neither. Built
+   from the same parts as the home strip's stat cells — edge-to-edge
+   score, hairline dividers, silkscreen label over the value — because
+   it is the same kind of object and should not look like a new one.
+
+   `margin-top: auto` collects every pixel of slack in the face, so a
+   short service pushes this block down to meet the specs instead of
+   opening a hole above them. */
+.tube-meta {
+  flex-shrink: 0;
+  margin: auto calc(-1 * clamp(20px, 3vw, 34px)) 0;
+  padding: clamp(10px, 1.5vh, 14px) clamp(20px, 3vw, 34px) 0;
+  border-top: 1px solid rgba(255,150,40,.2);
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.tube-meta[hidden] { display: none; }
+.mcell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  padding-left: clamp(12px, 2vw, 22px);
+  border-left: 1px solid rgba(255,150,40,.15);
+}
+.mcell:first-child { padding-left: 0; border-left: 0; }
+.mcell-l {
+  font-size: clamp(.5rem, 1.05vh, .57rem);
+  font-weight: 500;
+  letter-spacing: .26em;
+  margin-right: -.26em;
+  text-transform: uppercase;
+  color: var(--p-mid);
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.mcell-v {
+  font-size: clamp(.72rem, 1.45vh, .82rem);
+  line-height: 1.4;
+  color: var(--p-hot);
+  text-wrap: pretty;
+}
+
+/* ── Fit steps that are not phone-specific ────────────────────────
+   The rest of the ladder lives in the phone query with the type sizes
+   it shrinks. These two do not, because the face can overflow at any
+   width — see fitFace(). */
+.tube-face.fit-lean .tube-meta { display: none; }
+.tube-face.fit-clamp .tube-body,
+.tube-face.fit-crop .tube-body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tube-face.fit-clamp .tube-body { -webkit-line-clamp: 4; }
+.tube-face.fit-crop  .tube-body { -webkit-line-clamp: 3; }
+.tube-face.fit-crop  .tube-specs { gap: 4px; margin-top: 10px; padding-top: 9px; }
+.tube-face.fit-crop  .spec { font-size: .72rem; line-height: 1.34; }
+
+/* The terminal step, and it only ever runs when every one above it has
+   already fired and the face is STILL taller than its glass. The panel
+   does not scroll — that is the whole architecture — but the one thing
+   worse than a pane that scrolls is a price list that silently is not
+   there. So the last resort makes the content reachable rather than
+   pretending it fits, with the same bottom fade the directory and the
+   channel list use to say there is more below. No scrollbar: this is a
+   readout, and a readout with chrome on it stops being one. */
+.tube-face.fit-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 26px), transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 26px), transparent 100%);
+}
+.tube-face.fit-scroll::-webkit-scrollbar { display: none; }
 
 .tube-specs {
   display: flex; flex-direction: column;
   flex-shrink: 0;
   gap: clamp(6px, 1vh, 10px);
-  margin-top: clamp(14px, 2.2vh, 22px);
+  margin-top: clamp(12px, 1.8vh, 18px);
   padding-top: clamp(12px, 1.8vh, 18px);
   border-top: 1px solid var(--p-ghost);
 }
@@ -951,6 +2003,16 @@ svg { display: block; }
    longer determines the height of, and so the note has somewhere to
    go in `s` without a second set of rules. */
 .hero-dir-list { grid-auto-rows: minmax(26px, 1fr); }
+/* A fourth mode, and the finder is what needed it. Three matches on a
+   `1fr` track are three 130px rows floating in the middle of the glass
+   — the list stops reading as a list. Capped, the rows sit together at
+   the top and the leftover height falls to the floor, where the stat
+   strip is already holding it. No bank is short enough to reach this,
+   so it only ever fires on a narrow search. */
+.hero-dir[data-dir="xs"] .hero-dir-list {
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(26px, 78px);
+}
 .hero-dir[data-dir="s"] .hero-dir-list,
 .hero-dir[data-dir="m"] .hero-dir-list { grid-template-columns: 1fr; }
 /* auto-fit, so the narrow tube collapses to one column and the rows
@@ -973,7 +2035,7 @@ svg { display: block; }
   color: var(--p-mid);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.hero-dir:not([data-dir="s"]) .dir-note { display: none; }
+.hero-dir:not([data-dir="s"]):not([data-dir="xs"]) .dir-note { display: none; }
 .dir-n {
   /* min-width:0 explicitly: a flex item's automatic minimum is its
      content, so without this the name refuses to shrink, shoves the
@@ -1561,7 +2623,7 @@ svg { display: block; }
 .lang-code { display: none; }
 
 /* ═══ BOOT ══════════════════════════════════════════════════════════
-   Cold start: panel dead → lamps sweep → tube strikes → text decodes.
+   Cold start: panel dead → tube strikes → plate dumps → mark decodes.
    Content is inert until the sequence completes, so nothing can be
    clicked mid-warmup. ═════════════════════════════════════════════ */
 
@@ -1615,6 +2677,13 @@ svg { display: block; }
 .card {
   width: min(544px, calc(100vw - 26px));
   max-height: min(88dvh, 800px);
+  /* The universal reset at the top of this sheet sets margin:0 on
+     every element, and a modal <dialog> is centred by the UA's own
+     `margin: auto` against `inset: 0`. Zeroing it stranded the card at
+     the top-left corner of the viewport with its head clipped off the
+     top edge and its foot below the fold. The phone rule further down
+     re-sets this to `auto auto 0` for the bottom sheet. */
+  margin: auto;
   padding: 0;
   border: 0;
   border-radius: 20px;
@@ -1857,6 +2926,14 @@ a.row-main:active { transform: scale(.992); }
   box-shadow: inset 0 0 0 1px rgba(255,179,71,.16);
 }
 .card-hours .row-icon { margin-top: 1px; }
+/* The last thing in the card, and the only row that produces a file
+   rather than opening something — so it keeps the row grammar and
+   takes a rule above it to mark the change of kind. */
+.card-save {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--p-ghost);
+}
 .card-hours-v { font-size: .76rem; line-height: 1.55; color: var(--p); }
 
 /* ── Bezel foot ─────────────────────────────────────────────────── */
@@ -2262,11 +3339,13 @@ a.row-main:active { transform: scale(.992); }
      HV strike   the beam arrives before vertical deflection does, so
                  the first thing drawn is ONE over-bright line
      deflection  the line opens into a raster, overshoots, settles
-     first field the tube is not yet at rate, so the first frame is
-                 drawn slowly enough to watch the beam paint it
+     calibration a rapid calibration does not scan a field slowly — it
+                 dumps the plate whole, at rate, the instant the raster
+                 opens, and signs itself with the same decode the rest
+                 of the console uses to resolve a title
      degauss     the coil fires, the geometry shudders, the AGC pulls
                  the brightness back down
-     handover    the test pattern collapses and the panel is live
+     handover    the calibration plate collapses and the panel is live
 
    The panel sits in shadow for all of it, because in this fiction the
    tube is the first thing in the room with power. Colour never enters:
@@ -2291,12 +3370,14 @@ a.row-main:active { transform: scale(.992); }
 /* Two nested wrappers so the deflection animation and the degauss
    shudder never write to the same transform. One is CSS, one is JS,
    and a single element could not hold both without one clobbering
-   the other on the frame they overlap. */
+   the other on the frame they overlap. Durations here are pinned to
+   COLD.open (300ms) in the script below — the strike has to be over
+   by the moment the plate dumps, not just eventually. */
 .cold-raster {
   position: absolute; inset: 0;
   transform-origin: 50% 50%;
   will-change: transform, filter;
-  animation: coldOpen 760ms var(--ease-out) both;
+  animation: coldOpen 300ms var(--ease-out) both;
 }
 .cold-shake { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
 .cold-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -2316,19 +3397,80 @@ a.row-main:active { transform: scale(.992); }
   position: absolute; inset: 0;
   background: radial-gradient(135% 32% at 50% 50%,
     rgba(255,152,48,.62), rgba(255,104,16,.17) 42%, transparent 70%);
-  animation: coldFil 640ms var(--ease-out) both;
+  animation: coldFil 250ms var(--ease-out) both;
 }
 @keyframes coldFil { 0% { opacity: 0 } 44% { opacity: .9 } 70% { opacity: .5 } 100% { opacity: 0 } }
 
-/* The strike: one row, far too bright, for about 60ms. */
+/* The strike: one row, far too bright, for about 25ms. */
 .cold-line {
   position: absolute; left: 0; right: 0; top: 50%;
   height: 2px; margin-top: -1px;
   background: linear-gradient(90deg, transparent, #fff 7%, #fff 93%, transparent);
   box-shadow: 0 0 14px 3px rgba(255,220,160,.95), 0 0 40px 12px rgba(255,150,40,.6);
-  animation: coldLine 560ms linear both;
+  animation: coldLine 220ms linear both;
 }
 @keyframes coldLine { 0%, 66% { opacity: 0 } 71% { opacity: 1 } 79% { opacity: 1 } 100% { opacity: 0 } }
+
+/* Branding: the mark and its domain line, dead centre, resolved by
+   the same character-scramble decode the rest of the console uses.
+   No colour of its own — same amber custom properties as the tube
+   title, so brightness is still the only thing telling states apart. */
+.cold-brand {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(7px, 1.7vh, 15px);
+  text-align: center;
+  padding-inline: 7%;
+  opacity: 0;
+  transition: opacity 120ms linear;
+}
+/* The lock-in: a quick brightness bloom timed just past where the mark
+   finishes decoding, the way a tube overshoots for a beat when a
+   signal it is tracking suddenly resolves, then settles. One shot —
+   not a loop, so a plate that never gets past this phase never looks
+   like it is idling. */
+.cold[data-brand] .cold-brand {
+  opacity: 1;
+  animation: brandSettle 640ms var(--ease-out) 260ms both;
+}
+@keyframes brandSettle {
+  0%, 40% { filter: brightness(1); }
+  58%     { filter: brightness(1.5); }
+  100%    { filter: brightness(1); }
+}
+.cold-brand-mark, .cold-brand-sub { max-width: 100%; overflow-wrap: break-word; }
+.cold-brand-mark {
+  font-family: var(--face-panel);
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: .03em;
+  font-size: clamp(1.4rem, 6.6vw, 3.1rem);
+}
+/* The rule struck under the mark: the beam's last confident move,
+   held back until the mark has actually landed rather than growing in
+   step with the scramble, which read as decoration instead of an
+   instrument doing something. */
+.cold-brand-rule {
+  width: 0%;
+  height: max(1.5px, .12em);
+  background: linear-gradient(90deg, transparent, var(--p-hot) 18%, var(--p-hot) 82%, transparent);
+  box-shadow: 0 0 10px 1px rgba(255,180,80,.65);
+  transition: width 320ms var(--ease-out) 220ms;
+}
+.cold[data-brand] .cold-brand-rule { width: min(58%, 22em); }
+.cold-brand-sub {
+  font-family: var(--face-data);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: clamp(.66rem, 2.1vw, 1rem);
+}
+.cold-brand-mark span, .cold-brand-sub span { color: var(--p-mid); opacity: .34; }
+.cold-brand-mark span.scan, .cold-brand-sub span.scan {
+  color: #fff; opacity: 1;
+  text-shadow: 0 0 6px var(--p), 0 0 16px rgba(255,140,20,.7);
+}
+.cold-brand-mark span.done, .cold-brand-sub span.done { color: var(--p-hot); opacity: 1; }
 
 .cold-hint {
   position: absolute; left: 0; right: 0;
@@ -2935,7 +4077,14 @@ a.row-main:active { transform: scale(.992); }
 
 .tcard {
   position: relative;
-  flex: 0 0 calc(100% - 138px);
+  /* 100%, not calc(100% - 138px). A flex-basis percentage resolves
+     against the track's CONTENT box, and the track has already had
+     `padding-inline: 58px` taken off each side to clear the arrows.
+     Subtracting them a second time collapsed the card to 110px on a
+     390px phone, which left the name column about twelve pixels wide
+     and rendered "Virus & Malware Removal" as "V… &…". The padding is
+     the arrow clearance; the basis is just the rest. */
+  flex: 0 0 100%;
   min-width: 0;
   scroll-snap-align: center;
   scroll-snap-stop: always;
@@ -3881,8 +5030,15 @@ a.row-main:active { transform: scale(.992); }
       </div>
       <p class="sr-only" id="find-hits" role="status" aria-live="polite"></p>
       <div class="contact-slot">
+        <!-- Every category key gets its name built by buildKeypad();
+             this one is hand-written markup and was the only control
+             on the panel a screen reader could not name. Without the
+             label it read the visible text, which starts with the
+             decorative asterisk in .key-idx — so the key announced
+             itself as a punctuation mark. Set from CFG on build so it
+             follows the language switch with everything else. -->
         <button class="btn-contact" id="btn-contact" type="button" aria-haspopup="dialog">
-          <span class="key-idx">✽</span>
+          <span class="key-idx" aria-hidden="true">✽</span>
           <span class="lamp lit" style="--c: var(--lamp-3)" aria-hidden="true"></span>
           <svg class="key-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.2"/><path d="m3.5 7 7.4 5.3a2 2 0 0 0 2.2 0L20.5 7"/></svg>
           <span class="key-name">Contact<span class="key-count">Available Now</span></span>
@@ -3923,8 +5079,20 @@ a.row-main:active { transform: scale(.992); }
                 <span id="t-rate">—</span>
               </div>
               <div class="tube-rule" aria-hidden="true"></div>
-              <h2 class="tube-title caret" id="t-title" aria-hidden="true">&nbsp;</h2>
+              <!-- The decode animation shreds this into one span per
+                   character, which a screen reader spells out letter by
+                   letter — which is why it used to be hidden from AT
+                   entirely, and why heading navigation, one of the main
+                   ways a screen reader moves through a page, could not
+                   reach a single service title. decode() writes the
+                   plain string to aria-label instead, so the heading is
+                   a real heading again and the spans stay decorative. -->
+              <h2 class="tube-title caret" id="t-title">&nbsp;</h2>
               <p class="tube-body" id="t-body"></p>
+              <div class="tube-meta" id="t-meta" hidden>
+                <span class="mcell"><i class="mcell-l" id="t-meta-l1">&nbsp;</i><b class="mcell-v" id="t-meta-v1">&nbsp;</b></span>
+                <span class="mcell"><i class="mcell-l" id="t-meta-l2">&nbsp;</i><b class="mcell-v" id="t-meta-v2">&nbsp;</b></span>
+              </div>
               <div class="tube-specs" id="t-specs"></div>
               <div class="tube-status">
                 <span id="t-seq">Ch —</span>
@@ -4076,6 +5244,23 @@ a.row-main:active { transform: scale(.992); }
           <svg class="row-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.4 2"/></svg>
           <span class="card-hours-v" id="card-hours-value"></span>
         </div>
+
+        <!-- A business card you cannot put in a phone is a poster. The
+             file is built out of the channels above at the moment it is
+             asked for, so there is nothing to host and nothing that can
+             fall out of sync with the number printed two rows up. -->
+        <div class="card-rows card-save">
+          <div class="row is-primary">
+            <div class="row-main">
+              <svg class="row-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11"/><path d="m7.6 10.2 4.4 4.4 4.4-4.4"/><path d="M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"/></svg>
+              <span class="row-text">
+                <span class="row-label" id="card-save-label"></span>
+                <span class="row-value" id="card-save-value"></span>
+              </span>
+            </div>
+            <button class="row-copy" id="card-save" type="button"></button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="tube-sweep" aria-hidden="true"></div>
@@ -4089,27 +5274,493 @@ a.row-main:active { transform: scale(.992); }
   </div>
 </dialog>
 
-<noscript>
-  <style>
-    .stage { display: none; }
-    .fallback {
-      max-width: 46ch; margin: 0 auto; padding: 28px 30px;
-      background: var(--mag); border-radius: 14px;
-      box-shadow: 0 1px 0 rgba(255,255,255,.9), 0 18px 32px -14px rgba(0,0,0,.42);
-      font-size: .95rem; line-height: 1.65;
-    }
-    .fallback h1 { font-size: 1.05rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
-  </style>
-  <div class="fallback">
-    <h1>Page Unavailable</h1>
-    <p>This page requires JavaScript to display the service catalogue. Please enable
-       it and reload the page, or contact me directly and I will walk you through the
-       full list of services myself.</p>
-    <p style="margin-top:14px">
-      <a href="mailto:jaybirdsolutions@proton.me">jaybirdsolutions@proton.me</a><br>
-      <a href="tel:+15612481234">(561) 248-1234</a>
+<div id="paper">
+  <header class="paper-head">
+    <p class="paper-kicker">JAYBIRD SOLUTIONS</p>
+    <h1>Adam Jaybird — Computers, consoles, websites, and smart home</h1>
+    <p class="paper-sub">Based in South Florida, available anywhere online</p>
+    <p class="paper-contact">
+      <a href="mailto:jaybirdsolutions@proton.me">Email: jaybirdsolutions@proton.me</a>
+      <a href="tel:+15612481234">Phone: (561) 248-1234</a>
+      <a href="https://t.me/jaybirdsolutions">Telegram: jaybirdsolutions</a>
+      <span>Discord: jaybirdsolutions</span>
+      <span>Session: jaybirdsolutions</span>
     </p>
-  </div>
+    <p class="paper-hours">No fixed hours. Available days, nights, and weekends by arrangement.</p>
+  </header>
+  <section id="paper-computer">
+    <h2>Computers</h2>
+    <p class="paper-blurb">Repairs, tune-ups, custom builds, networking, and one-on-one support.</p>
+    <p class="paper-fit"><b>Where:</b> Drop-off, on-site, or remote &nbsp;·&nbsp; <b>Turnaround:</b> Confirmed before I start</p>
+      <article>
+        <h3>Virus &amp; Malware Removal <span class="paper-rate">$75 flat</span></h3>
+        <p>Deep scans that find and remove stubborn viruses, malware, and pop-ups — and then shut the way they got in. Your machine gets its speed back, and your personal files stop being someone else's business.</p>
+        <ul>
+          <li>Deep threat removal</li>
+          <li>Speed restored</li>
+          <li>Security software installed</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Computer Tune-Up <span class="paper-rate">From $50</span></h3>
+        <p>Junk files cleared, startup programs trimmed, drivers brought current, and settings adjusted so the machine stops fighting you. Cheaper than replacing something that was never broken.</p>
+        <ul>
+          <li>Junk software removed</li>
+          <li>Faster startup</li>
+          <li>Critical drivers updated</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Custom Office &amp; Work PCs <span class="paper-rate">Parts + $150</span></h3>
+        <p>Quiet and modest for spreadsheets, or serious horsepower for video and design — specified for the job instead of whatever was on sale that week. Parts chosen to last past the warranty.</p>
+        <ul>
+          <li>Reliable, premium parts</li>
+          <li>Tested for stability</li>
+          <li>Ready for multiple monitors</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Custom Gaming Computers <span class="paper-rate">Parts + $150</span></h3>
+        <p>Tell me the games and the number, and I'll spec the build that gets the most out of it. Assembled clean, stress-tested, and tuned before it leaves the bench.</p>
+        <ul>
+          <li>Tuned for high frame rates</li>
+          <li>Clean cable management</li>
+          <li>Thoroughly stress-tested</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Refurbished Computers <span class="paper-rate">Varies</span></h3>
+        <p>Fully tested, cleaned, and updated machines with a fresh Windows install. Plug it in and get on with your day.</p>
+        <ul>
+          <li>Tested and cleaned</li>
+          <li>Fresh Windows install</li>
+          <li>30-day guarantee</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Computer Parts <span class="paper-rate">Varies</span></h3>
+        <p>Graphics cards, processors, memory, and drives — inspected before they are sold. If an upgrade will not actually help you, I will say so before you spend.</p>
+        <ul>
+          <li>Quality inspected</li>
+          <li>Honest upgrade advice</li>
+          <li>Fair pricing</li>
+        </ul>
+      </article>
+      <article>
+        <h3>General Tech Support <span class="paper-rate">$80/hr</span></h3>
+        <p>Diagnosis first, then a clear plan and a real number. You will know what is wrong and what it costs before anything gets replaced.</p>
+        <ul>
+          <li>Accurate diagnosis</li>
+          <li>Windows error repair</li>
+          <li>Hardware replacement</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Wi-Fi &amp; Internet Setup <span class="paper-rate">From $90</span></h3>
+        <p>Routers set up properly, coverage pushed into the corners of the house, and the network locked down so it stays yours.</p>
+        <ul>
+          <li>Router setup and security</li>
+          <li>Range extended</li>
+          <li>Speed optimized</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Personal Tech Help <span class="paper-rate">$75/hr</span></h3>
+        <p>Setting up a new computer, moving years of photos off the old one, or just learning to use what you already own. No question is too basic here.</p>
+        <ul>
+          <li>Data and photo transfer</li>
+          <li>New device setup</li>
+          <li>Patient 1-on-1 tutoring</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Business IT Services <span class="paper-rate">Monthly</span></h3>
+        <p>Office network managed, employee machines set up the same way every time, data secured and backed up, and someone on call when it matters.</p>
+        <ul>
+          <li>Secure office networks</li>
+          <li>Employee machine setup</li>
+          <li>Priority support</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Sell Your Old Computer <span class="paper-rate">Cash offer</span></h3>
+        <p>Working or not, bring it in for a fair evaluation based on what is actually inside. The drive is wiped for good before anything moves on.</p>
+        <ul>
+          <li>Fair market evaluation</li>
+          <li>Guaranteed data destruction</li>
+          <li>Fast payment</li>
+        </ul>
+      </article>
+      <article>
+        <h3>AI Workflow Setup <span class="paper-rate">Quoted</span></h3>
+        <p>I will find the tasks eating your week, set up tools that handle them, and show you how to drive it. The point is hours back, not a novelty.</p>
+        <ul>
+          <li>Repetitive tasks identified</li>
+          <li>Custom AI tools set up</li>
+          <li>Step-by-step training</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Intro to AI Training <span class="paper-rate">$150/session</span></h3>
+        <p>A hands-on beginner session on using tools like ChatGPT for real work — writing, drafting, brainstorming, and speeding up the parts of your day that drag.</p>
+        <ul>
+          <li>Hands-on guided learning</li>
+          <li>How to write good prompts</li>
+          <li>Take-home cheat sheets</li>
+        </ul>
+      </article>
+  </section>
+  <section id="paper-games">
+    <h2>Video Games</h2>
+    <p class="paper-blurb">Console modding across seventeen platforms, plus handhelds and retro systems.</p>
+    <p class="paper-fit"><b>Where:</b> Drop-off or mail-in &nbsp;·&nbsp; <b>Turnaround:</b> Confirmed before I start</p>
+      <h3 class="paper-group">Game Console Modifications</h3>
+      <p>Custom firmware, storage upgrades, cooling work, and hardware repair across seventeen consoles and handhelds. Pick your platform to see what the work covers and what it costs.</p>
+      <article>
+        <h3>PlayStation 3 <span class="paper-rate">From $60</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications › PlayStation</p>
+        <p>Custom firmware installed, years of dust pulled out of the heatsink, and the storage opened up. An old PS3 that runs hot and loud usually just needs opening.</p>
+        <ul>
+          <li>Custom software install</li>
+          <li>Internal dust cleaning</li>
+          <li>Storage upgrades</li>
+        </ul>
+      </article>
+      <article>
+        <h3>PlayStation 4 <span class="paper-rate">From $50</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>The jet-engine noise is dust and dried thermal paste, not a dying console. Deep clean, fresh paste, and a bigger drive if you want one.</p>
+        <ul>
+          <li>Deep clean (fixes loud fans)</li>
+          <li>Fresh thermal paste</li>
+          <li>Storage upgrades</li>
+        </ul>
+      </article>
+      <article>
+        <h3>PlayStation 5 <span class="paper-rate">From $40</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>An internal SSD fitted and formatted, the dust channels cleared, and custom covers swapped if you would rather it stopped looking like everyone else's.</p>
+        <ul>
+          <li>Extra SSD storage</li>
+          <li>Deep dust cleaning</li>
+          <li>Custom cover swaps</li>
+        </ul>
+      </article>
+      <article>
+        <h3>PlayStation Portable <span class="paper-rate">From $30</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Permanent custom firmware, a microSD adapter so you are not hunting Memory Sticks, and a fresh battery in place of the puffy original.</p>
+        <ul>
+          <li>Permanent custom firmware</li>
+          <li>MicroSD card adapter</li>
+          <li>New battery</li>
+        </ul>
+      </article>
+      <article>
+        <h3>PlayStation Vita <span class="paper-rate">From $45</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Permanent custom firmware and an SD2Vita conversion, so ordinary microSD replaces Sony's expensive cards. Custom apps set up while I am in there.</p>
+        <ul>
+          <li>Permanent custom firmware</li>
+          <li>SD2Vita storage</li>
+          <li>Custom apps</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Nintendo Wii <span class="paper-rate">From $45</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications › Nintendo</p>
+        <p>Homebrew installed so the console runs your own backups off a drive, plus retro emulation set up and organised.</p>
+        <ul>
+          <li>Homebrew software install</li>
+          <li>USB game loading</li>
+          <li>Retro game setup</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Nintendo Wii U <span class="paper-rate">From $55</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>The latest custom firmware, an SD card partitioned properly, and your digital library backed up somewhere you can actually reach it.</p>
+        <ul>
+          <li>Latest custom software</li>
+          <li>SD card configuration</li>
+          <li>Digital game backups</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Nintendo 3DS <span class="paper-rate">From $45</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Custom firmware that survives updates, themes if you want them, and hardware repair for cracked screens and tired hinges.</p>
+        <ul>
+          <li>Permanent custom firmware</li>
+          <li>Custom themes</li>
+          <li>Hardware repairs</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Nintendo DS <span class="paper-rate">From $35</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>A fresh outer shell makes a beaten DS look new. Flash cartridges configured, and broken hinges — the classic DS failure — repaired.</p>
+        <ul>
+          <li>Outer shell replacement</li>
+          <li>Flash cartridge setup</li>
+          <li>Broken hinge repair</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Original Xbox <span class="paper-rate">From $85</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications › Xbox</p>
+        <p>Every original Xbox carries a clock capacitor that eventually leaks and destroys the motherboard. It comes out first. Then a bigger drive and a custom dashboard.</p>
+        <ul>
+          <li>Faulty battery removed</li>
+          <li>Hard drive upgrade</li>
+          <li>Custom menu install</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Xbox 360 <span class="paper-rate">From $75</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Custom software and a dashboard worth looking at, plus a full cooling service on a console famous for cooking itself.</p>
+        <ul>
+          <li>Custom software install</li>
+          <li>Custom dashboard setup</li>
+          <li>Deep cooling clean</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Xbox One <span class="paper-rate">From $65</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>An SSD cuts loading times hard on an Xbox One. Dead disc drives replaced, and the inside cleaned properly while it is open.</p>
+        <ul>
+          <li>Fast SSD storage</li>
+          <li>Disc drive repair</li>
+          <li>Internal cleaning</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Steam Deck <span class="paper-rate">From $50</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications › Handhelds &amp; PCs</p>
+        <p>Internal storage upgraded, and hall-effect sticks fitted so drift stops being a question you have to keep asking. Custom shells if you want one.</p>
+        <ul>
+          <li>Internal storage upgrade</li>
+          <li>Drift-free joysticks</li>
+          <li>Custom shell replacement</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Windows Handhelds <span class="paper-rate">From $60</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Cooling improved, storage upgraded, and the casing replaced if it has taken a knock. Small machines run hot, and that is usually the fixable part.</p>
+        <ul>
+          <li>Improved internal cooling</li>
+          <li>Storage upgrade</li>
+          <li>Casing replacement</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Gaming Computers <span class="paper-rate">Quoted</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>Custom cooling, lighting that is actually synced instead of five apps arguing with each other, and case modification done properly.</p>
+        <ul>
+          <li>Custom cooling install</li>
+          <li>Synced lighting</li>
+          <li>Case modification</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Arcade Cabinets <span class="paper-rate">$85/hr</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications › Arcade</p>
+        <p>Worn joysticks and mushy buttons replaced with parts that feel right, and the internal wiring traced and repaired where it has failed.</p>
+        <ul>
+          <li>Worn joysticks replaced</li>
+          <li>New buttons fitted</li>
+          <li>Internal wiring repair</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Arcade1Up Cabinets <span class="paper-rate">From $120</span></h3>
+        <p class="paper-path">Video Games › Game Console Modifications</p>
+        <p>A proper computer behind the marquee turns a twelve-game cabinet into whatever you want, with premium buttons and a custom marquee to match.</p>
+        <ul>
+          <li>New game computer installed</li>
+          <li>Premium button upgrade</li>
+          <li>Custom marquees</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Handheld PC Optimization <span class="paper-rate">From $60</span></h3>
+        <p>Bloat stripped, a launcher set up so you are not poking at a desktop with your thumbs, and power settings tuned so the battery lasts a session.</p>
+        <ul>
+          <li>Unnecessary software removed</li>
+          <li>Easy game launcher</li>
+          <li>Better battery life</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Custom PC Assembly <span class="paper-rate">Parts + $150</span></h3>
+        <p>Compatibility checked before anything is ordered, assembled with cables you would be happy to show people, and stress-tested before pickup.</p>
+        <ul>
+          <li>Professional assembly</li>
+          <li>Clean cable management</li>
+          <li>Thorough stress testing</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Gaming PC Repair <span class="paper-rate">$80/hr</span></h3>
+        <p>A mid-game shutdown is a symptom, not a diagnosis. I will find the part that is actually failing and get the machine running properly again.</p>
+        <ul>
+          <li>Failing part identified</li>
+          <li>Windows crash repair</li>
+          <li>Replacement parts fitted</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Retro Game Setup <span class="paper-rate">From $75</span></h3>
+        <p>Emulation set up on your PC or console, menus organised so you can actually find anything, and your controllers mapped the way they should be.</p>
+        <ul>
+          <li>Controllers configured</li>
+          <li>Menus organized</li>
+          <li>Tuned for smooth play</li>
+        </ul>
+      </article>
+  </section>
+  <section id="paper-marketing">
+    <h2>Marketing</h2>
+    <p class="paper-blurb">Websites, custom software, SEO, content creation, and social media.</p>
+    <p class="paper-fit"><b>Where:</b> Remote, anywhere &nbsp;·&nbsp; <b>Turnaround:</b> Scoped on the first call</p>
+      <article>
+        <h3>Website Design <span class="paper-rate">From $1,000</span></h3>
+        <p>Built to load quickly and read well on the device most people will actually use, with the path to contacting you or buying from you kept short.</p>
+        <ul>
+          <li>Built for mobile first</li>
+          <li>Fast loading</li>
+          <li>Designed to convert</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Custom Business Software <span class="paper-rate">Quoted</span></h3>
+        <p>Web applications built around your workflow — tracking inventory, managing clients, or automating the thing you currently do by hand every Friday.</p>
+        <ul>
+          <li>Custom web applications</li>
+          <li>Secure database design</li>
+          <li>Connects to other software</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Mobile App Development <span class="paper-rate">Quoted</span></h3>
+        <p>Designed and built to run properly on both platforms, with help getting through App Store and Play Store review instead of stalling at the last step.</p>
+        <ul>
+          <li>Works on Apple and Android</li>
+          <li>App Store publishing help</li>
+          <li>Secure user data</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Search Engine Optimization <span class="paper-rate">From $300/mo</span></h3>
+        <p>The right search terms identified, the technical problems holding your site back fixed, and local ranking worked until you show up where you should.</p>
+        <ul>
+          <li>Search term research</li>
+          <li>Technical fixes</li>
+          <li>Local ranking work</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Content &amp; Graphic Creation <span class="paper-rate">From $75</span></h3>
+        <p>Per-piece work for your site, emails, and social — designed and written to look like it came from a business that knows what it is doing.</p>
+        <ul>
+          <li>Short-form video editing</li>
+          <li>Professional graphics</li>
+          <li>Written copy</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Social Media Management <span class="paper-rate">From $400/mo</span></h3>
+        <p>Content created and scheduled on a real rhythm, comments and messages answered, and a monthly report that tells you honestly whether it is working.</p>
+        <ul>
+          <li>Posts created and scheduled</li>
+          <li>Comments answered</li>
+          <li>Monthly growth reports</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Marketing Strategy Planning <span class="paper-rate">$350 flat</span></h3>
+        <p>A step-by-step plan covering what to post, what to advertise, and where the budget goes — written for your business rather than pulled off a template.</p>
+        <ul>
+          <li>Step-by-step 90-day plan</li>
+          <li>Ad budget planning</li>
+          <li>Launch strategy</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Direct Advertising <span class="paper-rate">Quoted</span></h3>
+        <p>Paid campaigns and landing pages aimed at return on spend rather than impressions. If it is not making money, it gets changed or killed.</p>
+        <ul>
+          <li>Paid campaign management</li>
+          <li>Sales-focused landing pages</li>
+          <li>Measured on return</li>
+        </ul>
+      </article>
+  </section>
+  <section id="paper-other">
+    <h2>Other</h2>
+    <p class="paper-blurb">Smart home installation, data recovery, security checkups, and restoration.</p>
+    <p class="paper-fit"><b>Where:</b> On-site or drop-off &nbsp;·&nbsp; <b>Turnaround:</b> Confirmed before I start</p>
+      <article>
+        <h3>Smart Home Setup <span class="paper-rate">From $150</span></h3>
+        <p>Doorbell cameras, smart locks, and lighting installed and connected so they work together from your phone, instead of four apps that ignore each other.</p>
+        <ul>
+          <li>Security camera install</li>
+          <li>Smart locks and lighting</li>
+          <li>Voice assistant setup</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Data Recovery <span class="paper-rate">From $100</span></h3>
+        <p>Deleted by accident, or trapped in a machine that will not turn on. Specialist tools, careful handling, and a straight answer about what is recoverable.</p>
+        <ul>
+          <li>Deleted file recovery</li>
+          <li>Data pulled from dead machines</li>
+          <li>Secure transfer</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Tech Buying Advice <span class="paper-rate">$50 flat</span></h3>
+        <p>Tell me what you need it to do. I will research the market and come back with the specific laptop, TV, or office kit that fits — and what to skip.</p>
+        <ul>
+          <li>Needs analysed properly</li>
+          <li>Current best prices found</li>
+          <li>Clear shopping list</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Digital Security Checkup <span class="paper-rate">$120 flat</span></h3>
+        <p>A password manager set up and explained, two-step login enabled on your bank and email, and a backup that runs whether you remember it or not.</p>
+        <ul>
+          <li>Password manager setup</li>
+          <li>Two-step login enabled</li>
+          <li>Reliable backup plan</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Retro Tech Restoration <span class="paper-rate">$65/hr</span></h3>
+        <p>Vintage electronics, early computers, and classic consoles taken apart, deep cleaned, de-yellowed, and repaired until they look the way they did new.</p>
+        <ul>
+          <li>Deep internal cleaning</li>
+          <li>Yellowed plastic restored</li>
+          <li>Physical damage repair</li>
+        </ul>
+      </article>
+  </section>
+</div>
+
+<noscript>
+  <!-- The old fallback said "Page Unavailable" and offered an email
+       address. That was the whole catalogue — forty-seven services and
+       every word of copy describing them — declared unavailable to
+       anyone without scripting, and to any crawler that gave up before
+       running it. The catalogue above is the page instead. Nothing is
+       hidden from anyone; the console is simply the better way to read
+       it when the browser can run one. -->
+  <style>.stage { display: none; }</style>
 </noscript>
 <script>
 (() => {
@@ -4120,7 +5771,16 @@ a.row-main:active { transform: scale(.992); }
      Nothing below this block needs to change to re-skin the catalogue.
    ═══════════════════════════════════════════════════════════════════ */
 const CFG = {
-  brand:  { name: 'AD-HAM.COM', model: 'JAYBIRD SOLUTIONS', serial: '0426-B' },
+  brand:  { name: 'AD-HAM.COM', model: 'JAYBIRD SOLUTIONS', serial: '0426-B',
+             /* Cold-start subline only — the plate up top still carries
+                the full company name. The tube gets the one sentence a
+                stranger actually needs in the first two seconds. */
+             tagline: 'ALL YOUR TECH. HANDLED.' },
+  /* ▸ CHECK THIS. The address the site actually lives at, with the
+     trailing slash. It is written into the canonical tag, the link
+     preview card and the vCard, so a wrong value here is wrong in
+     three places at once. */
+  site:   'https://ad-ham.com/',
   home:   {
     /* Who, and where, before what. The panel already tells you it is
        ready — the lamps, the pip and the serial all say so — and the
@@ -4138,6 +5798,8 @@ const CFG = {
 
   /* Strings the engine needs that are not part of a service. */
   ui: {
+    /* Labels over the readout's middle register. */
+    meta: { where: 'Where', turn: 'Turnaround' },
     bankLabel:  'Services',
     openGroup:  'View All Options',
     up:         '◂ Back to',
@@ -4239,6 +5901,14 @@ const CFG = {
     reg:       'REG 0426-B',
     copyLabel:   'Copy',
     copiedLabel: 'Copied',
+    /* A business card that cannot be put in a phone's address book is
+       a poster. The row builds a vCard out of the channels below and
+       hands it straight to the download, so there is nothing to host
+       and nothing to keep in sync. */
+    saveLabel:  'Save Contact',
+    saveValue:  'Add me to your phone',
+    saveAction: 'Save',
+    saveDone:   'Saved',
     /* Shown when the card is opened from a service rather than the
        contact key; also becomes the email subject line. */
     reqLabel: 'Requesting',
@@ -4264,6 +5934,29 @@ const CFG = {
     {
       id: "computer", name: "Computers", lamp: 'var(--lamp-4)',
       blurb: "Repairs, tune-ups, custom builds, networking, and one-on-one support.",
+      /* ▸ THE FIRST THING TO EDIT. Every other string in this file is
+         yours; these four pairs are mine, and the readout prints them
+         in the largest register on the panel.
+
+         They are written so that shipping them unedited promises
+         nothing you then have to keep — "confirmed before I start" is
+         true of any job on any bench. That also makes them the weakest
+         line on the screen. A real number is worth far more than a
+         safe phrase: "most jobs back in 3 days" answers the question a
+         visitor actually has, and nothing else on the page answers it.
+         Ten minutes of your time, and it is the highest-value edit
+         available on this site.
+
+         Any single service can override either half with its own
+         `where:` / `turn:`, and the register picks it up:
+
+             { ref: "CP-02", name: "Computer Tune-Up", rate: "From $50",
+               turn: "Same day in most cases", ... }
+
+         Spanish lives in the ES table at the foot of the file. Change
+         a value here and change it there, or the Spanish side goes on
+         saying the old thing. */
+      fit: { where: "Drop-off, on-site, or remote", turn: "Confirmed before I start" },
       icon: '<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
       items: [
         { ref: "CP-01", alt: "antivirus spyware ransomware popups trojan infected", name: "Virus & Malware Removal", rate: "$75 flat",
@@ -4323,6 +6016,7 @@ const CFG = {
     {
       id: "games", name: "Video Games", lamp: 'var(--lamp-1)',
       blurb: "Console modding across seventeen platforms, plus handhelds and retro systems.",
+      fit: { where: "Drop-off or mail-in", turn: "Confirmed before I start" },
       icon: '<path d="M7 9h10a5 5 0 0 1 4.9 4l.6 3.2A2.5 2.5 0 0 1 20 19c-.9 0-1.5-.4-2-.9l-1.1-1.1a2 2 0 0 0-1.4-.6H8.5a2 2 0 0 0-1.4.6L6 18.1c-.5.5-1.1.9-2 .9a2.5 2.5 0 0 1-2.5-2.8l.6-3.2A5 5 0 0 1 7 9Z"/><path d="M7.5 12v2.2M6.4 13.1h2.2"/><circle cx="16.2" cy="12.4" r=".9"/><circle cx="18.2" cy="14.2" r=".9"/>',
       items: [
         { ref: "VG-00", name: "Game Console Modifications", group: true, countLabel: "platforms",
@@ -4419,6 +6113,7 @@ const CFG = {
     {
       id: "marketing", name: "Marketing", lamp: 'var(--lamp-2)',
       blurb: "Websites, custom software, SEO, content creation, and social media.",
+      fit: { where: "Remote, anywhere", turn: "Scoped on the first call" },
       icon: '<circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 15.5a5 5 0 0 0 0-7"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 18.4a9 9 0 0 0 0-12.8"/>',
       items: [
         { ref: "MK-01", alt: "web site landing page wordpress build", name: "Website Design", rate: "From $1,000",
@@ -4458,6 +6153,7 @@ const CFG = {
     {
       id: "other", name: "Other", lamp: 'var(--lamp-3)',
       blurb: "Smart home installation, data recovery, security checkups, and restoration.",
+      fit: { where: "On-site or drop-off", turn: "Confirmed before I start" },
       icon: '<path d="M3 12.4V5a2 2 0 0 1 2-2h7.4a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8l-7.4 7.4a2 2 0 0 1-2.8 0l-7-7a2 2 0 0 1-.6-1.4Z"/><circle cx="7.8" cy="7.8" r="1.4"/>',
       items: [
         { ref: "OS-01", alt: "alexa google home ring hue automation iot", name: "Smart Home Setup", rate: "From $150",
@@ -4508,6 +6204,7 @@ const phone = () => MQ_PHONE.matches;
 
 const D = {
   console: $('#console'), chassis: $('#chassis'), sheen: $('#sheen'),
+  catId: $('.cat-id'),
   lamps: $('#lamps'), serial: $('#serial'),
   brandName: $('#brand-name'), brandModel: $('#brand-model'),
   home: $('#view-home'), cat: $('#view-cat'),
@@ -4529,6 +6226,10 @@ const D = {
   pager: $('#pager'), pgPrev: $('#pg-prev'), pgNext: $('#pg-next'), pgAt: $('#pg-at'),
   deckHome: $('#deck-home'), deckBank: $('#deck-bank'),
   tuner: $('#tuner'), track: $('#tuner-track'),
+  tMeta: $('#t-meta'),
+  tMetaL1: $('#t-meta-l1'), tMetaV1: $('#t-meta-v1'),
+  tMetaL2: $('#t-meta-l2'), tMetaV2: $('#t-meta-v2'),
+  cardSave: $('#card-save'),
   btnWhy: $('#btn-why'), whyCard: $('#why-card'),
   whyPages: $('#why-pages'), whyTab: $('#why-tab'),
   commit: $('#commit'), commitLabel: $('#commit-label'),
@@ -4697,8 +6398,15 @@ const GLYPHS = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=<>/\\';
 const glyph = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
 const decodes = new Set();
 
-function decode(node, text) {
+function decode(node, text, rate = 1) {
   for (const d of decodes) if (d.node === node) decodes.delete(d);
+  /* The animation below replaces the text with one span per character
+     and cycles random glyphs through them. A screen reader reading
+     that DOM spells the title out letter by letter, and mid-animation
+     it is spelling out nonsense. The plain string on aria-label is
+     what AT gets: a heading with a name, present from the first frame
+     and stable through the whole decode. */
+  node.setAttribute('aria-label', text || '');
   node.textContent = '';
   if (!text) return;
   if (calm()) { node.textContent = text; return; }
@@ -4710,8 +6418,11 @@ function decode(node, text) {
     frag.appendChild(s); spans.push(s);
   }
   node.appendChild(frag);
+  /* rate < 1 is a faster decode — the cold-start branding uses this to
+     land forcefully inside a much shorter window than a hovered title
+     gets. */
   decodes.add({ node, chars, spans, t0: null, at: -1,
-                dur: clamp(220 + chars.length * 20, 260, 760) });
+                dur: clamp((220 + chars.length * 20) * rate, 160, 760) });
   wake();
 }
 
@@ -4810,6 +6521,66 @@ function setAudio(on) {
 
 /* ═══ TUBE EFFECTS ══════════════════════════════════════════════════ */
 
+/* ── Haptics ──────────────────────────────────────────────────────
+   The panel already answers a press three ways — the key travels, the
+   chassis knocks, the tube strikes — and on a phone all three are
+   things you watch rather than feel. A 9ms pulse is the fourth, and
+   the only one that reaches the hand holding the machine. Short
+   enough to read as a key bottoming out rather than a notification.
+
+   One delegated listener rather than a call at every press site: any
+   control on the panel is a control, and a key that buzzes and a key
+   that does not would be a bug in the fiction. Android only — iOS
+   Safari does not implement the Vibration API — and silently absent
+   everywhere else, which is the correct behaviour for a thing nobody
+   asked for. Gated on reduced motion with everything else. */
+function tap(ms = 9) {
+  if (calm() || !navigator.vibrate) return;
+  try { navigator.vibrate(ms); } catch { /* some engines throw on gesture rules */ }
+}
+
+/* ── Shared-element transition ────────────────────────────────────
+   Opening a category used to cross-fade one view for the other, which
+   is the web's answer, not an instrument's. On a machine, the control
+   you pushed IS the mode you are now in — so the key travels up into
+   the category bar and becomes its title, and pressing Esc sends it
+   back to the keypad it came from. One shared element, no more: the
+   rest of the panel is identical either side of the change and the
+   root cross-fade underneath has nothing to say.
+
+   Parks itself entirely where the API is missing or motion is not
+   wanted; the callback still runs, so navigation never depends on
+   the animation being available. */
+const VT_NAME = 'bank-mark';
+function withVT(from, to, fn) {
+  if (calm() || typeof document.startViewTransition !== 'function') { fn(); return; }
+  const clear = () => {
+    [from, to].forEach(el => el && el.style.removeProperty('view-transition-name'));
+    /* fitFace() runs on a rAF inside the callback, which during a view
+       transition fires while the page is still showing snapshots and
+       the real boxes have not settled — so it measured the wrong face
+       and the ladder never engaged. Measured again once the transition
+       has actually finished, which is the first frame the numbers mean
+       anything. */
+    fitFace();
+  };
+  if (from) from.style.setProperty('view-transition-name', VT_NAME);
+  let t;
+  try {
+    t = document.startViewTransition(() => {
+      /* The old snapshot has already been taken by the time this runs,
+         so the name has to be handed over rather than copied — leaving
+         it on `from` puts the same name on two elements in the new
+         state, which the engine rejects and the whole transition is
+         dropped on the floor. */
+      if (from) from.style.removeProperty('view-transition-name');
+      fn();
+      if (to) to.style.setProperty('view-transition-name', VT_NAME);
+    });
+  } catch { clear(); fn(); return; }
+  t.finished.then(clear, clear);
+}
+
 function replay(node, cls) {
   if (!node) return;
   node.classList.remove(cls);
@@ -4866,8 +6637,17 @@ function buildLamps() {
     D.lamps.appendChild(l);
   });
 }
+const lampAt = i => D.lamps.children[i] || null;
 function lampSet(only) {
   [...D.lamps.children].forEach((l, i) => l.classList.toggle('lit', only == null || i === only));
+}
+
+/* The contact key's name, kept with the channels it opens so the two
+   cannot drift apart, and rebuilt by langRender with everything else. */
+function labelContact() {
+  const c = CFG.contact;
+  D.btnContact.setAttribute('aria-label',
+    `${c.headLabel} — ${c.name}. ${c.station}.`);
 }
 
 function buildKeypad() {
@@ -4956,15 +6736,23 @@ function dirRows(b) {
   return out;
 }
 function paintDir(b) {
-  D.heroDirLabel.textContent = b ? CFG.ui.bankLabel : CFG.ui.words.directory;
-  D.heroDirCount.textContent = b ? pad2(b.items.length) : SVC_TOTAL;
+  drawDir(dirRows(b),
+          b ? CFG.ui.bankLabel : CFG.ui.words.directory,
+          b ? pad2(b.items.length) : SVC_TOTAL);
+}
 
-  const rows = dirRows(b);
+/* The drawing half, split out so the finder can hand it a different
+   list. The deciding half is paintDir above and findDir below. */
+function drawDir(rows, label, count) {
+  D.heroDirLabel.textContent = label;
+  D.heroDirCount.textContent = count;
+
   /* Thresholds, not measurements. The tube's height is fixed by the
      chassis and the row counts are fixed by the catalogue, so the mode
      is knowable without touching layout — which keeps this off the
      resize path entirely. */
-  D.heroDir.dataset.dir = rows.length <= 6 ? 's' : rows.length <= 10 ? 'm' : 'l';
+  D.heroDir.dataset.dir =
+    rows.length <= 4 ? 'xs' : rows.length <= 6 ? 's' : rows.length <= 10 ? 'm' : 'l';
 
   const frag = document.createDocumentFragment();
   for (const r of rows) {
@@ -4993,6 +6781,60 @@ function paintDir(b) {
     frag.appendChild(li);
   }
   D.heroDirList.replaceChildren(frag);
+}
+
+/* ── The readout answers the finder ───────────────────────────────
+   Every other control on this panel retargets the tube — hovering a
+   key, opening a bank, walking the list. The finder was the one that
+   did not, so a search for "ssd" put three matches in the well on the
+   left while the largest and brightest surface on the machine went on
+   reporting all forty-seven services and the operator's name. An
+   instrument that contradicts its own input is broken, whatever it
+   looks like. The readout follows the query now: the identity block
+   reports the search, the middle register lists the matches with the
+   path each one came from, and the first stat cell counts them. */
+function setHeroFind(q, hits) {
+  heroAt = undefined;                 /* force a repaint on the way out */
+  const F = CFG.ui.find, T = CFG.home.stats;
+  const found = hits.length > 0;
+
+  D.heroKicker.textContent = F.legend.toUpperCase();
+  D.heroLine.textContent   = q.trim();
+  D.heroNote.textContent   = found ? F.hits(hits.length) : F.noneHead;
+
+  /* A search that finds nothing should not answer with a blank tube.
+     The well on the left already says how to phrase a better query;
+     the readout offers the other way out, which is to stop searching
+     and go and look. Four categories, their counts and their one-line
+     descriptions — the same rows the resting readout draws. */
+  if (found) {
+    drawDir(
+      hits.slice(0, DIR_CAP).map(r => ({
+        name: r.item.name,
+        meta: r.item.rate || '',
+        note: [r.bank.name, r.sec || (r.group && r.group.name)].filter(Boolean).join('  ›  ')
+      })),
+      F.legend, pad2(hits.length));
+  } else {
+    drawDir(
+      CFG.banks.map(b => ({
+        name: b.name,
+        meta: `${services(b)} ${CFG.ui.words.services}`,
+        note: b.blurb
+      })),
+      F.banks, pad2(CFG.banks.length));
+  }
+
+  /* Only the first cell is about the search. The other two are
+     standing figures and stay standing — a query is not a reason to
+     stop telling someone what the cheapest job costs. */
+  D.hsN1.textContent = String(hits.length); D.hsL1.textContent = F.legend;
+  D.hsN2.textContent = entryFrom(null);     D.hsL2.textContent = T.from;
+  D.hsN3.textContent = T.soldN;             D.hsL3.textContent = T.sold;
+
+  lampSet(null);
+  bloom($('.tube-face', D.heroRaster));
+  fitFace();
 }
 
 function setHero(i, force) {
@@ -5180,10 +7022,19 @@ function renderResults(q) {
 
   if (!on) {
     findHits = []; D.findHits.textContent = ''; D.results.textContent = '';
-    S.findPage = 0; deckHome.set(1, 0); return;
+    S.findPage = 0; deckHome.set(1, 0);
+    /* Clearing the field puts the readout back on whatever it was
+       pointed at — a key under the cursor, or the operator card. Not
+       during boot: renderResults('') runs before the cold start, and a
+       forced paint there leaves heroAt already null, so finishBoot's
+       own setHero(null) matches the memo and returns without ever
+       painting over the STARTING UP legend. */
+    if (S.booted && S.bank < 0) setHero(null, true);
+    return;
   }
 
   findHits = search(q);
+  if (S.bank < 0) setHeroFind(q, findHits);
   D.results.textContent = '';
   D.results.scrollTop = 0;
   D.findHits.textContent = findHits.length ? F.hits(findHits.length) : F.noneHead;
@@ -5480,17 +7331,51 @@ function setPager() {
    answer rather than a second one. Measure, and if it does not fit,
    take a documented step down. `break`, not `return`: one face fitting
    says nothing about the other. */
+/* The face is a fixed pane with `overflow: hidden`, so anything that
+   does not fit is not scrolled to — it is gone, silently, with no
+   fade or scrollbar to say so. That was already happening before any
+   of this: at 820px the specs lost two of three lines and the status
+   row went entirely, and it happens again on a short phone. Longer
+   Spanish copy, a larger browser font or a zoomed page all push the
+   same way.
+
+   So the ladder is no longer phone-only, and it has a step at each
+   end. `fit-lean` drops the middle register first, because where and
+   how long is the one thing on this screen that is not the service
+   itself. The two crop steps are the last resort and they take lines
+   off the description, which is the right thing to lose: a reader who
+   sees three specs and a price and one less sentence still has the
+   offer, and a reader whose price row fell off the bottom does not. */
 function fitFace() {
-  if (!phone()) return;
+  const STEPS = ['fit-lean', 'fit-1', 'fit-2', 'fit-3', 'fit-clamp', 'fit-crop', 'fit-scroll'];
   for (const host of [D.raster, D.heroRaster]) {
     const face = host && $('.tube-face', host);
     if (!face) continue;
-    face.classList.remove('fit-1', 'fit-2', 'fit-3');
-    for (const step of ['fit-1', 'fit-2', 'fit-3']) {
+    face.classList.remove(...STEPS);
+    for (const step of STEPS) {
       if (face.scrollHeight <= face.clientHeight + 1) break;
       face.classList.add(step);
     }
   }
+}
+
+/* Where the work happens and how long it takes, in that order — the
+   two questions that arrive the instant after "what is it and what
+   does it cost". A service may answer either one itself; otherwise it
+   inherits its category's. If neither exists the register is not
+   drawn, and the face falls back to the spacing it had before it. */
+function setMeta(it) {
+  const fit = bankAt()?.fit || {};
+  const where = (it && it.where) || fit.where || '';
+  const turn  = (it && it.turn)  || fit.turn  || '';
+  const on = !!(where || turn);
+  D.tMeta.hidden = !on;
+  if (!on) return;
+  const L = CFG.ui.meta;
+  D.tMetaL1.textContent = L.where; D.tMetaV1.textContent = where || '—';
+  D.tMetaL2.textContent = L.turn;  D.tMetaV2.textContent = turn  || '—';
+  D.tMeta.children[0].hidden = !where;
+  D.tMeta.children[1].hidden = !turn;
 }
 
 function paint() {
@@ -5502,6 +7387,7 @@ function paint() {
     decode(D.tTitle, CFG.ui.empty.title);
     setBody(CFG.ui.empty.body);
     setSpecs([]);
+    D.tMeta.hidden = true;
     D.tSeq.textContent = `${CFG.ui.seq} —`;
     setState('idle', CFG.ui.state.idle);
     return;
@@ -5522,6 +7408,7 @@ function paint() {
     setSpecs(it.specs || []);
     D.commitLabel.textContent = CFG.commit;
   }
+  setMeta(it);
   bloom($('.tube-face', D.raster));
   requestAnimationFrame(fitFace);
   say(`${it.name}. ${it.rate ? it.rate + '. ' : ''}${it.group ? it.items.length + ' ' + CFG.ui.words.optionsIn : (it.desc || '')}`);
@@ -5533,7 +7420,23 @@ function showView(v) {
   [D.home, D.cat].forEach(x => x.toggleAttribute('data-active', x === v));
 }
 
-function openBank(i, { focus = true } = {}) {
+/* A view transition defers its callback to the next frame, and three
+   callers do work straight afterwards that depends on the bank being
+   open already: the router setting a folder and an item from the URL,
+   the finder seeking to a result, and the language switch rebuilding
+   in place. Deferring under them reset S.group and S.item after they
+   had been assigned, so a deep link like #games/VG-M15 landed on the
+   folder instead of the Steam Deck inside it.
+
+   So the transition is opt-in and only the two places where a person
+   actually pressed a category key ask for it. Everything else stays
+   synchronous, which is what it always was. */
+function openBank(i, opts = {}) {
+  const b = CFG.banks[i]; if (!b) return;
+  if (!opts.vt) { openBankNow(i, opts); return; }
+  withVT(D.keypad.children[i], D.catId, () => openBankNow(i, opts));
+}
+function openBankNow(i, { focus = true } = {}) {
   S.listPage = 0;
   const b = CFG.banks[i]; if (!b) return;
   S.bank = i; S.group = null; S.item = 0;
@@ -5552,7 +7455,12 @@ function openBank(i, { focus = true } = {}) {
   if (focus && !phone()) requestAnimationFrame(() => $('.chan[data-i]', D.bank)?.focus({ preventScroll: true }));
 }
 
-function goHome({ focus = true } = {}) {
+function goHome(opts = {}) {
+  if (!opts.vt) { goHomeNow(opts); return; }
+  const back = D.keypad.children[clamp(S.bank, 0, D.keypad.children.length - 1)];
+  withVT(D.catId, back, () => goHomeNow(opts));
+}
+function goHomeNow({ focus = true } = {}) {
   const prev = S.bank;
   S.bank = -1; S.group = null; S.item = 0;
   showView(D.home);
@@ -5634,11 +7542,21 @@ addEventListener('hashchange', () => { if (!hashLock) route(); });
 
 /* ═══ INPUT ═════════════════════════════════════════════════════════ */
 
+/* Every press on the panel, in one place — see tap() above for why
+   this is delegated rather than called at each site. Capture phase so
+   a handler that stops propagation cannot swallow the feel of its own
+   key, and passive because it never cancels anything. */
+[D.console, D.card, D.whyCard].forEach(root =>
+  root.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    if (e.target.closest('button, a, .tcard, input')) tap();
+  }, { passive: true, capture: true }));
+
 D.keypad.addEventListener('click', e => {
   const k = e.target.closest('.key'); if (!k) return;
   clack(0.9, 1700, 0.07);
   replay(D.console, 'knock');
-  openBank(+k.dataset.bank);
+  openBank(+k.dataset.bank, { vt: true });
 });
 const aimHero = e => {
   /* Retargeting the readout is a POINTER affordance: you point at a
@@ -5712,7 +7630,7 @@ D.back.addEventListener('click', () => {
     syncBack();
     return;
   }
-  goHome();
+  goHome({ vt: true });
 });
 
 /* ── Swipe the readout to change channel ────────────────────────────
@@ -6133,6 +8051,73 @@ function buildDock() {
   });
 }
 
+/* ── vCard ────────────────────────────────────────────────────────
+   RFC 6350: CRLF line breaks, and comma / semicolon / backslash are
+   structural inside a value so they have to be escaped or the parser
+   reads one field as several. Built from CFG.contact at the moment
+   the button is pressed, which is why there is no copy of the number
+   anywhere in this function. */
+const titly = v => String(v) === String(v).toUpperCase()
+  ? String(v).toLowerCase().replace(/(^|[\s\-/])(\p{L})/gu, (_, a, b) => a + b.toUpperCase())
+  : String(v);
+const vcEsc = v => String(v).replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1').replace(/\r?\n/g, '\\n');
+
+function vcard() {
+  const c = CFG.contact;
+  const bits = c.name.trim().split(/\s+/);
+  const last = bits.length > 1 ? bits.pop() : '';
+  const first = bits.join(' ');
+  const tel = c.channels.find(x => /^tel:/i.test(x.href || ''));
+  const mail = c.channels.find(x => /^mailto:/i.test(x.href || ''));
+  const web = c.channels.filter(x => /^https?:/i.test(x.href || ''));
+  /* Channels with no URL scheme — Discord, Session — are handles, not
+     links. A phone book has nowhere to put those except the note. */
+  const handles = c.channels.filter(x => !x.href).map(x => `${x.label}: ${x.value}`);
+
+  const L = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    `N:${vcEsc(last)};${vcEsc(first)};;;`,
+    `FN:${vcEsc(c.name)}`,
+    /* The panel silkscreens these in caps because that is how a
+       legend is printed. An address book is not a panel — dropped to
+       title case so the entry does not shout in someone's phone. */
+    `ORG:${vcEsc(titly(CFG.brand.model))}`,
+    `TITLE:${vcEsc(titly(c.kicker))}`
+  ];
+  if (tel)  L.push(`TEL;TYPE=CELL,VOICE:${vcEsc(tel.href.replace(/^tel:/i, ''))}`);
+  if (mail) L.push(`EMAIL;TYPE=INTERNET,PREF:${vcEsc(mail.href.replace(/^mailto:/i, ''))}`);
+  L.push(`URL:${vcEsc(CFG.site)}`);
+  web.forEach(x => L.push(`URL:${vcEsc(x.href)}`));
+  L.push(`NOTE:${vcEsc([c.station, ...handles, c.hours].filter(Boolean).join('\n'))}`);
+  L.push(`REV:${new Date().toISOString().replace(/\.\d+Z$/, 'Z')}`);
+  L.push('END:VCARD');
+  return L.join('\r\n') + '\r\n';
+}
+
+function saveVcard(btn) {
+  const c = CFG.contact;
+  let url;
+  try {
+    const blob = new Blob([vcard()], { type: 'text/vcard;charset=utf-8' });
+    url = URL.createObjectURL(blob);
+    const a = mk('a');
+    a.href = url;
+    a.download = c.name.replace(/[^\w]+/g, '-').toLowerCase() + '.vcf';
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch { return; }
+  /* Revoked on the next turn of the loop rather than immediately —
+     Safari has not finished reading the blob when click() returns. */
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  btn.textContent = c.saveDone;
+  btn.dataset.ok = '1';
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => { btn.textContent = c.saveAction; delete btn.dataset.ok; }, 1900);
+  say(`${c.saveDone}. ${c.name}.`);
+}
+
+D.cardSave.addEventListener('click', () => { clack(0.7, 1900, 0.05); saveVcard(D.cardSave); });
+
 function buildCard(req) {
   const c = CFG.contact;
   $('#card-headline').textContent    = c.headLabel;
@@ -6156,6 +8141,12 @@ function buildCard(req) {
 
   buildRows($('#card-primary'), primary, true, subject);
   buildRows($('#card-rest'), rest, false);
+
+  $('#card-save-label').textContent = c.saveLabel;
+  $('#card-save-value').textContent = c.saveValue;
+  D.cardSave.textContent = c.saveAction;
+  D.cardSave.setAttribute('aria-label', `${c.saveLabel} — ${c.name}`);
+  delete D.cardSave.dataset.ok;
 
   const sec = (el, label, on) => { el.textContent = label; el.hidden = !on; };
   sec($('#card-sec-primary'), c.sections.primary, primary.length);
@@ -6257,7 +8248,7 @@ addEventListener('keydown', e => {
   }
 
   if (/^[1-9]$/.test(e.key) && CFG.banks[+e.key - 1]) {
-    e.preventDefault(); clack(0.9, 1700, 0.07); openBank(+e.key - 1); return;
+    e.preventDefault(); clack(0.9, 1700, 0.07); openBank(+e.key - 1, { vt: true }); return;
   }
   if (!D.cat.hasAttribute('data-active')) {
     if (e.key === 'Escape' && D.find.value) { e.preventDefault(); clearFind(); }
@@ -6267,7 +8258,7 @@ addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     e.preventDefault();
     if (phone() && D.cat.dataset.stage === 'detail') { setStage('list'); return; }
-    if (S.group != null) exitGroup(); else goHome();
+    if (S.group != null) exitGroup(); else goHome({ vt: true });
     return;
   }
   const inBank = D.bank.contains(document.activeElement) ||
@@ -6382,6 +8373,23 @@ const ES = {
   'CONTACT CARD': 'TARJETA DE CONTACTO',
   'Copy': 'Copiar',
   'Copied': 'Copiado',
+
+  /* ── Added with the middle register, the direct line and the vCard.
+     The where/turnaround lines are the Spanish side of the `fit`
+     values in CFG.banks. Edit one, edit the other. ─────────────── */
+  'Where': '¿Dónde?',
+  'Turnaround': 'Tiempo de entrega',
+  'Save Contact': 'Guardar contacto',
+  'Add me to your phone': 'Añádeme a tu teléfono',
+  'Save': 'Guardar',
+  'Saved': 'Guardado',
+
+  'Drop-off, on-site, or remote': 'En taller, a domicilio o remoto',
+  'Drop-off or mail-in': 'En taller o por envío',
+  'Remote, anywhere': 'Remoto, desde cualquier lugar',
+  'On-site or drop-off': 'A domicilio o en taller',
+  'Confirmed before I start': 'Confirmado antes de empezar',
+  'Scoped on the first call': 'Definido en la primera llamada',
   'Requesting': 'Solicitando',
   'Service request:': 'Solicitud de servicio:',
   'Direct Contact': 'Contacto directo',
@@ -6884,6 +8892,7 @@ function langWalk(fn) {
   ['svc', 'from', 'sold', 'soldN'].forEach(k => P(H.stats, k));
   P(CFG, 'commit');
   ['bankLabel', 'openGroup', 'up', 'seq', 'serial', 'boot'].forEach(k => P(U, k));
+  ['where', 'turn'].forEach(k => P(U.meta, k));
   Object.keys(U.words).forEach(k => P(U.words, k));
   ['idle', 'busy', 'done'].forEach(k => P(U.state, k));
   ['title', 'body', 'bank'].forEach(k => P(U.empty, k));
@@ -6898,7 +8907,8 @@ function langWalk(fn) {
      keys whose number it can no longer find. */
   U.dock.forEach(d => { P(d, 'label'); P(d, 'use'); });
   ['kicker', 'station', 'hours', 'note', 'headLabel',
-   'copyLabel', 'copiedLabel', 'reqLabel', 'subject'].forEach(k => P(C, k));
+   'copyLabel', 'copiedLabel', 'reqLabel', 'subject',
+   'saveLabel', 'saveValue', 'saveAction', 'saveDone'].forEach(k => P(C, k));
   ['primary', 'handles', 'hours'].forEach(k => P(C.sections, k));
   /* A channel label is copy AND a key — the dock finds its number by
      matching `use` against it. Both sides go through this same table,
@@ -6907,8 +8917,9 @@ function langWalk(fn) {
 
   CFG.banks.forEach(b => {
     P(b, 'name'); P(b, 'blurb');
+    if (b.fit) { P(b.fit, 'where'); P(b.fit, 'turn'); }
     const svc = x => {
-      ['name', 'note', 'desc', 'rate', 'sec', 'countLabel'].forEach(k => P(x, k));
+      ['name', 'note', 'desc', 'rate', 'sec', 'countLabel', 'where', 'turn'].forEach(k => P(x, k));
       A(x, 'specs');
     };
     b.items.forEach(x => { svc(x); if (x.group) x.items.forEach(svc); });
@@ -6978,7 +8989,7 @@ function langRender() {
   buildIndex();
   D.serial.textContent = `${CFG.ui.serial} ${CFG.brand.serial}`;
   D.commitLabel.textContent = CFG.commit;
-  buildKeypad(); buildDock(); buildCard(); buildWhy();
+  buildKeypad(); buildDock(); buildCard(); buildWhy(); labelContact();
   if (D.whyCard.open) layoutDoss(0);
   renderResults(D.find.value);
   syncBack();
@@ -7022,242 +9033,66 @@ function langInit() {
    is the whole difference between an instrument reporting itself and
    an intro animation with numbers painted on it. ═════════════════ */
 
-/* Two acts on one tube. Act one sweeps the self test as a raster.
-   Act two collapses that raster to a line and re-tasks the same beam
-   as an X-Y display to sign the machine. The whole thing still parks
+/* Rapid Hardware Calibration: one tube, four beats, two seconds flat.
+   Strike, dump, sign, degauss — no raster to sit through and no beam
+   plotting a signature stroke by stroke. The whole thing still parks
    on any input, and still runs once a session. */
-const COLD = {
-  fil: 130, open: 760, scanEnd: 1985,   /* act one: power-on self test */
-  collapse: 2085, sigStart: 2265,       /* mode switch: raster -> X-Y  */
-  sigEnd: 3425,                         /* act two: the beam signs it  */
-  deg: 3625, end: 3905, hint: 900
-};
+const COLD = { fil: 100, open: 300, collapse: 800, deg: 1500, end: 2000, hint: 900 };
 let cold = null;
 
-function coldReport() {
-  const COLS = 42;
-  /* Leader dots to a fixed width, so the OK column lines up down the
-     whole report the way a printed test sheet does. */
-  const row = (l, r) => l + ' ' + '.'.repeat(Math.max(2, COLS - l.length - r.length - 2)) + ' ' + r;
-  const chk = (l, v) => row(l, v.padEnd(11) + 'OK');
-  const total = CFG.banks.reduce((n, b) => n + services(b), 0);
-  const platforms = CFG.banks
-    .flatMap(b => b.items)
-    .filter(it => it.group)
-    .reduce((n, g) => n + g.items.length, 0);
+/* ═══ CALIBRATION DUMP ════════════════════════════════════════
+   A calibration this fast does not have time to type a report line by
+   line — it dumps the plate. One pass, full screen, raw hex read back
+   address-led the way a bench reads a chip the instant it powers up.
+   Seeded off the unit's own serial and build commit, so the noise is
+   the same noise every time this machine boots rather than a new
+   picture per visit — a self test, not a screensaver.
+   ══════════════════════════════════════════════════════════ */
+function hexPlate(tctx, W, H, DP) {
+  const fs = Math.max(7.5, Math.min(15, (W / DP) / 74)) * DP;
+  tctx.font = `500 ${fs.toFixed(2)}px "IBM Plex Mono", ui-monospace, monospace`;
+  tctx.textBaseline = 'alphabetic';
+  const chW = tctx.measureText('0').width || fs * 0.6;
+  const rowH = fs * 1.62;
+  const bytesPerRow = Math.max(4, Math.floor((W / chW - 6) / 3));
+  const rows = Math.max(4, Math.ceil(H / rowH) + 1);
 
-  /* A power-on self test, because that is the boot screen anyone who
-     has ever owned a computer already knows how to read: label, leader
-     dots, value, OK. The bench is the machine being tested — silicon,
-     rails, iron and controller ports — which is the honest inventory
-     of what actually gets used on the work this panel sells.
+  /* A small deterministic PRNG so the dump reads as this machine's own
+     memory rather than as decoration — seeded, not styled on. */
+  let seed = 0;
+  for (const c of CFG.brand.serial + CFG.commit) seed = (Math.imul(seed, 33) + c.charCodeAt(0)) >>> 0;
+  const rnd = () => { seed = (Math.imul(seed, 1103515245) + 12345) >>> 0; return (seed >>> 8) / 0xFFFFFF; };
+  const hexByte = () => ((rnd() * 256) | 0).toString(16).toUpperCase().padStart(2, '0');
 
-     Every value stays inside ten characters so the OK column lands in
-     the same place on every row. A test sheet whose pass column
-     wanders is a test sheet nobody trusts. */
-  const L = [
-    { t: CFG.brand.model, hot: true },
-    { t: 'WORKSHOP POWER-ON SELF TEST'.padEnd(COLS - (CFG.ui.serial + ' ' + CFG.brand.serial).length)
-         + CFG.ui.serial.toUpperCase() + ' ' + CFG.brand.serial, dim: true },
-    { t: '' },
-    { t: chk('PROCESSOR', '8C / 16T') },
-    { t: chk('MEMORY', '32768K') },
-    { t: chk('GRAPHICS', '16G VRAM') },
-    { t: chk('STORAGE', 'NVME+SSD') },
-    { t: chk('DISPLAY', 'CRT AMBER') },
-    { t: '' },
-    { t: chk('BENCH POWER', '5V / 12V') },
-    { t: chk('SOLDER STATION', '350 C') },
-    { t: chk('FLASH PROGRAMMER', 'ARMED') },
-    { t: chk('CONTROLLER PORT 1', 'LINKED') },
-    { t: chk('CONTROLLER PORT 2', 'LINKED') },
-    { t: chk('FIRMWARE', 'CFW READY') },
-    { t: '' }
-  ];
-  CFG.banks.forEach((b, i) =>
-    L.push({ t: row(`${CFG.ui.words.bankUp} ${pad2(i + 1)}  ${b.name.toUpperCase()}`, `${pad2(services(b))} CH`), lamp: i }));
-  L.push({ t: '' });
-  L.push({ t: chk('PLATFORMS', `${platforms} TOTAL`) });
-  L.push({ t: chk('SERVICE INDEX', `${total} SVC`) });
-  L.push({ t: row('OWNER', CFG.contact.name.toUpperCase()) });
-  L.push({ t: row('STATION', 'SOUTH FLORIDA + ONLINE') });
-  L.push({ t: '' });
-  L.push({ t: 'READY', hot: true, ready: true });
-  return L;
-}
+  tctx.shadowColor = 'rgba(255,150,52,.9)';
+  for (let r = 0; r < rows; r++) {
+    const addr = ((r * bytesPerRow) & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+    const base = r * rowH + rowH * 0.78;
 
-/* ═══ X-Y VECTOR SIGNATURE ══════════════════════════════════════════
-   A raster sweeps every line whether anything is on it or not. A
-   signature is not a raster, so for act two the yoke is driven
-   directly and the beam is steered along the letterforms themselves —
-   one continuous pass, the way a scope, a Vectrex or an Asteroids
-   cabinet draws.
+    /* The address column is the one thing on the plate anyone actually
+       reads, so it runs hotter than the payload beside it — same rule
+       the old POST used for its OK column. */
+    tctx.shadowBlur = fs * 0.28;
+    tctx.fillStyle = '#fff3dc';
+    tctx.fillText(addr, 0, base);
+    tctx.shadowBlur = 0;
+    tctx.fillText(addr, 0, base);
 
-   Which is exactly why the type here cannot be a font. Outline type
-   has no travel order, and travel order IS the performance: where the
-   beam enters a letter, how long it dwells at a corner, and the faint
-   transit it leaves crossing an unlit gap on the way to the next
-   stroke. So the alphabet below is a stroke font — centre lines only,
-   plotted by hand on a 6 x 10 unit body — and the machine plots the
-   strokes rather than filling shapes. It covers A-Z, 0-9 and enough
-   punctuation to sign any brand string in CFG, so this stays a
-   readout of the machine's own name rather than a picture of it.
-   ═════════════════════════════════════════════════════════════════ */
-
-const STROKES = {
-  A:['0.3,10 3,0 5.7,10','1.28,6.6 4.72,6.6'],
-  B:['0.9,0 0.9,10','0.9,0 4,0 5.3,1.3 5.3,3.6 4,4.9 0.9,4.9','0.9,4.9 4.4,4.9 5.6,6.3 5.6,8.5 4.4,10 0.9,10'],
-  C:['5.5,1.9 4.3,0.4 2.4,0.4 1,1.8 0.5,3.6 0.5,6.4 1,8.2 2.4,9.6 4.3,9.6 5.5,8.1'],
-  D:['0.9,0 0.9,10','0.9,0 3.9,0 5.4,1.9 5.4,8.1 3.9,10 0.9,10'],
-  E:['5.4,0 0.9,0 0.9,10 5.4,10','0.9,4.9 4.4,4.9'],
-  F:['5.4,0 0.9,0 0.9,10','0.9,4.9 4.3,4.9'],
-  G:['5.5,1.9 4.3,0.4 2.4,0.4 1,1.8 0.5,3.6 0.5,6.4 1,8.2 2.4,9.6 4.3,9.6 5.5,8.1 5.5,5.6 3.6,5.6'],
-  H:['0.9,0 0.9,10','5.3,0 5.3,10','0.9,4.9 5.3,4.9'],
-  I:['1.4,0 4.8,0','3.1,0 3.1,10','1.4,10 4.8,10'],
-  J:['2.4,0 5.2,0','4.2,0 4.2,7.4 3.4,9.4 1.8,10 0.5,9.3'],
-  K:['0.9,0 0.9,10','5.4,0 1.2,5.5','2.4,3.9 5.6,10'],
-  L:['1,0 1,10 5.4,10'],
-  M:['0.7,10 0.7,0 3,5.2 5.3,0 5.3,10'],
-  N:['0.9,10 0.9,0 5.3,10 5.3,0'],
-  O:['3,0.3 4.7,1.3 5.4,3.5 5.4,6.5 4.7,8.7 3,9.7 1.3,8.7 0.6,6.5 0.6,3.5 1.3,1.3 3,0.3'],
-  P:['0.9,10 0.9,0 4.3,0 5.5,1.4 5.5,3.9 4.3,5.3 0.9,5.3'],
-  Q:['3,0.3 4.7,1.3 5.4,3.5 5.4,6.5 4.7,8.7 3,9.7 1.3,8.7 0.6,6.5 0.6,3.5 1.3,1.3 3,0.3','3.5,7.4 5.7,10.4'],
-  R:['0.9,10 0.9,0 4.3,0 5.5,1.4 5.5,3.7 4.3,5.1 0.9,5.1','3.5,5.1 5.6,10'],
-  S:['5.4,1.8 4.2,0.4 2.2,0.4 0.9,1.7 0.9,3.4 2,4.5 4.2,5.2 5.4,6.4 5.4,8.3 4.1,9.7 2,9.7 0.7,8.4'],
-  T:['0.4,0 5.6,0','3,0 3,10'],
-  U:['0.9,0 0.9,7 2.2,9.7 3.8,9.7 5.2,7 5.2,0'],
-  V:['0.4,0 3,10 5.6,0'],
-  W:['0.2,0 1.6,10 3,3.6 4.4,10 5.8,0'],
-  X:['0.6,0 5.5,10','5.5,0 0.6,10'],
-  Y:['0.5,0 3,5 5.5,0','3,5 3,10'],
-  Z:['0.6,0 5.5,0 0.6,10 5.5,10'],
-  /* Slashed zero, because every other number on this panel is set in
-     Plex Mono and Plex slashes its zero. */
-  0:['3,0.3 4.7,1.3 5.4,3.5 5.4,6.5 4.7,8.7 3,9.7 1.3,8.7 0.6,6.5 0.6,3.5 1.3,1.3 3,0.3','4.5,2.3 1.5,7.7'],
-  1:['1.3,1.9 3,0.3 3,10','1.4,10 4.6,10'],
-  2:['0.7,2 1.9,0.4 4,0.4 5.4,1.8 5.4,3.6 0.7,10 5.5,10'],
-  3:['0.8,1.6 2.1,0.4 4.2,0.4 5.4,1.7 5.4,3.4 4.1,4.8 2.6,4.8','4.1,4.8 5.5,6.2 5.5,8.4 4.2,9.7 2,9.7 0.7,8.5'],
-  4:['4.4,10 4.4,0 0.5,7.1 5.7,7.1'],
-  5:['5.2,0.4 1.2,0.4 0.9,4.3 2.3,3.6 4,3.7 5.4,5.2 5.4,8.2 4.1,9.7 2,9.7 0.7,8.4'],
-  6:['5,1.2 3.6,0.3 2,0.6 1,2 0.6,5 0.6,7.6 1.7,9.5 3.6,9.8 5,8.8 5.4,7 4.7,5.4 3,4.9 1.3,5.4 0.6,6.6'],
-  7:['0.6,0.4 5.5,0.4 2.4,10'],
-  8:['3,4.8 1.4,3.9 1,2.3 2,0.6 4,0.6 5,2.3 4.6,3.9 3,4.8 1,5.9 0.6,7.9 1.8,9.6 4.2,9.6 5.4,7.9 5,5.9 3,4.8'],
-  9:['1,8.8 2.4,9.7 4,9.4 5,8 5.4,5 5.4,2.4 4.3,0.5 2.4,0.2 1,1.2 0.6,3 1.3,4.6 3,5.1 4.7,4.6 5.4,3.4'],
-  '-':['1.2,5.2 4.8,5.2'],
-  '.':['2.72,9.7 3.28,9.7'],
-  ',':['3.1,9.5 2.5,11.2'],
-  "'":['3,0 3,2.2'],
-  '&':['5.5,10 1.7,5.6 1.1,3.6 1.7,1.1 3.3,0.4 4.6,1.3 4.5,3 1.4,6.2 1,7.9 2,9.6 3.9,9.7 5.5,8.2'],
-  '+':['3,2.4 3,7.6','0.6,5 5.4,5'],
-  '/':['5.2,0 0.8,10'],
-  ':':['3,3.3 3,3.75','3,7.3 3,7.75']
-};
-const VEC_ADV = 6;
-
-/* Glyph units in, canvas points out. An unknown character still
-   advances, so a string this alphabet cannot set opens a gap instead
-   of collapsing the setting. */
-function vecText(txt, s, track) {
-  const strokes = [];
-  let cx = 0;
-  for (const ch of txt.toUpperCase()) {
-    const g = STROKES[ch];
-    if (g) for (const d of g) strokes.push(d.split(' ').map(p => {
-      const c = p.split(',');
-      return [cx + parseFloat(c[0]) * s, parseFloat(c[1]) * s];
-    }));
-    cx += (VEC_ADV + track) * s;
-  }
-  return { strokes, w: Math.max(0, cx - track * s) };
-}
-function vecMove(strokes, dx, dy) {
-  strokes.forEach(st => st.forEach(p => { p[0] += dx; p[1] += dy; }));
-  return strokes;
-}
-
-/* Flatten the drawing into one travel list — every lit segment, plus
-   the unlit transit between strokes — measured end to end. After
-   this, a single number (how far the beam has travelled) describes
-   the entire state of the picture, which is the only reason this can
-   run off one clock and survive being resized mid-draw. */
-function vecPath(strokes) {
-  const segs = [];
-  let len = 0, prev = null;
-  for (const st of strokes) {
-    if (prev) {
-      const d = Math.hypot(st[0][0] - prev[0], st[0][1] - prev[1]);
-      if (d > 0.4) { segs.push({ a: prev, b: st[0], pen: false, s: len, len: d }); len += d; }
+    /* Payload runs quiet by default so the plate reads as depth rather
+       than a wall of identical grey text, with the rare byte struck at
+       full beam — the flicker of an address actually being touched,
+       not a texture painted on top of static data. */
+    for (let b = 0; b < bytesPerRow; b++) {
+      const x = chW * (6 + b * 3);
+      const txt = hexByte();
+      const hot = rnd() < 0.045;
+      tctx.fillStyle = hot ? '#fff9ee' : '#c07d24';
+      tctx.shadowBlur = hot ? fs * 0.34 : fs * 0.16;
+      tctx.fillText(txt, x, base);
+      if (hot) tctx.fillText(txt, x, base);
+      tctx.shadowBlur = 0;
     }
-    for (let i = 1; i < st.length; i++) {
-      const d = Math.hypot(st[i][0] - st[i - 1][0], st[i][1] - st[i - 1][1]);
-      if (d < 0.01) continue;
-      segs.push({ a: st[i - 1], b: st[i], pen: true, s: len, len: d });
-      len += d;
-    }
-    prev = st[st.length - 1];
   }
-  return { segs, len: len || 1 };
-}
-
-function vecStroke(ctx, list, w, col) {
-  if (!list.length) return;
-  ctx.lineWidth = w;
-  ctx.strokeStyle = col;
-  ctx.beginPath();
-  for (const g of list) { ctx.moveTo(g[0], g[1]); ctx.lineTo(g[2], g[3]); }
-  ctx.stroke();
-}
-
-/* One refresh of the display list, which is literally what the real
-   hardware does: re-strike everything drawn so far, every frame, at
-   low energy. Three passes wide-to-narrow give the glow its falloff,
-   and because the passes are additive the bright core of a stroke is
-   simply where all three overlap. Round caps mean a corner gets
-   struck twice and blooms — which is the artefact everyone remembers
-   from a vector cabinet and nobody can name. */
-function vecRefresh(ctx, V, d, k, bw) {
-  const pen = [], transit = [];
-  for (const g of V.segs) {
-    if (g.s >= d) break;
-    const f = Math.min(1, (d - g.s) / g.len);
-    (g.pen ? pen : transit).push([
-      g.a[0], g.a[1],
-      g.a[0] + (g.b[0] - g.a[0]) * f,
-      g.a[1] + (g.b[1] - g.a[1]) * f
-    ]);
-  }
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.globalCompositeOperation = 'lighter';
-  ctx.globalAlpha = 1;
-  vecStroke(ctx, pen, bw * 4.60, `rgba(255,132,28,${(0.040 * k).toFixed(4)})`);
-  vecStroke(ctx, pen, bw * 2.03, `rgba(255,178,71,${(0.040 * k).toFixed(4)})`);
-  vecStroke(ctx, pen, bw * 0.97, `rgba(255,233,198,${(0.028 * k).toFixed(4)})`);
-  /* The jump between two strokes. Blanking is never instant, so it
-     leaves a hairline; keeping it is the difference between a drawing
-     of a wordmark and a machine drawing a wordmark. */
-  vecStroke(ctx, transit, bw * 0.80, `rgba(255,140,44,${(0.010 * k).toFixed(4)})`);
-}
-
-function vecHead(ctx, V, d, bw) {
-  let seg = V.segs[0], f = 0;
-  for (const g of V.segs) {
-    if (d >= g.s && d < g.s + g.len) { seg = g; f = (d - g.s) / g.len; break; }
-  }
-  if (!seg) return;
-  const x = seg.a[0] + (seg.b[0] - seg.a[0]) * f;
-  const y = seg.a[1] + (seg.b[1] - seg.a[1]) * f;
-  const r = bw * 8;
-  const gr = ctx.createRadialGradient(x, y, 0, x, y, r);
-  gr.addColorStop(0.00, 'rgba(255,246,226,.95)');
-  gr.addColorStop(0.30, 'rgba(255,186,86,.34)');
-  gr.addColorStop(1.00, 'rgba(255,140,40,0)');
-  ctx.globalCompositeOperation = 'lighter';
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = gr;
-  ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
-  ctx.fillStyle = 'rgba(255,252,244,.9)';
-  ctx.beginPath(); ctx.arc(x, y, bw * 0.64, 0, 6.2832); ctx.fill();
 }
 
 function coldSupported() {
@@ -7281,12 +9116,17 @@ function coldStart() {
   const raster = mk('div', 'cold-raster');
   const shake  = mk('div', 'cold-shake');
   const cvs    = mk('canvas', 'cold-canvas');
+  const brand  = mk('div', 'cold-brand');
+  const bMark  = mk('div', 'cold-brand-mark');
+  const bRule  = mk('div', 'cold-brand-rule');
+  const bSub   = mk('div', 'cold-brand-sub');
   const flash  = mk('div', 'tube-flash');
   const hint   = mk('div', 'cold-hint',
     matchMedia('(hover: none)').matches ? CFG.ui.words.skipTap : CFG.ui.words.skipKey);
 
   el.setAttribute('aria-hidden', 'true');
-  shake.append(cvs, mk('div', 'cold-fil'), mk('div', 'cold-line'));
+  brand.append(bMark, bRule, bSub);
+  shake.append(cvs, brand, mk('div', 'cold-fil'), mk('div', 'cold-line'));
   raster.appendChild(shake);
   el.append(raster, mk('div', 'tube-sweep'), mk('div', 'tube-glass'), flash, hint);
   D.chassis.insertBefore(el, D.chassis.querySelector('.base'));
@@ -7296,10 +9136,10 @@ function coldStart() {
      is what makes a full-face fill per frame cheap enough to be the
      decay model. */
   const ctx = cvs.getContext('2d', { alpha: false });
-  const lines = coldReport();
 
-  let W = 0, H = 0, DP = 1, lh = 20, rows = [], target = null, tctx = null, degauss = false;
-  let sig = null, sigBeam = 1.6, snap = null, sigOn = false, sigDone = false;
+  let W = 0, H = 0, DP = 1, target = null, tctx = null, degauss = false;
+  let dumped = false, snapped = false;
+  const lampsFired = CFG.banks.map(() => false);
 
   function build() {
     const r = el.getBoundingClientRect();
@@ -7308,82 +9148,10 @@ function coldStart() {
     H = Math.max(2, Math.round(r.height * DP));
     cvs.width = W; cvs.height = H;
 
-    /* Width sets the type size, height sets the leading. A report that
-       fitted the width but not the height left the beam scanning empty
-       space for a third of its travel, which reads as a stall. */
-    const COLS = 42;
-    const fs = Math.max(8.5, Math.min(21, (r.width * 0.9) / COLS / 0.601)) * DP;
-    lh = clamp((H * 0.72) / lines.length, fs * 1.45, fs * 2.7);
-
     if (!target) { target = document.createElement('canvas'); tctx = target.getContext('2d'); }
     target.width = W; target.height = H;
     tctx.clearRect(0, 0, W, H);
-    tctx.font = `500 ${fs.toFixed(2)}px "IBM Plex Mono", ui-monospace, monospace`;
-    tctx.textBaseline = 'alphabetic';
-
-    const chW = tctx.measureText('0').width || fs * 0.6;
-    const x0 = Math.round((W - chW * COLS) / 2);
-    const top = Math.round((H - lines.length * lh) / 2);
-
-    /* The halo is baked into the target rather than blurred per frame.
-       Mono type at 14px is one or two anti-aliased pixels per stroke,
-       and a beam depositing a fraction of that per frame never lifts a
-       half-covered pixel to a readable level — the first build of this
-       scanned beautifully and could not be read. Pre-glowing the plate
-       gives the deposit something with real coverage to work with, and
-       costs one draw instead of sixty. */
-    rows = lines.map((L, i) => {
-      const y0 = top + i * lh;
-      const base = y0 + lh * 0.76;
-      if (L.t) {
-        const col = L.hot ? '#fff3dc' : L.dim ? '#c07d24' : '#ffb347';
-        tctx.fillStyle = col;
-        tctx.shadowColor = 'rgba(255,150,52,.9)';
-        tctx.shadowBlur = fs * 0.3;
-        for (let q = 0; q < 4; q++) tctx.fillText(L.t, x0, base);
-        tctx.shadowBlur = 0;
-        for (let q = 0; q < 3; q++) tctx.fillText(L.t, x0, base);
-        /* The pass state is the only thing anyone scans a test sheet
-           for, so it is the one token drawn at full beam. */
-        const k = L.t.lastIndexOf('OK');
-        if (k > 0) {
-          tctx.fillStyle = '#fff9ee';
-          tctx.fillText('OK', x0 + k * chW, base);
-          tctx.fillText('OK', x0 + k * chW, base);
-        }
-      }
-      return { y: base, top: y0, lamp: L.lamp, ready: !!L.ready, done: false };
-    });
-
-    /* ── Act two geometry ──────────────────────────────────────────
-       The wordmark is set from CFG.brand, never typed in here, for the
-       same reason the report reads its own bank counts: the tube is
-       reporting the machine, not reciting a script. Tracking is wide
-       because a stroke face has no weight to hold a tight fit, and a
-       beam that has to double back through a neighbour reads as a
-       mistake rather than as letterspacing. */
-    const sTrack = 1.9;
-    const sMark = CFG.brand.model, sSub = CFG.brand.name;
-    let sU = (W * 0.80) / Math.max(1, sMark.length * (VEC_ADV + sTrack) - sTrack);
-    sU = Math.min(sU, H / 26);   /* on a short viewport height binds, not width */
-    const sV = sU * 0.44;
-    const vMark = vecText(sMark, sU, sTrack);
-    const vSub  = vecText(sSub, sV, sTrack * 1.6);
-    const sCap = sU * 10, sGap = sU * 3.1;
-    const sTop = Math.round((H - (sCap + sGap + sV * 10)) / 2);
-    const sX = Math.round((W - vMark.w) / 2);
-    vecMove(vMark.strokes, sX, sTop);
-    vecMove(vSub.strokes, Math.round((W - vSub.w) / 2), sTop + sCap + sGap);
-    /* The rule sits between the two lines but is struck LAST, so the
-       final thing the beam does is underline the name in one sweep. */
-    /* Beam width follows the letterform, not the display. Pinned to
-       device pixels instead, a phone gets the same 8px halo over a
-       21px cap height that a desktop gets over 37px, and the counters
-       in B, R and 8 fill in. The floor keeps it above one real pixel. */
-    sigBeam = Math.max(DP * 0.8, sU * 0.30);
-    const sRuleY = Math.round(sTop + sCap + sGap * 0.52);
-    sig = vecPath([...vMark.strokes, ...vSub.strokes,
-                   [[sX, sRuleY], [sX + vMark.w, sRuleY]]]);
+    hexPlate(tctx, W, H, DP);
 
     ctx.fillStyle = '#070502';
     ctx.fillRect(0, 0, W, H);
@@ -7393,7 +9161,6 @@ function coldStart() {
   const onResize = () => { if (cold) build(); };
   addEventListener('resize', onResize, { passive: true });
 
-  const ready = rows.find(r => r.ready);
   let t0 = 0;
 
   function frame(t) {
@@ -7410,166 +9177,107 @@ function coldStart() {
       return;
     }
 
+    /* ── ACT ONE: THE DUMP ────────────────────────────────────────
+       No scan to sit through. A rapid calibration strikes the plate
+       whole, the instant vertical deflection opens, and lets the
+       channel lamps land in a quick stagger right behind it — a POST
+       at the rate hardware actually runs one, not the rate a person
+       can watch it happen. */
     if (e >= COLD.open && e < COLD.collapse) {
-      /* Slow first field. A real tube reaches rate too fast to watch,
-         so this one is deliberately under rate for its first frame —
-         which is the only honest way to SHOW a raster being written. */
-      const p = clamp((e - COLD.open) / (COLD.scanEnd - COLD.open), 0, 1);
-      const y = (H + lh * 2) * (1 - Math.pow(1 - p, 1.35)) - lh;
-      const yn = clamp(y, 0, H);
-
-      /* Decay pulls the whole face toward black; the maintenance pass
-         puts back slightly more than was lost, so the scanned region
-         settles at a steady readable level instead of either fading
-         out or blowing up. The ratio between these two numbers is the
-         only thing controlling how long the trail behind the beam is,
-         and it was worth measuring rather than guessing. */
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = 'rgba(7,5,2,.16)';
-      ctx.fillRect(0, 0, W, H);
-
-      ctx.globalCompositeOperation = 'lighter';
-      if (yn > 1) {
-        ctx.globalAlpha = 0.2;
-        ctx.drawImage(target, 0, 0, W, yn, 0, 0, W, yn);
-      }
-
-      if (p < 1) {
-        const hb = Math.max(2, lh * 0.95);
-        const hy = Math.max(0, yn - hb);
-        const hh = Math.min(hb, H - hy);
-        if (hh > 0) {
-          /* The head deposits far more than the maintenance pass, so
-             the rows just behind the beam are hot and decay into the
-             steady level — that gradient IS the persistence trail. */
-          ctx.globalAlpha = 0.55;
-          ctx.drawImage(target, 0, hy, W, hh, 0, hy, W, hh);
-        }
-        const g = ctx.createLinearGradient(0, yn - hb, 0, yn + hb * 0.4);
-        g.addColorStop(0.00, 'rgba(255,140,40,0)');
-        g.addColorStop(0.66, 'rgba(255,178,78,.2)');
-        g.addColorStop(0.93, 'rgba(255,236,204,.62)');
-        g.addColorStop(1.00, 'rgba(255,150,50,0)');
+      if (!dumped) {
+        dumped = true;
+        ctx.globalCompositeOperation = 'source-over';
         ctx.globalAlpha = 1;
-        ctx.fillStyle = g;
-        ctx.fillRect(0, yn - hb, W, hb * 1.4);
-        ctx.fillStyle = 'rgba(255,250,238,.95)';
-        /* Sub-pixel deflection noise: without it the beam is a ruler,
-           and a ruler is the one thing a deflection yoke is not. */
-        ctx.fillRect((Math.random() - 0.5) * 0.9 * DP, yn - DP, W, 1.7 * DP);
-
-        rows.forEach(r => {
-          if (r.lamp == null || r.done || yn < r.y) return;
-          r.done = true;
-          D.lamps.children[r.lamp]?.classList.add('lit');
-          clack(0.38, 2400 + r.lamp * 130, 0.03);
-        });
-      } else if (ready) {
-        /* READY is the one line that keeps being re-struck, so it is
-           the one line that pulses. */
-        ctx.globalAlpha = 0.22 + 0.42 * (Math.sin((e - COLD.scanEnd) / 108) * 0.5 + 0.5);
-        ctx.drawImage(target, 0, ready.top, W, lh, 0, ready.top, W, lh);
+        ctx.fillStyle = '#070502';
+        ctx.fillRect(0, 0, W, H);
+        clack(0.5, 2100, 0.035);
       }
+
+      /* Re-struck every frame rather than painted once, so the plate
+         breathes at phosphor rate instead of sitting there like a
+         screenshot. */
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = 'rgba(7,5,2,.45)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = 0.82 + Math.random() * 0.14;
+      ctx.drawImage(target, 0, 0, W, H);
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-over';
+
+      CFG.banks.forEach((_, i) => {
+        const at = COLD.open + 30 + i * 32;
+        if (e >= at && !lampsFired[i]) {
+          lampsFired[i] = true;
+          lampAt(i)?.classList.add('lit');
+          clack(0.36, 2500 + i * 130, 0.025);
+        }
+      });
     }
 
-    /* ── MODE SWITCH ────────────────────────────────────────────────
-       The report does not fade out; it gets switched off, which on a
-       tube means vertical deflection stops and the whole field folds
-       into one over-driven line. Everything that was on screen is
-       still there — it is just being delivered into a fraction of the
-       area, so it goes white before it goes away. The frame is
-       photographed once and then squeezed, because squeezing a still
-       is what the hardware is doing too. */
-    else if (e >= COLD.collapse && e < COLD.sigStart) {
-      if (!snap) {
-        snap = document.createElement('canvas');
-        snap.width = W; snap.height = H;
-        snap.getContext('2d').drawImage(cvs, 0, 0);
-        clack(0.55, 1250, 0.06);
+    /* ── MODE SWITCH + SIGNATURE ────────────────────────────────────
+       The plate does not fade — it is switched off, which on a tube
+       means vertical deflection stops and the whole field folds into
+       one over-driven line. The panel's own wordmark lands in the same
+       beat, resolved by the same character-scramble decode the rest
+       of the console uses, running fast enough to land forcefully
+       before the degauss takes the sequence out. */
+    else if (e >= COLD.collapse && e < COLD.deg) {
+      if (!snapped) {
+        snapped = true;
+        clack(0.55, 1300, 0.055);
+        el.setAttribute('data-brand', '');
+        /* The mark is the domain, not the company name — this is the
+           one thing a stranger needs to remember, so it is the one
+           thing the tube signs. The line under it is the pitch, not a
+           second name. */
+        decode(bMark, CFG.brand.name,    0.5);
+        decode(bSub,  CFG.brand.tagline, 0.55);
       }
-      const q = clamp((e - COLD.collapse) / (COLD.sigStart - COLD.collapse), 0, 1);
+
+      const SNAP = 160;
+      const q = clamp((e - COLD.collapse) / SNAP, 0, 1);
       ctx.globalCompositeOperation = 'source-over';
       ctx.globalAlpha = 1;
       ctx.fillStyle = '#070502';
       ctx.fillRect(0, 0, W, H);
 
-      const hh = Math.max(1, H * Math.pow(1 - q, 1.9));
-      const sw = W * (1 + q * 0.055);          /* charge has to go somewhere: it goes sideways */
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.globalAlpha = Math.min(1, 0.6 + q * 1.1);
-      ctx.drawImage(snap, (W - sw) / 2, (H - hh) / 2, sw, hh);
-
-      ctx.globalAlpha = 1;
-      const band = Math.max(1.4 * DP, hh * 0.5);
-      const gl = ctx.createLinearGradient(0, H / 2 - band * 3, 0, H / 2 + band * 3);
-      gl.addColorStop(0.0, 'rgba(255,150,50,0)');
-      gl.addColorStop(0.5, `rgba(255,240,214,${(0.3 + 0.6 * q).toFixed(3)})`);
-      gl.addColorStop(1.0, 'rgba(255,150,50,0)');
-      ctx.fillStyle = gl;
-      ctx.fillRect(0, H / 2 - band * 3, W, band * 6);
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    /* ── ACT TWO: THE BEAM SIGNS IT ────────────────────────────────
-       Same tube, same phosphor, no raster. The beam leaves the
-       collapsed line and is steered straight along the letterforms.
-       Decay runs every frame and the drawn path is re-struck every
-       frame, so the picture is never stored anywhere — it is held up
-       by being redrawn, exactly like the real thing, and the trail
-       behind the head is that balance losing for a moment. */
-    else if (e >= COLD.sigStart) {
-      if (!sigOn) {
-        sigOn = true;
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = '#070502';
-        ctx.fillRect(0, 0, W, H);
-      }
-
-      const p = clamp((e - COLD.sigStart) / (COLD.sigEnd - COLD.sigStart), 0, 1);
-      /* Under rate at the start and above it by the last stroke: a
-         deflection yoke has mass, and pretending otherwise is the
-         tell that gives away an animation pretending to be a beam.
-         It must NOT ease out — a beam that decelerates into its final
-         point parks there for six frames and burns a blob. */
-      const travel = sig.len * p * (0.55 + 0.45 * p);
-
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = 'rgba(7,5,2,.17)';
-      ctx.fillRect(0, 0, W, H);
-
-      /* What is left of the collapsed line, dumping over the first
-         two frames of travel — the seam between the two acts. */
-      const seam = e - COLD.sigStart;
-      if (seam < 170) {
-        const v = 1 - seam / 170;
-        const lw = W * (0.14 + 0.86 * v);
+      if (q < 1) {
+        const hh = Math.max(1, H * Math.pow(1 - q, 1.9));
+        const sw = W * (1 + q * 0.06);          /* charge has to go somewhere: it goes sideways */
         ctx.globalCompositeOperation = 'lighter';
-        ctx.fillStyle = `rgba(255,236,206,${(v * v * 0.5).toFixed(3)})`;
-        ctx.fillRect((W - lw) / 2, H / 2 - DP * 0.9, lw, DP * 1.8);
+        ctx.globalAlpha = Math.min(1, 0.55 + q * 1.2);
+        ctx.drawImage(target, 0, 0, W, H, (W - sw) / 2, (H - hh) / 2, sw, hh);
+
+        ctx.globalAlpha = 1;
+        const band = Math.max(1.4 * DP, hh * 0.5);
+        const gl = ctx.createLinearGradient(0, H / 2 - band * 3, 0, H / 2 + band * 3);
+        gl.addColorStop(0.0, 'rgba(255,150,50,0)');
+        gl.addColorStop(0.5, `rgba(255,246,224,${(0.36 + 0.62 * q).toFixed(3)})`);
+        gl.addColorStop(1.0, 'rgba(255,150,50,0)');
+        ctx.fillStyle = gl;
+        ctx.fillRect(0, H / 2 - band * 3, W, band * 6);
+
+        /* One extra flare right as the line snaps thinnest — the pop a
+           tube gives when the last of the field's charge dumps into
+           the line instead of bleeding off gradually. */
+        if (q > 0.62) {
+          const pop = 1 - Math.abs(q - 0.62) / 0.38;
+          ctx.globalAlpha = Math.max(0, pop) * 0.5;
+          ctx.fillStyle = '#fff9ee';
+          ctx.fillRect(0, H / 2 - band * 0.9, W, band * 1.8);
+          ctx.globalAlpha = 1;
+        }
       }
-
-      /* Deflection is analogue and the field breathes by a fraction
-         of a pixel. Without this the mark is vinyl lettering. */
-      ctx.save();
-      ctx.translate((Math.random() - 0.5) * 0.7 * DP, (Math.random() - 0.5) * 0.5 * DP);
-      /* One re-strike above rate as the last stroke lands: the charge
-         the supply dumps the instant the beam stops moving. */
-      const k = p < 1 ? 1 : 1 + 1.6 * Math.exp(-(e - COLD.sigEnd) / 130);
-      vecRefresh(ctx, sig, travel, k, sigBeam);
-      if (p < 1) vecHead(ctx, sig, travel, sigBeam);
-      ctx.restore();
-
-      ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-over';
-
-      if (p >= 1 && !sigDone) { sigDone = true; clack(0.5, 1750, 0.05); }
+      ctx.globalAlpha = 1;
     }
 
+    /* ── DEGAUSS ──────────────────────────────────────────────────
+       Same beat as before: gain blooms, the chassis shudders, and the
+       whole plate — dump, line and wordmark alike, since they all live
+       on .cold-shake — dissolves together into the live console. */
     if (e >= COLD.deg) {
       if (!degauss) {
         degauss = true;
@@ -7599,7 +9307,10 @@ function finishBoot() {
   S.booted = true;
   D.chassis.removeAttribute('data-boot');
   lampSet(null);
-  setHero(null);
+  /* Forced: the boot sequence wrote the STARTING UP legend straight
+     into the readout's nodes behind setHero's back, so the memo says
+     the tube is already showing the resting card when it is not. */
+  setHero(null, true);
   strike(D.heroRaster, D.heroFlash);
   route();
   scheduleSlip();
@@ -7613,7 +9324,7 @@ function boot() {
   D.brandModel.textContent = CFG.brand.model;
   D.serial.textContent     = `${CFG.ui.serial} ${CFG.brand.serial}`;
   D.commitLabel.textContent = CFG.commit;
-  buildLamps(); buildKeypad(); buildDock(); buildCard(); buildWhy(); startFlare();
+  buildLamps(); buildKeypad(); buildDock(); buildCard(); buildWhy(); labelContact(); startFlare();
   renderResults('');
   deckHome.set(1, 0); deckBank.set(1, 0);
 
@@ -7624,7 +9335,7 @@ function boot() {
   D.heroLine.textContent = '\u00A0';
   D.heroNote.textContent = '\u00A0';
 
-  /* Once per session. The full power-on is worth its four seconds
+  /* Once per session. The full power-on is worth its two seconds
      the first time somebody meets the machine; it is worth
      none of them on the fourth page view, and a sequence you cannot
      get past is just a toll. Storage is wrapped because a file:// or
@@ -7633,14 +9344,14 @@ function boot() {
   try {
     seen = sessionStorage.getItem('jb-cold-2') === '1';
     sessionStorage.setItem('jb-cold-2', '1');
-  } catch { /* no storage: play it, it is only 2.5s */ }
+  } catch { /* no storage: play it, it is only two seconds */ }
 
   if (!seen && coldSupported()) { coldStart(); return; }
 
   const at = (ms, fn) => bootTimers.push(setTimeout(fn, ms));
   CFG.banks.forEach((_, i) =>
     at(140 + i * 110, () => {
-      D.lamps.children[i]?.classList.add('lit');
+      lampAt(i)?.classList.add('lit');
       clack(0.4, 2600, 0.03);
     }));
   at(560, () => { D.heroKicker.textContent = CFG.home.kicker; });
