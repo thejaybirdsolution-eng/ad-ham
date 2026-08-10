@@ -1212,7 +1212,13 @@ html.js #paper { display: none; }
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: var(--rail) 1fr auto;
+  /* Four rows, not three: the deck rail sits between the bay and
+     the base. It is `hidden` until a playlist is chosen, and a
+     display:none child is not placed at all — so with the deck shut
+     the base falls back into row three and row four collapses to
+     nothing. The layout is identical to what it was before it had
+     somewhere to put a tape deck. */
+  grid-template-rows: var(--rail) 1fr auto auto;
   border-radius: 22px;
   isolation: isolate;
   overflow: hidden;
@@ -4934,6 +4940,355 @@ a.row-main:active { transform: scale(.992); }
     0 0 18px 3px color-mix(in srgb, var(--c) 45%, transparent);
 }
 .tube-specs[hidden] { display: none; }
+
+/* ═══ MUSIC ═════════════════════════════════════════════════════════
+   A tape deck bolted under the screen.
+
+   The base rail already carried one audio control — the switch that
+   turns the console's own noises on — so a second one had to be a
+   different KIND of object, or the rail would read as two switches
+   doing the same job. This one is a key, and what it opens is a
+   library. What the library opens is a drawer: a rail that does not
+   exist until there is something in it, and that borrows its height
+   from the readout above rather than from the keys, which are the
+   things a visitor actually came here to press.
+
+   The monitor in the drawer is small, and it is real. Playback comes
+   from YouTube's own player, and a player nobody can see is both
+   against the terms it is served under and the first thing to break
+   the day a browser decides an invisible iframe is not worth keeping
+   alive. So it is 88px of glass wearing the console's own scanlines,
+   which is roughly the size a confidence monitor is on a real desk
+   anyway. ═══════════════════════════════════════════════════════ */
+
+/* ── The key ───────────────────────────────────────────────────────
+   Recessed like the switches beside it — same well, same silkscreen —
+   but with a lamp instead of a track, because it has three states the
+   switches do not: shut, loaded, and running. */
+.mus-key {
+  display: inline-flex; align-items: center; gap: 8px;
+  flex: 0 0 auto;
+  padding: 4px 11px 4px 9px;
+  border-radius: 20px;
+  font: inherit;
+  font-size: .58rem; font-weight: 600; letter-spacing: .16em; line-height: 1;
+  color: var(--ink-70);
+  background: rgba(34,37,31,.08);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.16);
+  transition: color var(--t-quick) linear,
+              background var(--t-quick) linear,
+              box-shadow var(--t-quick) linear;
+}
+.mus-key .lamp { width: 8px; height: 8px; flex: 0 0 auto; }
+.mus-key-ico { width: 15px; height: 15px; flex: 0 0 auto; }
+.mus-key-label { text-shadow: 0 1px 0 var(--etch); margin-right: -.16em; }
+.mus-key[data-live] {
+  color: var(--ink);
+  background: rgba(240,165,42,.14);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.14),
+              inset 0 0 0 1px rgba(240,165,42,.45),
+              0 0 9px -3px rgba(240,165,42,.7);
+}
+
+/* ── The drawer ────────────────────────────────────────────────────
+   Its own rail between the bay and the base, so it pushes the console
+   up rather than covering the bottom of it — the commit key and the
+   contact key both live down there and neither may be sat on. */
+.deck-bar {
+  position: relative;
+  z-index: 3;
+  display: flex; align-items: center;
+  gap: clamp(9px, 1.4vw, 14px);
+  padding: 9px clamp(30px, 3.4vw, 40px) 10px;
+  border-top: 1px solid var(--ink-15);
+  background: linear-gradient(180deg, rgba(0,0,0,.055), transparent 58%);
+  box-shadow: 0 -1px 0 rgba(255,255,255,.7);
+}
+/* display:flex outranks the attribute, so it has to be said. */
+.deck-bar[hidden] { display: none; }
+
+/* ── Confidence monitor ───────────────────────────────────────────── */
+.mus-screen {
+  position: relative;
+  flex: 0 0 auto;
+  width: 88px; height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: radial-gradient(120% 150% at 50% 0%, #1d1509, var(--tube) 60%, var(--tube-deep));
+  box-shadow:
+    inset 0 0 0 1px #000,
+    inset 0 2px 8px rgba(0,0,0,.85),
+    0 1px 0 rgba(255,255,255,.75),
+    0 0 0 1px rgba(0,0,0,.28);
+}
+/* The API replaces this node with the iframe and keeps its id, so one
+   rule dresses both the placeholder and the player. */
+#mus-yt {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+/* The full tube vignette is 46px of inset shadow, which on 50px of
+   glass is not a vignette, it is a lid. Pulled back, same as the
+   contact card pulls it back for its own smaller screen. */
+.mus-screen .tube-glass::before {
+  background: radial-gradient(120% 132% at 50% 46%,
+    transparent 44%, rgba(0,0,0,.26) 86%, rgba(0,0,0,.6) 100%);
+  box-shadow: inset 0 0 12px rgba(0,0,0,.65);
+}
+.mus-screen .tube-glass::after { opacity: .55; }
+
+/* ── Readout ───────────────────────────────────────────────────────
+   Phosphor, because it is reporting rather than labelling — the same
+   division of materials the rest of the panel keeps to. */
+.mus-now {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid; gap: 3px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--face-data);
+  background: linear-gradient(180deg, #100c06, var(--tube-deep));
+  box-shadow:
+    inset 0 0 0 1px #000,
+    inset 0 2px 7px rgba(0,0,0,.8),
+    0 1px 0 rgba(255,255,255,.7);
+}
+.mus-now-head {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .5rem; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--p-mid);
+}
+.mus-now-src { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mus-now-at {
+  margin-left: auto; padding-left: 8px;
+  letter-spacing: .14em;
+  font-variant-numeric: tabular-nums slashed-zero;
+  color: var(--p-dim);
+}
+.mus-now-win { overflow: hidden; }
+.mus-now-t {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: .74rem; line-height: 1.25;
+  color: var(--p-hot);
+  text-shadow: 0 0 6px rgba(255,179,71,.32);
+}
+/* A title longer than its window rolls, once the browser has told us
+   by how much — the distance is written to --roll from JS, so nothing
+   scrolls that fits and nothing over-scrolls that does not. */
+.mus-now-t.is-long { animation: musRoll 15s var(--ease-io) infinite alternate; }
+@keyframes musRoll {
+  0%, 12%   { transform: none; }
+  88%, 100% { transform: translateX(var(--roll, 0px)); }
+}
+
+/* ── Transport ─────────────────────────────────────────────────────
+   Raised keys, like the dock and the close key: everything on this
+   panel you press is a key, and everything that reports is glass. */
+.mus-keys { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; }
+.mus-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;
+  width: 38px; height: 34px;
+  border-radius: 8px;
+  color: var(--ink);
+  background: linear-gradient(177deg, #fbfcf8 0%, var(--mag) 68%, var(--mag-mid) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 2px 0 var(--mag-lo),
+    0 3px 0 rgba(0,0,0,.2),
+    0 4px 9px rgba(0,0,0,.16);
+  transition: transform var(--t-tap) var(--ease-mech),
+              box-shadow var(--t-tap) var(--ease-mech),
+              opacity var(--t-quick) linear;
+}
+.mus-btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.24), 0 0 0 var(--mag-lo), 0 1px 2px rgba(0,0,0,.2);
+}
+.mus-btn svg { width: 15px; height: 15px; }
+.mus-btn.is-play { width: 46px; }
+.mus-btn.is-play svg { width: 17px; height: 17px; }
+/* A skip key with nowhere to skip to is still a key — it just says so
+   rather than going quiet and leaving you to work out why. */
+.mus-btn[disabled] {
+  cursor: default;
+  opacity: .38;
+  transform: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+}
+.mus-play-pause .ico-pause { display: none; }
+.mus-btn[data-playing] .ico-play { display: none; }
+.mus-btn[data-playing] .ico-pause { display: block; }
+
+/* ── Level ─────────────────────────────────────────────────────────
+   A real slider rather than a row of preset steps: it is the one
+   control here where the answer is not a state but an amount. */
+.mus-vol { display: flex; align-items: center; gap: 8px; flex: 0 1 156px; min-width: 92px; }
+.mus-mute { width: 30px; height: 30px; border-radius: 7px; color: var(--ink-70); }
+.mus-mute svg { width: 17px; height: 17px; }
+.mus-mute:hover { color: var(--ink); }
+.mus-mute .ico-mute { display: none; }
+.mus-mute[data-muted] { color: var(--ink-45); }
+.mus-mute[data-muted] .ico-wave { display: none; }
+.mus-mute[data-muted] .ico-mute { display: block; }
+
+.mus-range {
+  -webkit-appearance: none; appearance: none;
+  flex: 1 1 auto; min-width: 0;
+  height: 15px;
+  background: none;
+  cursor: pointer;
+}
+.mus-range::-webkit-slider-runnable-track {
+  height: 7px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, var(--mag-lo), var(--mag-mid));
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.45);
+}
+.mus-range::-moz-range-track {
+  height: 7px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, var(--mag-lo), var(--mag-mid));
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.45);
+}
+.mus-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 15px; height: 15px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, var(--mag));
+  box-shadow: 0 1px 2px rgba(0,0,0,.45), inset 0 -1px 1px rgba(0,0,0,.16);
+}
+.mus-range::-moz-range-thumb {
+  width: 15px; height: 15px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, var(--mag));
+  box-shadow: 0 1px 2px rgba(0,0,0,.45), inset 0 -1px 1px rgba(0,0,0,.16);
+}
+.mus-range:disabled { opacity: .45; cursor: default; }
+
+/* Eject sits apart from the transport: it does not change what is
+   playing, it puts the drawer away. */
+.mus-eject { margin-left: 2px; }
+
+/* ── The library ───────────────────────────────────────────────────
+   Same plate as the contact card — same bezel, same glass, same
+   strike on open — because it is the same kind of object: a sheet the
+   panel hands you, not a modal a website throws. */
+/* The chip is wider than the copy chips it borrows from — it carries a
+   word and an arrow rather than one word — so the row body is cut back
+   to match rather than being left to run underneath it. */
+.mus-row .row-main { padding-right: 100px; width: 100%; text-align: left; }
+.mus-idx {
+  font-family: var(--face-data);
+  font-size: .62rem; font-weight: 600; letter-spacing: .1em;
+  color: var(--p-dim);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+.row.is-live .row-icon,
+.row.is-live .row-value { color: var(--p-hot); }
+.row.is-live {
+  background: rgba(255,179,71,.13);
+  box-shadow: inset 0 0 0 1px rgba(255,179,71,.42);
+}
+.mus-out { gap: 5px; padding: 0 10px; text-decoration: none; }
+.mus-out svg { width: 11px; height: 11px; }
+.mus-note { margin-top: 16px; font-size: .62rem; line-height: 1.5; color: var(--p-mid); }
+.mus-fail {
+  margin-top: 14px; padding: 11px 13px;
+  border-radius: 10px;
+  font-size: .68rem; line-height: 1.45;
+  color: var(--p-hot);
+  background: rgba(224,72,58,.12);
+  box-shadow: inset 0 0 0 1px rgba(224,72,58,.4);
+}
+.mus-fail[hidden] { display: none; }
+
+/* ── Phone ─────────────────────────────────────────────────────────
+   Two rows: what is playing, then what you can do about it. The
+   readout keeps the top line because it is the half you read at a
+   glance; the keys take the bottom because that is where the thumb
+   already is. */
+@media (max-width: 620px) {
+  .mus-key {
+    width: 44px; height: 46px;
+    gap: 0;
+    padding: 0;
+    justify-content: center;
+    border-radius: 10px;
+  }
+  .mus-key-label, .mus-key .lamp { display: none; }
+  .mus-key-ico { width: 20px; height: 20px; }
+  .mus-key[data-live] .mus-key-ico { filter: drop-shadow(0 0 4px rgba(240,165,42,.75)); }
+
+  .deck-bar {
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 8px max(11px, env(safe-area-inset-right))
+             9px max(11px, env(safe-area-inset-left));
+  }
+  .mus-screen { order: 0; width: 58px; height: 33px; }
+  /* A basis, not a zero. `flex: 1 1 0` let the readout shrink to a
+     sliver so that everything fitted on one line and nothing ever
+     wrapped — which is not one row, it is five controls and a
+     letterbox. Given a floor it cannot honour, the line breaks where
+     it was always meant to: what is playing on top, what you can do
+     about it underneath. */
+  .mus-now    { order: 1; flex: 1 1 140px; min-width: 118px; padding: 5px 9px; }
+  .mus-eject  { order: 2; height: 33px; width: 34px; margin-left: 0; }
+  .mus-keys   { order: 3; }
+  .mus-vol    { order: 4; flex: 1 1 84px; min-width: 84px; }
+  .mus-btn    { width: 34px; height: 32px; }
+  .mus-btn.is-play { width: 40px; }
+  .mus-now-t  { font-size: .68rem; }
+
+  /* The drawer has to come out of somewhere, and it is not coming out
+     of the keys. The readout gives up the height instead: it is the
+     one surface on this screen that is showing an identity card you
+     have already read by the time you have started a playlist. */
+  .chassis[data-deck] #view-home .hero { height: clamp(104px, 15dvh, 168px); }
+  .chassis[data-deck] .keypad { grid-auto-rows: minmax(76px, 132px); }
+  .chassis[data-deck] #view-cat { gap: 7px; }
+}
+
+/* Below the crossover the base rail is already down to its last few
+   pixels — see the lamp cull in the brow. There are four controls on
+   it now where there were three, and 320px cannot absorb that by
+   simply adding one: at the old sizes the dock keys came out at 31px,
+   which is not a key, it is a target you miss. So every object on the
+   rail gives up a few pixels instead of one of them being clipped —
+   the switches lose the padding they were never using, the library
+   key loses the same again, and the dock spends what that buys on
+   staying tappable. */
+@media (max-width: 344px) {
+  .base { gap: 6px; }
+  .pwr { width: 40px; }
+  .lang { min-width: 40px; padding: 0 8px; }
+  .mus-key { width: 36px; }
+  .mus-key-ico { width: 19px; height: 19px; }
+  .dock { gap: 6px; }
+  .dockey { padding-inline: 2px; }
+  .dockey span { font-size: .5rem; letter-spacing: .06em; }
+}
+
+/* The global reduce rule clamps every animation to 1ms, which for a
+   roll that ends 200px to the left means the title arrives already
+   scrolled off. Named here, after that rule, so it is off rather than
+   instant. */
+@media (prefers-reduced-motion: reduce) {
+  .mus-now-t.is-long { animation: none !important; transform: none !important; }
+  .mus-now-win { text-overflow: ellipsis; }
+}
+
+/* Forced colours: the fiction goes, the transport stays legible. */
+@media (forced-colors: active) {
+  .mus-btn, .mus-key, .mus-screen { border: 1px solid CanvasText; }
+}
 </style>
 </head>
 <body>
@@ -5143,6 +5498,62 @@ a.row-main:active { transform: scale(.992); }
     </section>
   </div>
 
+  <!-- ═══ DECK ═══════════════════════════════════════════════════
+       Not in the layout until a playlist is chosen, and out of it
+       again on eject — a rail that is always there but usually empty
+       is a rail that costs the readout 60px for nothing. The monitor
+       is small but it is not hidden: YouTube's terms say the player
+       stays visible, and an off-screen iframe is also the first thing
+       a browser stops keeping alive. -->
+  <div class="deck-bar" id="mus-bar" hidden role="group" aria-label="Music Transport">
+
+    <div class="mus-screen">
+      <!-- The API replaces this node with its iframe and keeps the id. -->
+      <div id="mus-yt"></div>
+      <div class="tube-glass" aria-hidden="true"></div>
+    </div>
+
+    <div class="mus-now">
+      <p class="mus-now-head">
+        <span class="mus-now-src" id="mus-src">—</span>
+        <span class="mus-now-at" id="mus-at"></span>
+      </p>
+      <div class="mus-now-win">
+        <span class="mus-now-t" id="mus-title">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="mus-keys">
+      <button class="mus-btn" id="mus-prev" type="button" aria-label="Previous Track">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.5 6.2v11.6L9.8 12z" fill="currentColor"/><path d="M6 6.2v11.6"/></svg>
+      </button>
+      <button class="mus-btn is-play mus-play-pause" id="mus-play" type="button" aria-label="Play">
+        <svg class="ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.2 5.4v13.2L18.6 12z" fill="currentColor"/></svg>
+        <svg class="ico-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9.2 5.6v12.8M14.8 5.6v12.8"/></svg>
+      </button>
+      <button class="mus-btn" id="mus-stop" type="button" aria-label="Stop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="6.6" y="6.6" width="10.8" height="10.8" rx="1.7" fill="currentColor"/></svg>
+      </button>
+      <button class="mus-btn" id="mus-next" type="button" aria-label="Next Track">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 6.2v11.6L14.2 12z" fill="currentColor"/><path d="M18 6.2v11.6"/></svg>
+      </button>
+    </div>
+
+    <!-- Same speaker the panel-audio switch wears on a phone. Two
+         volumes on one machine should at least agree on what a
+         speaker looks like. -->
+    <div class="mus-vol">
+      <button class="mus-btn mus-mute" id="mus-mute" type="button" aria-label="Mute Music" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.4 4.9 6.7 9H3.6v6h3.1l4.7 4.1V4.9Z"/><path class="ico-wave" d="M15 9.5a3.6 3.6 0 0 1 0 5"/><path class="ico-wave" d="M17.7 6.8a7.4 7.4 0 0 1 0 10.4"/><path class="ico-mute" d="m15.4 9.7 4.6 4.6m0-4.6-4.6 4.6"/></svg>
+      </button>
+      <input class="mus-range" id="mus-vol" type="range" min="0" max="100" step="1" value="55" aria-label="Music Volume">
+    </div>
+
+    <button class="mus-btn mus-eject" id="mus-eject" type="button" aria-label="Close Music Deck">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.6 5.2 13.4h13.6z" fill="currentColor"/><path d="M5.6 18.6h12.8"/></svg>
+    </button>
+  </div>
+
   <!-- ═══ BASE RAIL ══════════════════════════════════════════════ -->
   <footer class="base">
     <div class="hints">
@@ -5162,6 +5573,18 @@ a.row-main:active { transform: scale(.992); }
       <span class="pwr-label">Audio</span>
       <span class="pwr-track" aria-hidden="true"><span class="pwr-knob"></span></span>
       <svg class="pwr-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.4 4.9 6.7 9H3.6v6h3.1l4.7 4.1V4.9Z"/><path class="ico-wave" d="M15 9.5a3.6 3.6 0 0 1 0 5"/><path class="ico-wave" d="M17.7 6.8a7.4 7.4 0 0 1 0 10.4"/><path class="ico-mute" d="m15.4 9.7 4.6 4.6m0-4.6-4.6 4.6"/></svg>
+    </button>
+    <!-- The library key. Not a switch: the two beside it are states,
+         this one opens a drawer, and a rail of identical objects that
+         do three different things is a rail you have to learn. The
+         lamp is the third state a switch cannot show — loaded but not
+         running — and it is amber, because on this panel amber is a
+         mode rather than a supply. -->
+    <button class="mus-key" id="btn-music" type="button" aria-haspopup="dialog"
+            aria-label="Music — choose a playlist">
+      <span class="lamp" id="mus-lamp" style="--c: var(--lamp-2)" aria-hidden="true"></span>
+      <svg class="mus-key-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17.6V4.9l11-2v12.7"/><circle cx="6.4" cy="17.6" r="2.6"/><circle cx="17.4" cy="15.6" r="2.6"/></svg>
+      <span class="mus-key-label">Music</span>
     </button>
     <span class="serial" id="serial">Ser —</span>
   </footer>
@@ -5271,6 +5694,46 @@ a.row-main:active { transform: scale(.992); }
   <div class="card-foot">
     <p class="card-note" id="card-note"></p>
     <button class="card-close" id="card-close" type="button">Close <kbd>Esc</kbd></button>
+  </div>
+</dialog>
+
+<!-- The library. Same plate, same bezel, same glass and the same
+     strike on open as the contact card, because it is the same kind of
+     object: a sheet the panel hands you. Rows are built from
+     CFG.ui.music.playlists, so adding a playlist is one line up top
+     and nothing down here. -->
+<dialog class="card" id="mus-card" aria-labelledby="mus-name">
+
+  <span class="card-grip" aria-hidden="true"></span>
+
+  <div class="card-head" id="mus-head">
+    <span class="lamp lit" style="--c: var(--lamp-2)" aria-hidden="true"></span>
+    <span id="mus-headline">Music</span>
+    <span class="card-reg" id="mus-reg">Ref MU-01</span>
+  </div>
+
+  <div class="card-screen">
+    <div class="tube-raster" id="mus-raster">
+      <div class="card-face" id="mus-face" tabindex="-1" autofocus>
+        <span class="card-kicker" id="mus-kicker"></span>
+        <h2 class="card-name" id="mus-name"></h2>
+        <p class="card-sub" id="mus-sub"></p>
+
+        <p class="card-sec" id="mus-sec"></p>
+        <div class="card-rows" id="mus-rows"></div>
+
+        <p class="mus-note" id="mus-note"></p>
+        <p class="mus-fail" id="mus-err" hidden></p>
+      </div>
+    </div>
+    <div class="tube-sweep" aria-hidden="true"></div>
+    <div class="tube-glass" aria-hidden="true"></div>
+    <div class="tube-flash" id="mus-flash" aria-hidden="true"></div>
+  </div>
+
+  <div class="card-foot">
+    <p class="card-note" id="mus-foot"></p>
+    <button class="card-close" id="mus-close" type="button">Close <kbd>Esc</kbd></button>
   </div>
 </dialog>
 
@@ -5875,6 +6338,58 @@ const CFG = {
         cta:  'Get in Touch'
       }
     },
+    /* ── The deck ───────────────────────────────────────────────────
+       ▸ EDIT HERE to change what is in the library. Take a YouTube
+         link and split it: whatever follows `list=` is `list`,
+         whatever follows `v=` is `video`. An entry with a `list` is a
+         playlist and the skip keys work; an entry with only a `video`
+         is a single track and they go dark, because there is nowhere
+         to skip to. `url` is the whole link kept verbatim — every row
+         also offers to open it on YouTube, which is the fallback for
+         anyone whose browser blocks the embed, and the fallback has
+         to be a real address rather than one reassembled from parts. */
+    music: {
+      label:    'Music',
+      keyLabel: 'Music — choose a playlist',
+      head:     'Music',
+      kicker:   'On the Deck',
+      title:    'Playlists',
+      sub:      'What I have on while I work. Pick one and it plays from the deck rail at the foot of the panel — everything else keeps working while it runs.',
+      sec:      'Playlists',
+      rowLabel: 'Playlist',
+      listTag:  'LIST',
+      oneTag:   'SINGLE',
+      out:      'YOUTUBE',
+      loading:  'Loading…',
+      gone:     'Track unavailable',
+      note:     'Playback is YouTube’s own player, running in the small monitor on the deck. Nothing loads from YouTube until you press one of these.',
+      foot:     'Level, skip and stop live on the deck rail.',
+      fail:     'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. The YouTube link on each row still works.',
+      /* Spoken, not printed. */
+      openSay:  'Music library.',
+      playSay:  'Playing',
+      stopSay:  'Music stopped.',
+      closeSay: 'Music deck closed.',
+      failSay:  'Music could not load.',
+      muteSay:  'Music muted.',
+      liveSay:  'Music unmuted.',
+      play:     'Play',
+      pause:    'Pause',
+      playlists: [
+        { name:  'Hacker Music',
+          list:  'PLSHbn8ag9TRqSPKFAsIU1EslcLhLzTA7f',
+          video: 'RCyOUR2FbU8',
+          url:   'https://www.youtube.com/playlist?list=PLSHbn8ag9TRqSPKFAsIU1EslcLhLzTA7f' },
+        /* ▸ CHECK THIS. The link given for this one is a single video,
+           not a list — so it plays as one track and the skip keys stay
+           dark. Paste the `list=` value in beside the name whenever it
+           becomes a real playlist and they light up on their own. */
+        { name:  'the worst music you ever heard (music i like)',
+          video: 'hFFz0lCnt84',
+          url:   'https://www.youtube.com/watch?v=hFFz0lCnt84' }
+      ]
+    },
+
     /* Dock keys, in thumb order. `use` names the contact channel in
        CFG.contact.channels that supplies the number or address. */
     dock: [
@@ -6234,6 +6749,17 @@ const D = {
   whyPages: $('#why-pages'), whyTab: $('#why-tab'),
   commit: $('#commit'), commitLabel: $('#commit-label'),
   pwr: $('#pwr'), say: $('#announcer'),
+  btnMusic: $('#btn-music'), musKeyLabel: $('#btn-music .mus-key-label'),
+  musLamp: $('#mus-lamp'), musBar: $('#mus-bar'),
+  musSrc: $('#mus-src'), musAt: $('#mus-at'), musTitle: $('#mus-title'),
+  musPrev: $('#mus-prev'), musPlay: $('#mus-play'), musStop: $('#mus-stop'),
+  musNext: $('#mus-next'), musEject: $('#mus-eject'),
+  musMute: $('#mus-mute'), musVol: $('#mus-vol'),
+  musCard: $('#mus-card'), musHead: $('#mus-head'), musRaster: $('#mus-raster'),
+  musFlash: $('#mus-flash'), musHeadline: $('#mus-headline'),
+  musKicker: $('#mus-kicker'), musName: $('#mus-name'), musSub: $('#mus-sub'),
+  musSec: $('#mus-sec'), musRows: $('#mus-rows'), musNote: $('#mus-note'),
+  musFoot: $('#mus-foot'), musErr: $('#mus-err'),
   card: $('#contact-card'), btnContact: $('#btn-contact'),
   cardHead: $('#card-head'), cardFace: $('#card-face'),
   cardRaster: $('#card-raster'), cardFlash: $('#card-flash')
@@ -6515,7 +7041,9 @@ function setAudio(on) {
   if (c.state === 'suspended') c.resume();
   if (on) startHum();
   master.gain.cancelScheduledValues(c.currentTime);
-  master.gain.setTargetAtTime(on ? 1 : 0, c.currentTime, 0.07);
+  /* A track is playing through the same speakers; the panel's own
+     noises are furniture and lose the argument. See panelDuck(). */
+  master.gain.setTargetAtTime(on ? (MUS.duck ? 0.32 : 1) : 0, c.currentTime, 0.07);
   say(on ? 'Audio on' : 'Audio off');
 }
 
@@ -7546,7 +8074,7 @@ addEventListener('hashchange', () => { if (!hashLock) route(); });
    this is delegated rather than called at each site. Capture phase so
    a handler that stops propagation cannot swallow the feel of its own
    key, and passive because it never cancels anything. */
-[D.console, D.card, D.whyCard].forEach(root =>
+[D.console, D.card, D.whyCard, D.musCard].forEach(root =>
   root.addEventListener('pointerdown', e => {
     if (e.pointerType !== 'touch') return;
     if (e.target.closest('button, a, .tcard, input')) tap();
@@ -8195,34 +8723,39 @@ D.card.addEventListener('close', () => {
    and a sheet that also drags from its scroll area fights the reader
    on every flick. touch-action:none on .card-head keeps the browser
    from claiming the gesture first. */
-(() => {
+/* Taken off the contact card and given a pair of arguments when the
+   music sheet arrived: two sheets that throw away differently would
+   be two sheets. */
+function sheetDrag(head, card) {
   let id = null, y0 = 0, dy = 0, t0 = 0;
   const sheet = () => MQ_PHONE.matches;
 
-  D.cardHead.addEventListener('pointerdown', e => {
+  head.addEventListener('pointerdown', e => {
     if (!sheet() || id !== null) return;
     id = e.pointerId; y0 = e.clientY; dy = 0; t0 = performance.now();
-    D.cardHead.setPointerCapture(id);
-    D.card.classList.add('is-dragging');
+    head.setPointerCapture(id);
+    card.classList.add('is-dragging');
   });
 
-  D.cardHead.addEventListener('pointermove', e => {
+  head.addEventListener('pointermove', e => {
     if (e.pointerId !== id) return;
     dy = Math.max(0, e.clientY - y0);            // down only
-    D.card.style.transform = `translateY(${dy.toFixed(1)}px)`;
+    card.style.transform = `translateY(${dy.toFixed(1)}px)`;
   });
 
   const release = e => {
     if (e.pointerId !== id) return;
     id = null;
-    D.card.classList.remove('is-dragging');
-    D.card.style.transform = '';
+    card.classList.remove('is-dragging');
+    card.style.transform = '';
     const fast = dy > 40 && (performance.now() - t0) < 300;
-    if (dy > D.card.offsetHeight * 0.28 || fast) D.card.close();
+    if (dy > card.offsetHeight * 0.28 || fast) card.close();
   };
-  D.cardHead.addEventListener('pointerup', release);
-  D.cardHead.addEventListener('pointercancel', release);
-})();
+  head.addEventListener('pointerup', release);
+  head.addEventListener('pointercancel', release);
+}
+sheetDrag(D.cardHead, D.card);
+sheetDrag(D.musHead, D.musCard);
 
 D.pwr.addEventListener('click', () => setAudio(!S.audio));
 
@@ -8230,7 +8763,7 @@ addEventListener('keydown', e => {
   if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
   /* The dialog owns the keyboard while it is open: <dialog> handles Esc
      itself, and 1–4 must not navigate the console behind the card. */
-  if (D.card.open) return;
+  if (D.card.open || D.musCard.open) return;
   if (!S.booted) { finishBoot(); return; }
 
   /* The finder owns the keyboard while it has focus — otherwise typing
@@ -8359,6 +8892,40 @@ const ES = {
   'Warranties': 'Cobertura',
   'Ongoing Support': 'Soporte continuo',
   'Feel free to talk to me directly about your specific expectations, and I will turn them into a guarantee.': 'Habla conmigo directamente sobre tus expectativas específicas, y las convertiré en una garantía.',
+
+  /* ── The deck ─────────────────────────────────────────────────────
+     The playlist NAMES are deliberately not in here. They are titles
+     somebody gave a thing, the way a band's name is, and a panel that
+     translates them is a panel that has decided it knows better. */
+  'Music': 'Música',
+  'Music — choose a playlist': 'Música — elige una lista',
+  'On the Deck': 'En la platina',
+  'Playlists': 'Listas de reproducción',
+  'What I have on while I work. Pick one and it plays from the deck rail at the foot of the panel — everything else keeps working while it runs.': 'Lo que pongo mientras trabajo. Elige una y suena desde la platina al pie del panel — todo lo demás sigue funcionando mientras corre.',
+  'Playlist': 'Lista',
+  'LIST': 'LISTA',
+  'SINGLE': 'SENCILLO',
+  'Loading…': 'Cargando…',
+  'Track unavailable': 'Pista no disponible',
+  'Playback is YouTube’s own player, running in the small monitor on the deck. Nothing loads from YouTube until you press one of these.': 'La reproducción es el propio reproductor de YouTube, dentro del pequeño monitor de la platina. No se carga nada de YouTube hasta que pulses una de estas.',
+  'Level, skip and stop live on the deck rail.': 'El nivel, el salto de pista y la parada están en la platina.',
+  'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. The YouTube link on each row still works.': 'No se pudo conectar con YouTube — una extensión, un filtro de red o una conexión caída bastan para eso. El enlace de YouTube de cada fila sigue funcionando.',
+  'Music library.': 'Biblioteca de música.',
+  'Playing': 'Reproduciendo',
+  'Music stopped.': 'Música detenida.',
+  'Music deck closed.': 'Platina cerrada.',
+  'Music could not load.': 'No se pudo cargar la música.',
+  'Music muted.': 'Música silenciada.',
+  'Music unmuted.': 'Música activada.',
+  'Play': 'Reproducir',
+  'Pause': 'Pausa',
+  'Music Transport': 'Controles de música',
+  'Previous Track': 'Pista anterior',
+  'Stop': 'Detener',
+  'Next Track': 'Pista siguiente',
+  'Mute Music': 'Silenciar música',
+  'Music Volume': 'Volumen de música',
+  'Close Music Deck': 'Cerrar la platina',
 
   /* ── Contact card ─────────────────────────────────────────────── */
   'Call': 'Llamar',
@@ -8905,6 +9472,12 @@ function langWalk(fn) {
   /* `use` names a channel by its label, so it has to move with it —
      translate one and not the other and the dock silently drops the
      keys whose number it can no longer find. */
+  if (U.music) {
+    ['label', 'keyLabel', 'head', 'kicker', 'title', 'sub', 'sec', 'rowLabel',
+     'listTag', 'oneTag', 'out', 'loading', 'gone', 'note', 'foot', 'fail',
+     'openSay', 'playSay', 'stopSay', 'closeSay', 'failSay', 'muteSay',
+     'liveSay', 'play', 'pause'].forEach(k => P(U.music, k));
+  }
   U.dock.forEach(d => { P(d, 'label'); P(d, 'use'); });
   ['kicker', 'station', 'hours', 'note', 'headLabel',
    'copyLabel', 'copiedLabel', 'reqLabel', 'subject',
@@ -8989,7 +9562,7 @@ function langRender() {
   buildIndex();
   D.serial.textContent = `${CFG.ui.serial} ${CFG.brand.serial}`;
   D.commitLabel.textContent = CFG.commit;
-  buildKeypad(); buildDock(); buildCard(); buildWhy(); labelContact();
+  buildKeypad(); buildDock(); buildCard(); buildWhy(); labelContact(); buildMusic();
   if (D.whyCard.open) layoutDoss(0);
   renderResults(D.find.value);
   syncBack();
@@ -9299,6 +9872,403 @@ function coldStart() {
   cold = { el, raf: requestAnimationFrame(frame) };
 }
 
+/* ═══ MUSIC ═════════════════════════════════════════════════════════
+   The deck. Off until asked, in the same sense the panel's own audio
+   engine is off until asked: no third-party script is fetched, no
+   iframe exists and nothing is requested from YouTube until somebody
+   presses a playlist. A visitor who never touches the key never meets
+   Google at all, which is the only version of this feature worth
+   shipping on a page whose whole pitch is that it does not have a
+   middleman.
+
+   Every player call is wrapped. The IFrame API answers its methods
+   only in certain states and throws in the others, and none of them
+   are worth taking the console down for — a skip key that quietly
+   does nothing is a bad key, but a skip key that white-screens the
+   catalogue is a bug. ═══════════════════════════════════════════ */
+
+const MUS = {
+  api: null,        /* the loader promise, so the script is fetched once  */
+  yt: null,         /* the player, once it says it is ready               */
+  idx: -1,          /* which playlist is loaded, as an index into CFG     */
+  len: 1,           /* how many tracks it turned out to have              */
+  playing: false,
+  open: false,
+  duck: false,
+  vol: 55,
+  muted: false
+};
+
+const musList = () => (CFG.ui.music && CFG.ui.music.playlists) || [];
+const MUS_NOTE = '<path d="M9 17.6V4.9l11-2v12.7"/><circle cx="6.4" cy="17.6" r="2.6"/><circle cx="17.4" cy="15.6" r="2.6"/>';
+const MUS_OUT  = '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>';
+
+/* Volume is a preference, not a session — somebody who turned it down
+   to 20 meant it. Wrapped, like every other storage call here,
+   because a partitioned or file:// context throws on access. */
+function musSave() {
+  try {
+    localStorage.setItem('jb-mus-vol', String(MUS.vol));
+    localStorage.setItem('jb-mus-mute', MUS.muted ? '1' : '0');
+  } catch { /* private mode */ }
+}
+function musLoad() {
+  try {
+    /* getItem returns null when nothing was ever stored, and Number(null)
+       is 0 — which passes a 0-to-100 range check perfectly happily and
+       hands every first-time visitor a deck that plays in silence. The
+       null is checked before the number, not by it. */
+    const raw = localStorage.getItem('jb-mus-vol');
+    if (raw !== null) {
+      const v = Number(raw);
+      if (Number.isFinite(v) && v >= 0 && v <= 100) MUS.vol = v;
+    }
+    MUS.muted = localStorage.getItem('jb-mus-mute') === '1';
+  } catch { /* private mode */ }
+}
+
+/* ── The API ──────────────────────────────────────────────────────
+   One global callback, chained rather than overwritten in case
+   anything else on the page ever wants it. The timeout is the case
+   that actually happens: a content blocker swallows the script
+   silently, so there is no error event to wait for — only a promise
+   that would otherwise never settle and a deck that sits on LOADING
+   for ever. */
+function ytLoad() {
+  if (MUS.api) return MUS.api;
+  MUS.api = new Promise((resolve, reject) => {
+    if (window.YT && window.YT.Player) { resolve(window.YT); return; }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof prev === 'function') prev();
+      resolve(window.YT);
+    };
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.async = true;
+    s.onerror = () => reject(new Error('blocked'));
+    document.head.appendChild(s);
+    setTimeout(() => reject(new Error('timeout')), 12000);
+  });
+  /* Cleared on failure so a second press is a second attempt rather
+     than a replay of the first one's rejection. */
+  MUS.api.catch(() => { MUS.api = null; });
+  return MUS.api;
+}
+
+function musPlayer() {
+  if (MUS.yt) return Promise.resolve(MUS.yt);
+  return ytLoad().then(YT => new Promise((resolve, reject) => {
+    /* file:// reports its origin as the string "null", which the
+       player rejects outright — so the parameter is sent only where
+       it means something. */
+    const vars = {
+      playsinline: 1, rel: 0, controls: 0, disablekb: 1,
+      modestbranding: 1, iv_load_policy: 3, fs: 0
+    };
+    if (/^https?:$/.test(location.protocol)) vars.origin = location.origin;
+
+    const fail = setTimeout(() => reject(new Error('player')), 12000);
+    try {
+      MUS.yt = new YT.Player('mus-yt', {
+        /* The privacy-enhanced host. Same player, no cookie until
+           something is actually played. */
+        host: 'https://www.youtube-nocookie.com',
+        playerVars: vars,
+        events: {
+          onReady: () => { clearTimeout(fail); musVolApply(); resolve(MUS.yt); },
+          onStateChange: musState,
+          onError: musError
+        }
+      });
+    } catch (err) { clearTimeout(fail); reject(err); }
+  }));
+}
+
+/* ── Reporting ────────────────────────────────────────────────────── */
+
+/* A title longer than its window rolls, and only then: the distance
+   is measured and written to --roll, so nothing scrolls that fits and
+   nothing over-scrolls that does not. */
+function musTitle(text) {
+  const el = D.musTitle;
+  el.textContent = text || '\u00A0';
+  el.classList.remove('is-long');
+  el.style.removeProperty('--roll');
+  if (calm()) return;
+  requestAnimationFrame(() => {
+    const win = el.parentElement;
+    const over = el.scrollWidth - win.clientWidth;
+    if (over > 8) {
+      el.style.setProperty('--roll', `-${Math.round(over + 6)}px`);
+      el.classList.add('is-long');
+    }
+  });
+}
+
+/* Asked of the player rather than assumed from the config: a list can
+   be shorter than it looks once YouTube has dropped whatever is
+   region-blocked or deleted out of it, and the skip keys should
+   report the list that actually loaded. */
+function musNow() {
+  const p = MUS.yt;
+  if (!p) return;
+  const M = CFG.ui.music;
+  let title = '', at = '', len = 1;
+  try {
+    const d = p.getVideoData && p.getVideoData();
+    title = (d && d.title) || '';
+    const list = p.getPlaylist && p.getPlaylist();
+    if (list && list.length) {
+      len = list.length;
+      const i = (p.getPlaylistIndex ? p.getPlaylistIndex() : 0) + 1;
+      if (len > 1) at = `${pad2(i)}/${pad2(len)}`;
+    }
+  } catch { /* the player answers only when it feels like it */ }
+  MUS.len = len;
+  D.musAt.textContent = at;
+  if (title && title !== D.musTitle.textContent) musTitle(title);
+  else if (!title && !D.musTitle.textContent.trim()) musTitle(M.loading);
+  musArrows();
+}
+
+function musArrows() {
+  const many = MUS.len > 1;
+  D.musPrev.disabled = !many;
+  D.musNext.disabled = !many;
+}
+
+/* The console's own noises and a track are two sources fighting for
+   one pair of speakers. The panel loses — it is furniture, and the
+   music is the thing that was asked for. */
+function panelDuck(on) {
+  MUS.duck = on;
+  if (!AC || !master) return;
+  master.gain.cancelScheduledValues(AC.currentTime);
+  master.gain.setTargetAtTime(S.audio ? (on ? 0.32 : 1) : 0, AC.currentTime, 0.12);
+}
+
+function musRunning(on) {
+  MUS.playing = on;
+  const M = CFG.ui.music;
+  D.musPlay.toggleAttribute('data-playing', on);
+  D.musPlay.setAttribute('aria-label', on ? M.pause : M.play);
+  D.btnMusic.toggleAttribute('data-live', on);
+  D.musLamp.classList.toggle('lit', on);
+  panelDuck(on);
+}
+
+function musState(e) {
+  const P = (window.YT && window.YT.PlayerState) || {};
+  if (e.data === P.PLAYING) musRunning(true);
+  else if (e.data === P.PAUSED || e.data === P.ENDED || e.data === -1) musRunning(false);
+  musNow();
+}
+
+/* 101 and 150 are "the owner will not allow this one off YouTube",
+   which on a list of twenty-four tracks is one track's problem and
+   not the deck's. Step over it. */
+function musError(e) {
+  const M = CFG.ui.music;
+  if ((e.data === 101 || e.data === 150 || e.data === 100) && MUS.len > 1) {
+    try { MUS.yt.nextVideo(); return; } catch { /* fall through */ }
+  }
+  musRunning(false);
+  musTitle(M.gone);
+}
+
+/* ── The drawer ───────────────────────────────────────────────────
+   Opening it changes how much room every paged well on the panel has,
+   and none of them are watching for it — repageAll() is what a resize
+   would have called, so the deck calls it itself. */
+function musBar(on) {
+  if (MUS.open === on) return;
+  MUS.open = on;
+  D.musBar.hidden = !on;
+  D.chassis.toggleAttribute('data-deck', on);
+  repageAll();
+}
+
+function musMark() {
+  [...D.musRows.children].forEach((row, i) => row.classList.toggle('is-live', i === MUS.idx));
+}
+
+function musPick(i) {
+  const pl = musList()[i];
+  if (!pl) return;
+  const M = CFG.ui.music;
+  MUS.idx = i;
+  musMark();
+  D.musErr.hidden = true;
+  if (D.musCard.open) D.musCard.close();
+  musBar(true);
+  D.musSrc.textContent = pl.name;
+  D.musAt.textContent = '';
+  musTitle(M.loading);
+  MUS.len = pl.list ? 2 : 1;      /* provisional, until the list reports in */
+  musArrows();
+
+  musPlayer().then(p => {
+    if (pl.list) {
+      p.loadPlaylist({ list: pl.list, listType: 'playlist', index: 0 });
+      try { p.setLoop(true); } catch { /* older embeds */ }
+    } else {
+      p.loadVideoById({ videoId: pl.video });
+    }
+    musVolApply();
+    say(`${M.playSay} ${pl.name}`);
+  }).catch(musFail);
+}
+
+function musFail() {
+  musBar(false);
+  MUS.idx = -1;
+  musMark();
+  D.musErr.hidden = false;
+  if (!D.musCard.open) openMusic();
+  say(CFG.ui.music.failSay);
+}
+
+function musEject() {
+  try { if (MUS.yt) MUS.yt.stopVideo(); } catch { /* not ready */ }
+  musRunning(false);
+  musBar(false);
+  MUS.idx = -1;
+  musMark();
+  say(CFG.ui.music.closeSay);
+  D.btnMusic.focus({ preventScroll: true });
+}
+
+/* ── Level ────────────────────────────────────────────────────────── */
+function musVolApply() {
+  const p = MUS.yt;
+  if (!p) return;
+  try {
+    p.setVolume(MUS.vol);
+    if (MUS.muted) p.mute(); else p.unMute();
+  } catch { /* not ready yet; onReady applies it again */ }
+}
+function musMuteSync() {
+  D.musMute.toggleAttribute('data-muted', MUS.muted);
+  D.musMute.setAttribute('aria-pressed', String(MUS.muted));
+}
+
+/* ── The library ──────────────────────────────────────────────────
+   Same row grammar as the contact card: the body is the action —
+   play it here — and the chip on the right is the alternative, which
+   is to go and listen to it where it lives. The chip is also the
+   answer when the API is blocked, which is why it is on every row
+   rather than only in the failure message. */
+function buildMusic() {
+  const M = CFG.ui.music;
+  if (!M) return;
+
+  D.musKeyLabel.textContent = M.label;
+  D.btnMusic.setAttribute('aria-label', M.keyLabel);
+  D.musHeadline.textContent = M.head;
+  D.musKicker.textContent   = M.kicker;
+  D.musName.textContent     = M.title;
+  D.musSub.textContent      = M.sub;
+  D.musSec.textContent      = M.sec;
+  D.musNote.textContent     = M.note;
+  D.musFoot.textContent     = M.foot;
+  D.musErr.textContent      = M.fail;
+  D.musPlay.setAttribute('aria-label', MUS.playing ? M.pause : M.play);
+
+  D.musRows.textContent = '';
+  musList().forEach((pl, i) => {
+    const row = mk('div', 'row is-primary mus-row');
+
+    const go = mk('button', 'row-main');
+    go.type = 'button';
+    go.appendChild(svgIcon(MUS_NOTE, 'row-icon'));
+    const txt = mk('span', 'row-text');
+    txt.appendChild(mk('span', 'row-label', `${M.rowLabel} ${pad2(i + 1)}`));
+    txt.appendChild(mk('span', 'row-value', pl.name));
+    go.appendChild(txt);
+    go.appendChild(mk('span', 'mus-idx', pl.list ? M.listTag : M.oneTag));
+    go.addEventListener('click', () => { clack(0.85, 1500, 0.07); musPick(i); });
+    row.appendChild(go);
+
+    const out = mk('a', 'row-copy mus-out', M.out);
+    out.href = pl.url;
+    out.target = '_blank';
+    out.rel = 'noopener noreferrer';
+    out.setAttribute('aria-label', `${M.out} — ${pl.name}`);
+    out.appendChild(svgIcon(MUS_OUT, 'row-go'));
+    row.appendChild(out);
+
+    D.musRows.appendChild(row);
+  });
+  musMark();
+}
+
+let musOpener = null;
+function openMusic() {
+  musOpener = document.activeElement;
+  D.musCard.showModal();
+  strike(D.musRaster, D.musFlash);
+  say(CFG.ui.music.openSay);
+}
+
+D.btnMusic.addEventListener('click', () => { clack(0.85, 1500, 0.07); openMusic(); });
+$('#mus-close').addEventListener('click', () => { clack(0.7, 2000, 0.05); D.musCard.close(); });
+D.musCard.addEventListener('click', e => { if (e.target === D.musCard) D.musCard.close(); });
+D.musCard.addEventListener('close', () => {
+  const back = (musOpener && musOpener.isConnected && musOpener.offsetParent) ? musOpener : D.btnMusic;
+  back.focus({ preventScroll: true });
+  musOpener = null;
+});
+
+D.musPlay.addEventListener('click', () => {
+  clack(0.7, 1800, 0.05);
+  const p = MUS.yt;
+  if (!p) { openMusic(); return; }
+  try { MUS.playing ? p.pauseVideo() : p.playVideo(); } catch { /* not ready */ }
+});
+D.musStop.addEventListener('click', () => {
+  clack(0.6, 1200, 0.07);
+  try { if (MUS.yt) MUS.yt.stopVideo(); } catch { /* not ready */ }
+  musRunning(false);
+  say(CFG.ui.music.stopSay);
+});
+D.musNext.addEventListener('click', () => {
+  clack(0.65, 2000, 0.05);
+  try { if (MUS.yt) MUS.yt.nextVideo(); } catch { /* not ready */ }
+});
+D.musPrev.addEventListener('click', () => {
+  clack(0.65, 2000, 0.05);
+  try { if (MUS.yt) MUS.yt.previousVideo(); } catch { /* not ready */ }
+});
+D.musEject.addEventListener('click', () => { clack(0.55, 1100, 0.09); musEject(); });
+
+D.musMute.addEventListener('click', () => {
+  clack(0.5, 2200, 0.04);
+  MUS.muted = !MUS.muted;
+  musMuteSync(); musVolApply(); musSave();
+  say(MUS.muted ? CFG.ui.music.muteSay : CFG.ui.music.liveSay);
+});
+/* Dragging the slider off zero is an unmute — nobody moves a level
+   control expecting silence at the end of it. */
+D.musVol.addEventListener('input', () => {
+  MUS.vol = Number(D.musVol.value);
+  if (MUS.vol > 0 && MUS.muted) { MUS.muted = false; musMuteSync(); }
+  musVolApply();
+  musSave();
+});
+
+/* The title measures itself against a window whose width is a
+   function of the rail, so a rotate has to re-measure it too. */
+addEventListener('resize', () => { if (MUS.open) musTitle(D.musTitle.textContent); });
+
+function musInit() {
+  musLoad();
+  D.musVol.value = String(MUS.vol);
+  musMuteSync();
+  musArrows();
+  buildMusic();
+}
+
 let bootTimers = [];
 function finishBoot() {
   if (S.booted) return;
@@ -9325,6 +10295,7 @@ function boot() {
   D.serial.textContent     = `${CFG.ui.serial} ${CFG.brand.serial}`;
   D.commitLabel.textContent = CFG.commit;
   buildLamps(); buildKeypad(); buildDock(); buildCard(); buildWhy(); labelContact(); startFlare();
+  musInit();
   renderResults('');
   deckHome.set(1, 0); deckBank.set(1, 0);
 
