@@ -5173,8 +5173,12 @@ a.row-main:active { transform: scale(.992); }
 .mus-range:disabled { opacity: .45; cursor: default; }
 
 /* Eject sits apart from the transport: it does not change what is
-   playing, it puts the drawer away. */
+   playing, it puts the deck away. */
 .mus-eject { margin-left: 2px; }
+
+/* Desktop has no use for this: the rail IS the deck, so the key on the
+   base rail is free to go on meaning the library. */
+.mus-list { display: none; }
 
 /* ── The library ───────────────────────────────────────────────────
    Same plate as the contact card — same bezel, same glass, same
@@ -5210,10 +5214,18 @@ a.row-main:active { transform: scale(.992); }
 .mus-fail[hidden] { display: none; }
 
 /* ── Phone ─────────────────────────────────────────────────────────
-   Two rows: what is playing, then what you can do about it. The
-   readout keeps the top line because it is the half you read at a
-   glance; the keys take the bottom because that is where the thumb
-   already is. */
+   The deck stops being part of the console and becomes something the
+   console hands you.
+
+   As a rail it was honest, and it was also ninety pixels of a phone
+   screen — taken out of the single column the readout and the keys
+   were already sharing, so starting a playlist quietly rearranged the
+   thing you were in the middle of reading. A menu owes the layout
+   nothing. It is anchored to the bay's own grid cell, which puts it
+   just above the base rail without anyone having to measure the base
+   rail, and it floats over the bottom of the bay with a tail pointing
+   back at the key that opened it. The console with the music running
+   is now pixel for pixel the console with the music shut. */
 @media (max-width: 620px) {
   .mus-key {
     width: 44px; height: 46px;
@@ -5227,33 +5239,89 @@ a.row-main:active { transform: scale(.992); }
   .mus-key[data-live] .mus-key-ico { filter: drop-shadow(0 0 4px rgba(240,165,42,.75)); }
 
   .deck-bar {
+    /* Claiming the bay's cell makes that cell the frame this is
+       measured against, so `bottom` is a distance from the top of the
+       base rail rather than a guess at how tall the base rail is.
+       BOTH ends of both axes, not `2 / 1`: an absolutely positioned
+       grid child takes the grid container's padding edge for any side
+       whose line is `auto`, so a half-stated area gave this the bay's
+       top and the CHASSIS' bottom — and the menu opened directly on
+       top of the base rail, over the very key that opened it. */
+    grid-area: 2 / 1 / 3 / 2;
+    position: absolute;
+    z-index: 5;
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    bottom: 10px;
     flex-wrap: wrap;
-    gap: 7px;
-    padding: 8px max(11px, env(safe-area-inset-right))
-             9px max(11px, env(safe-area-inset-left));
+    gap: 8px;
+    padding: 11px;
+    border-top: 0;
+    border-radius: 14px;
+    background: linear-gradient(176deg, var(--mag-hi) 0%, #d7dad0 46%, var(--mag) 100%);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255,255,255,.95),
+      inset 0 -2px 4px rgba(0,0,0,.13),
+      0 0 0 1px rgba(0,0,0,.22),
+      0 3px 10px rgba(0,0,0,.26),
+      0 20px 44px -12px rgba(0,0,0,.7);
+    /* It comes up out of the key rather than appearing on top of the
+       panel. allow-discrete keeps it on screen long enough to leave
+       the same way — a menu that animates open and then vanishes is
+       half an animation. */
+    opacity: 0;
+    transform: translateY(10px) scale(.985);
+    transform-origin: 92% 100%;
+    transition:
+      opacity var(--t-quick) var(--ease-out),
+      transform var(--t-base) var(--ease-out),
+      display var(--t-base) allow-discrete;
   }
-  .mus-screen { order: 0; width: 58px; height: 33px; }
+  .deck-bar:not([hidden]) { opacity: 1; transform: none; }
+  @starting-style {
+    .deck-bar:not([hidden]) { opacity: 0; transform: translateY(10px) scale(.985); }
+  }
+  /* The tail lands under the key, so the menu says where it came from. */
+  .deck-bar::after {
+    content: "";
+    position: absolute;
+    right: 17px; bottom: -5px;
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    background: var(--mag);
+    box-shadow: 1.5px 1.5px 0 rgba(0,0,0,.2);
+  }
+
+  .mus-screen { order: 0; width: 58px; height: 34px; }
   /* A basis, not a zero. `flex: 1 1 0` let the readout shrink to a
      sliver so that everything fitted on one line and nothing ever
      wrapped — which is not one row, it is five controls and a
      letterbox. Given a floor it cannot honour, the line breaks where
      it was always meant to: what is playing on top, what you can do
-     about it underneath. */
-  .mus-now    { order: 1; flex: 1 1 140px; min-width: 118px; padding: 5px 9px; }
-  .mus-eject  { order: 2; height: 33px; width: 34px; margin-left: 0; }
+     about it underneath, and the way back to the library at the foot. */
+  .mus-now    { order: 1; flex: 1 1 140px; min-width: 112px; padding: 5px 9px; }
+  .mus-eject  { order: 2; width: 34px; height: 34px; margin-left: 0; }
   .mus-keys   { order: 3; }
   .mus-vol    { order: 4; flex: 1 1 84px; min-width: 84px; }
+  .mus-list   { order: 5; }
   .mus-btn    { width: 34px; height: 32px; }
   .mus-btn.is-play { width: 40px; }
   .mus-now-t  { font-size: .68rem; }
 
-  /* The drawer has to come out of somewhere, and it is not coming out
-     of the keys. The readout gives up the height instead: it is the
-     one surface on this screen that is showing an identity card you
-     have already read by the time you have started a playlist. */
-  .chassis[data-deck] #view-home .hero { height: clamp(104px, 15dvh, 168px); }
-  .chassis[data-deck] .keypad { grid-auto-rows: minmax(76px, 132px); }
-  .chassis[data-deck] #view-cat { gap: 7px; }
+  /* On the rail the key on the base is the library. In the menu the
+     key on the base is the menu, so the library needs a door of its
+     own down here. */
+  .mus-list {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    flex: 1 1 100%;
+    width: auto; height: 38px;
+    font-family: var(--face-data);
+    font-size: .57rem; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-70);
+  }
+  .mus-list svg { width: 16px; height: 16px; }
 }
 
 /* Below the crossover the base rail is already down to its last few
@@ -5271,6 +5339,7 @@ a.row-main:active { transform: scale(.992); }
   .lang { min-width: 40px; padding: 0 8px; }
   .mus-key { width: 36px; }
   .mus-key-ico { width: 19px; height: 19px; }
+  .deck-bar::after { right: 13px; }
   .dock { gap: 6px; }
   .dockey { padding-inline: 2px; }
   .dockey span { font-size: .5rem; letter-spacing: .06em; }
@@ -5548,6 +5617,13 @@ a.row-main:active { transform: scale(.992); }
       </button>
       <input class="mus-range" id="mus-vol" type="range" min="0" max="100" step="1" value="55" aria-label="Music Volume">
     </div>
+
+    <!-- Phone only. Up there the key on the base rail is the menu's own
+         switch, so the library needs a door down here. -->
+    <button class="mus-btn mus-list" id="mus-list" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5h11M4 11h11M4 15.5h7"/><path d="M19 4.6v8.9"/><circle cx="17.2" cy="14.4" r="2.1"/></svg>
+      <span>Playlists</span>
+    </button>
 
     <button class="mus-btn mus-eject" id="mus-eject" type="button" aria-label="Close Music Deck">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.6 5.2 13.4h13.6z" fill="currentColor"/><path d="M5.6 18.6h12.8"/></svg>
@@ -6351,6 +6427,9 @@ const CFG = {
     music: {
       label:    'Music',
       keyLabel: 'Music — choose a playlist',
+      /* What the same key means on a phone once a playlist is loaded
+         and it has become the deck menu's own switch. */
+      deckLabel: 'Music — deck controls',
       head:     'Music',
       kicker:   'On the Deck',
       title:    'Playlists',
@@ -6753,7 +6832,7 @@ const D = {
   musLamp: $('#mus-lamp'), musBar: $('#mus-bar'),
   musSrc: $('#mus-src'), musAt: $('#mus-at'), musTitle: $('#mus-title'),
   musPrev: $('#mus-prev'), musPlay: $('#mus-play'), musStop: $('#mus-stop'),
-  musNext: $('#mus-next'), musEject: $('#mus-eject'),
+  musNext: $('#mus-next'), musEject: $('#mus-eject'), musListKey: $('#mus-list'),
   musMute: $('#mus-mute'), musVol: $('#mus-vol'),
   musCard: $('#mus-card'), musHead: $('#mus-head'), musRaster: $('#mus-raster'),
   musFlash: $('#mus-flash'), musHeadline: $('#mus-headline'),
@@ -8899,6 +8978,7 @@ const ES = {
      translates them is a panel that has decided it knows better. */
   'Music': 'Música',
   'Music — choose a playlist': 'Música — elige una lista',
+  'Music — deck controls': 'Música — controles de la platina',
   'On the Deck': 'En la platina',
   'Playlists': 'Listas de reproducción',
   'What I have on while I work. Pick one and it plays from the deck rail at the foot of the panel — everything else keeps working while it runs.': 'Lo que pongo mientras trabajo. Elige una y suena desde la platina al pie del panel — todo lo demás sigue funcionando mientras corre.',
@@ -9473,7 +9553,7 @@ function langWalk(fn) {
      translate one and not the other and the dock silently drops the
      keys whose number it can no longer find. */
   if (U.music) {
-    ['label', 'keyLabel', 'head', 'kicker', 'title', 'sub', 'sec', 'rowLabel',
+    ['label', 'keyLabel', 'deckLabel', 'head', 'kicker', 'title', 'sub', 'sec', 'rowLabel',
      'listTag', 'oneTag', 'out', 'loading', 'gone', 'note', 'foot', 'fail',
      'openSay', 'playSay', 'stopSay', 'closeSay', 'failSay', 'muteSay',
      'liveSay', 'play', 'pause'].forEach(k => P(U.music, k));
@@ -10086,7 +10166,29 @@ function musBar(on) {
   MUS.open = on;
   D.musBar.hidden = !on;
   D.chassis.toggleAttribute('data-deck', on);
-  repageAll();
+  musKeySync();
+  /* On a phone the menu is out of flow and nothing underneath it has
+     moved, so there is nothing to re-measure. On the desktop the rail
+     is a real row and every paged well on the panel just changed
+     height without a resize event to tell it so. */
+  if (!phone()) repageAll();
+}
+
+/* The key does two jobs on a phone — with nothing loaded it opens the
+   library, and with something loaded it is the menu's own switch — so
+   it says which one it currently is rather than leaving a screen
+   reader to work it out from context it cannot see. */
+function musKeySync() {
+  const M = CFG.ui.music, deck = phone() && MUS.idx >= 0;
+  D.btnMusic.setAttribute('aria-label', deck ? M.deckLabel : M.keyLabel);
+  D.btnMusic.setAttribute('aria-haspopup', deck ? 'true' : 'dialog');
+  if (deck) {
+    D.btnMusic.setAttribute('aria-controls', 'mus-bar');
+    D.btnMusic.setAttribute('aria-expanded', String(MUS.open));
+  } else {
+    D.btnMusic.removeAttribute('aria-controls');
+    D.btnMusic.removeAttribute('aria-expanded');
+  }
 }
 
 function musMark() {
@@ -10099,6 +10201,7 @@ function musPick(i) {
   const M = CFG.ui.music;
   MUS.idx = i;
   musMark();
+  musKeySync();
   D.musErr.hidden = true;
   if (D.musCard.open) D.musCard.close();
   musBar(true);
@@ -10135,6 +10238,7 @@ function musEject() {
   musBar(false);
   MUS.idx = -1;
   musMark();
+  musKeySync();
   say(CFG.ui.music.closeSay);
   D.btnMusic.focus({ preventScroll: true });
 }
@@ -10164,7 +10268,8 @@ function buildMusic() {
   if (!M) return;
 
   D.musKeyLabel.textContent = M.label;
-  D.btnMusic.setAttribute('aria-label', M.keyLabel);
+  D.musListKey.querySelector('span').textContent = M.title;
+  musKeySync();
   D.musHeadline.textContent = M.head;
   D.musKicker.textContent   = M.kicker;
   D.musName.textContent     = M.title;
@@ -10211,7 +10316,33 @@ function openMusic() {
   say(CFG.ui.music.openSay);
 }
 
-D.btnMusic.addEventListener('click', () => { clack(0.85, 1500, 0.07); openMusic(); });
+D.btnMusic.addEventListener('click', () => {
+  clack(0.85, 1500, 0.07);
+  /* With nothing loaded there is no menu to show, so the key opens the
+     library — which is the only thing it could usefully do. */
+  if (phone() && MUS.idx >= 0) { musBar(!MUS.open); return; }
+  openMusic();
+});
+D.musListKey.addEventListener('click', () => { clack(0.8, 1600, 0.06); openMusic(); });
+
+/* A menu closes when you press somewhere that is not it. The key is
+   excluded because it is the switch, and would otherwise shut the menu
+   on the way down and open it again on the way up. Capture, so a
+   handler that stops propagation cannot leave the menu stranded. */
+document.addEventListener('pointerdown', e => {
+  if (!MUS.open || !phone()) return;
+  if (e.target.closest && e.target.closest('#mus-bar, #btn-music')) return;
+  musBar(false);
+}, true);
+
+/* Esc shuts the menu before the console sees it, so it does not also
+   walk the visitor out of the category they were reading. */
+addEventListener('keydown', e => {
+  if (e.key !== 'Escape' || !MUS.open || !phone()) return;
+  if (D.card.open || D.whyCard.open || D.musCard.open) return;
+  e.preventDefault();
+  musBar(false);
+}, true);
 $('#mus-close').addEventListener('click', () => { clack(0.7, 2000, 0.05); D.musCard.close(); });
 D.musCard.addEventListener('click', e => { if (e.target === D.musCard) D.musCard.close(); });
 D.musCard.addEventListener('close', () => {
@@ -10259,7 +10390,10 @@ D.musVol.addEventListener('input', () => {
 
 /* The title measures itself against a window whose width is a
    function of the rail, so a rotate has to re-measure it too. */
-addEventListener('resize', () => { if (MUS.open) musTitle(D.musTitle.textContent); });
+addEventListener('resize', () => {
+  musKeySync();
+  if (MUS.open) musTitle(D.musTitle.textContent);
+});
 
 function musInit() {
   musLoad();
