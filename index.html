@@ -1317,22 +1317,49 @@ html.js #paper { display: none; }
 .screw:nth-of-type(3) { bottom: 13px; left: 13px; --slot: 52deg; }
 .screw:nth-of-type(4) { bottom: 13px; right: 13px; --slot: -7deg; }
 
-/* ── Extraction vent — milled slots with real depth ──────────────── */
+/* ── Extraction vent — a milled recess, not a printed stripe ──────
+   The slots used to run the full height of the element and straight
+   off both ends, so they clipped mid-slot against the chassis and the
+   whole thing read as a barcode rather than a part. A real grille is
+   a pocket first: the recess has its own floor, its own lip, and a
+   margin of solid metal all the way round before the first slot
+   starts. That margin is what tells the eye it is looking at a hole
+   in something rather than a texture printed on it.
+
+   The slots are drawn on a pseudo-element so they can be inset from
+   the pocket and faded at both ends independently of the recess —
+   the light falls off toward the corners of a machined channel, and
+   the fade is also what stops a slot ever being cut in half by an
+   edge at an arbitrary fluid width. */
 .vent {
-  height: 22px;
-  border-radius: 3px;
-  /* A milled slot has a lip, and the lip catches the light before the
-     hole swallows it. One pixel of it, on the same side as every other
-     highlight on the chassis. Without the lip these were printed
-     stripes; with it they are holes. */
-  background: repeating-linear-gradient(90deg,
-    transparent 0 2px,
-    rgba(255,255,255,.5) 2px 3px,
-    var(--anod-lo) 3px 5px);
+  position: relative;
+  height: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(0,0,0,.085), rgba(0,0,0,.02) 62%);
   box-shadow:
-    inset 0 1px 2px rgba(0,0,0,.55),
+    inset 0 1.5px 2px rgba(0,0,0,.3),
+    inset 0 0 0 1px rgba(0,0,0,.09),
+    inset 0 -1px 0 rgba(255,255,255,.5),
     0 1px 0 rgba(255,255,255,.8);
-  opacity: .8;
+}
+/* A milled slot has a lip, and the lip catches the light before the
+   hole swallows it. One pixel of it, on the same side as every other
+   highlight on the chassis. Without the lip these were printed
+   stripes; with it they are holes. Wider pitch than before: at a 5px
+   period on a 260px rail there were fifty-two of them, which is not a
+   vent, it is hatching. */
+.vent::before {
+  content: "";
+  position: absolute;
+  inset: 4px 9px;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 4px,
+    rgba(255,255,255,.45) 4px 5px,
+    var(--anod-lo) 5px 7px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 11px, #000 calc(100% - 11px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 11px, #000 calc(100% - 11px), transparent 100%);
+  opacity: .62;
 }
 
 /* ═══ BROW RAIL ═════════════════════════════════════════════════════ */
@@ -1352,8 +1379,32 @@ html.js #paper { display: none; }
 .mark { display: flex; align-items: center; gap: 12px; }
 
 /* Lamp cluster — doubles as the boot sequence and the live category
-   indicator, so it earns its space instead of decorating. */
-.lamps { display: flex; gap: 6px; }
+   indicator, so it earns its space instead of decorating.
+
+   Four round lenses in a row at the top-left corner of a rounded
+   window is one thing before it is anything else: a traffic-light
+   cluster. That is the most borrowed shape on the desktop, it says
+   "window chrome" rather than "annunciator", and it was fighting
+   every other object on this panel for what kind of machine this is.
+
+   So the cluster gets a housing — a debossed pocket in the casting,
+   the same pocket the nameplate beside it sits in — and the lenses
+   become rectangular, which is what an annunciator lens actually is.
+   Round lamps stay round everywhere else on the panel, because
+   elsewhere they report a state; these four report WHICH OF FOUR, and
+   giving the two jobs two shapes is information, not decoration. */
+.lamps {
+  display: flex;
+  gap: 5px;
+  padding: 5px 6px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(0,0,0,.09), rgba(0,0,0,.02) 70%);
+  box-shadow:
+    inset 0 1.5px 2px rgba(0,0,0,.26),
+    inset 0 0 0 1px rgba(0,0,0,.08),
+    inset 0 -1px 0 rgba(255,255,255,.5),
+    0 1px 0 rgba(255,255,255,.8);
+}
 /* An unlit indicator is not grey. The lens is moulded in its colour
    and you can read the whole annunciator across a bench before
    anything is powered — which is the entire point of a lamp panel.
@@ -1379,6 +1430,26 @@ html.js #paper { display: none; }
     0 0 0 1px rgba(0,0,0,.15),
     0 0 8px 1px var(--c),
     0 0 18px 3px color-mix(in srgb, var(--c) 45%, transparent);
+}
+
+/* The brow cluster's lenses: rectangular, and moulded rather than
+   painted — a bright top third that falls away, which is how a real
+   lens catches light. The halo is pulled right in, because four of
+   these sit 5px apart inside a pocket and the 18px bloom the standing
+   lamps wear turned the whole housing into one smeared rainbow. Home
+   lights all four (all four categories are open to you); a category
+   lights only its own. */
+.lamps .lamp {
+  width: 12px; height: 6px;
+  border-radius: 1.5px;
+  background-image: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0) 60%);
+}
+.lamps .lamp.lit {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.65),
+    inset 0 -1px 1px rgba(0,0,0,.3),
+    0 0 0 1px rgba(0,0,0,.14),
+    0 0 5px 0 color-mix(in srgb, var(--c) 65%, transparent);
 }
 
 /* Nameplate — debossed, like an engraved badge screwed to the panel. */
@@ -2505,11 +2576,26 @@ html.js #paper { display: none; }
 #back-label    { margin-right: -.16em; }
 .card-close    { gap: calc(8px - .16em); }
 
+/* The one control on the panel that spends money, and it was the one
+   object on the panel with no material: a flat slab with a centred
+   label and — because it inherited --c from the category — a bright
+   blue arrow, the only blue at that size on a page whose own tube
+   cannot render blue. Colour-coding the category is real information,
+   so it stays; it moves to a lamp, which is where this panel says
+   everything else of that kind. The arrow goes back to the legend's
+   own colour and becomes travel, not decoration.
+
+   Materially it is now a key rather than a bar: an anodised cap in a
+   dark well, a machined bevel catching light along the top edge, a
+   4px plinth under it, and the full travel on press. */
 .commit {
   position: relative;
-  display: flex; align-items: center; justify-content: center; gap: 11px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(12px, 1.8vw, 20px);
   width: 100%;
-  padding: clamp(13px, 2.1vh, 17px);
+  padding: clamp(12px, 2vh, 16px) clamp(16px, 1.8vw, 22px);
   border-radius: 11px;
   overflow: hidden;
   font-family: var(--face-panel);
@@ -2519,9 +2605,11 @@ html.js #paper { display: none; }
   letter-spacing: .17em;
   text-transform: uppercase;
   color: #f4f6f0;
-  background: linear-gradient(177deg, #4b504a, var(--anod-lo));
+  background:
+    linear-gradient(177deg, #545a53 0%, #494e48 46%, var(--anod-lo) 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 1px 0 rgba(255,255,255,.26),
+    inset 0 0 0 1px rgba(0,0,0,.35),
     inset 0 -1px 2px rgba(0,0,0,.5),
     0 4px 0 #24271f,
     0 5px 0 rgba(0,0,0,.28),
@@ -2530,12 +2618,45 @@ html.js #paper { display: none; }
               box-shadow var(--t-tap) var(--ease-mech),
               background var(--t-quick) linear;
 }
-.commit:hover { transform: translateY(-1px); background: linear-gradient(177deg, #585e57, #454a43); }
+#commit-label { justify-self: center; }
+/* The lamp is the category's colour, inherited rather than set: the
+   key is lit in whatever bank it is about to commit in. */
+.commit-lamp {
+  flex: 0 0 auto;
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.55),
+    0 0 0 1px rgba(0,0,0,.4),
+    0 0 7px 1px color-mix(in srgb, var(--c, var(--lamp-2)) 70%, transparent);
+}
+/* A recessed pad at the trailing edge, so the arrow reads as the
+   direction the key sends you rather than a glyph left over from a
+   link. */
+.commit-go {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 22px;
+  border-radius: 5px;
+  color: rgba(244,246,240,.82);
+  background: rgba(0,0,0,.2);
+  box-shadow:
+    inset 0 1px 1.5px rgba(0,0,0,.45),
+    inset 0 -1px 0 rgba(255,255,255,.1);
+  transition: transform var(--t-quick) var(--ease-out),
+              color var(--t-quick) linear;
+}
+.commit svg { width: 16px; height: 16px; }
+.commit:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(177deg, #61675f 0%, #545a53 46%, #43483f 100%);
+}
+.commit:hover .commit-go { transform: translateX(3px); color: #f4f6f0; }
 .commit:active {
   transform: translateY(4px);
-  box-shadow: inset 0 2px 5px rgba(0,0,0,.6), 0 0 0 #24271f, 0 1px 2px rgba(0,0,0,.3);
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.4),
+    inset 0 2px 5px rgba(0,0,0,.6),
+    0 0 0 #24271f,
+    0 1px 2px rgba(0,0,0,.3);
 }
-.commit svg { width: 17px; height: 17px; color: var(--c, var(--lamp-2)); filter: drop-shadow(0 0 5px var(--c, var(--lamp-2))); }
 .commit[data-busy] { pointer-events: none; }
 /* Charge sweep on hover — one pass, not a looping shimmer. */
 .commit::after {
@@ -4450,16 +4571,30 @@ a.row-main:active { transform: scale(.992); }
   }
   .legend { font-size: .56rem; letter-spacing: .26em; margin-bottom: 9px; }
   .legend::after { margin-left: -.26em; }   /* re-cut for the tighter track */
+  /* The same milled recess as the brow vent, cut down to a legend
+     rule: pocket, lip, inset slots, ends faded rather than clipped.
+     One vocabulary for one kind of object, at both sizes. */
   .legend::before {
     content: "";
     order: 2;
     flex: 1;
-    height: 9px;
+    height: 11px;
     margin-left: 2px;
-    border-radius: 2px;
-    background: repeating-linear-gradient(90deg, transparent 0 3px, var(--anod-lo) 3px 5px);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.75);
-    opacity: .55;
+    border-radius: 3px;
+    background:
+      repeating-linear-gradient(90deg,
+        transparent 0 4px,
+        rgba(255,255,255,.4) 4px 5px,
+        var(--anod-lo) 5px 7px) content-box,
+      linear-gradient(180deg, rgba(0,0,0,.07), rgba(0,0,0,.02));
+    padding: 3px 7px;
+    box-shadow:
+      inset 0 1px 1.5px rgba(0,0,0,.28),
+      inset 0 -1px 0 rgba(255,255,255,.45),
+      0 1px 0 rgba(255,255,255,.75);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9px, #000 calc(100% - 9px), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 9px, #000 calc(100% - 9px), transparent 100%);
+    opacity: .5;
   }
 
   /* ══ HOME ══════════════════════════════════════════════════════
@@ -5233,6 +5368,51 @@ a.row-main:active { transform: scale(.992); }
 }
 .mus-list svg { width: 16px; height: 16px; }
 
+/* ═══ HACKER RAIN ═══════════════════════════════════════════════════
+   An easter egg, and the only place on this machine where anything is
+   green. It fires once, the first time somebody puts the Hacker Music
+   on, and it is over in three seconds.
+
+   It lives on the chassis rather than in the bay so it floods the
+   whole face — brow, panel, base rail — and it is `position:absolute`
+   inside a `position:relative` chassis, so it takes part in no layout
+   anywhere: nothing moves when it arrives and nothing moves when it
+   leaves. `pointer-events:none` because the panel underneath is still
+   a working panel; you can keep clicking through the rain, which is
+   the joke. The chassis already clips to its own radius, so the rain
+   stops at the bezel like everything else on the face. */
+.rain {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms linear;
+}
+.rain[data-in]  { opacity: 1; }
+.rain[data-out] { opacity: 0; transition-duration: 620ms; }
+.rain canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* The same glass the tube wears, so the rain reads as something
+   happening ON this screen rather than a layer pasted over a photo of
+   it: a scanline grid, and a vignette that puts the corners in shade. */
+.rain::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(180deg,
+      rgba(0,0,0,.34) 0 1px,
+      transparent 1px 3px),
+    radial-gradient(125% 105% at 50% 45%,
+      transparent 44%, rgba(0,0,0,.4) 86%, rgba(0,0,0,.7) 100%);
+  opacity: .8;
+}
+/* Motion off means the gag is off. A three-second full-face strobe of
+   falling glyphs is exactly what that setting is for, and there is no
+   quieter version of it worth showing — the music still plays, which
+   was the thing that was actually asked for. */
+@media (prefers-reduced-motion: reduce) { .rain { display: none; } }
+@media (forced-colors: active) { .rain { display: none; } }
+
 /* ── The library ───────────────────────────────────────────────────
    Same plate as the contact card — same bezel, same glass, same
    strike on open — because it is the same kind of object: a sheet the
@@ -5240,7 +5420,10 @@ a.row-main:active { transform: scale(.992); }
 /* The chip is wider than the copy chips it borrows from — it carries a
    word and an arrow rather than one word — so the row body is cut back
    to match rather than being left to run underneath it. */
-.mus-row .row-main { padding-right: 100px; width: 100%; text-align: left; }
+/* The 100px gutter was reserved for the YouTube chip that used to sit
+   at the right of every row. With the chip gone the tag takes the
+   edge back, and the row stops looking like it is missing something. */
+.mus-row .row-main { padding-right: 15px; width: 100%; text-align: left; }
 .mus-idx {
   font-family: var(--face-data);
   font-size: .62rem; font-weight: 600; letter-spacing: .1em;
@@ -5253,8 +5436,6 @@ a.row-main:active { transform: scale(.992); }
   background: rgba(255,179,71,.13);
   box-shadow: inset 0 0 0 1px rgba(255,179,71,.42);
 }
-.mus-out { gap: 5px; padding: 0 10px; text-decoration: none; }
-.mus-out svg { width: 11px; height: 11px; }
 .mus-note { margin-top: 16px; font-size: .62rem; line-height: 1.5; color: var(--p-mid); }
 .mus-fail {
   margin-top: 14px; padding: 11px 13px;
@@ -5555,9 +5736,18 @@ a.row-main:active { transform: scale(.992); }
         </button>
       </div>
 
+      <!-- Three zones, not one centred pair. At full width a label and
+           an arrow floating in the middle of a 1000px slab is a slab;
+           a lamp at one end, the legend on the axis, and the travel
+           arrow at the other is a machine's execute bar, and the width
+           is structure instead of void. The lamp inherits --c from the
+           category, which is where the arrow used to get its colour. -->
       <button class="commit" id="commit" type="button">
+        <span class="commit-lamp lamp lit" aria-hidden="true"></span>
         <span id="commit-label">Request This Service</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        <span class="commit-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </span>
       </button>
     </section>
   </div>
@@ -6427,17 +6617,16 @@ const CFG = {
       head:     'Music',
       kicker:   'On the Deck',
       title:    'Playlists',
-      sub:      'What I have on while I work. Pick one and it plays from the deck rail at the foot of the panel — everything else keeps working while it runs.',
+      sub:      'Enjoy some tunes while you browse. I suggest the hacker music to set the mood.',
       sec:      'Playlists',
       rowLabel: 'Playlist',
       listTag:  'LIST',
       oneTag:   'SINGLE',
-      out:      'YOUTUBE',
       loading:  'Loading…',
       gone:     'Track unavailable',
-      note:     'Playback is YouTube’s own player, running in the small monitor on the deck. Nothing loads from YouTube until you press one of these.',
-      foot:     'Level, skip and stop live on the deck rail.',
-      fail:     'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. The YouTube link on each row still works.',
+      note:     'By clicking play, you agree not to judge me by my music taste.',
+      foot:     'Level, skip and stop live on the pop-up deck.',
+      fail:     'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. Everything else on the panel carries on as normal.',
       /* Spoken, not printed. */
       openSay:  'Music library.',
       playSay:  'Playing',
@@ -6449,17 +6638,20 @@ const CFG = {
       play:     'Play',
       pause:    'Pause',
       playlists: [
+        /* `url` is gone: the rows no longer offer a way out to
+           YouTube, so the only thing that address did was tempt a
+           visitor off the panel mid-visit. The ids below are the
+           record of where each list came from. */
         { name:  'Hacker Music',
+          hacker: true,
           list:  'PLSHbn8ag9TRqSPKFAsIU1EslcLhLzTA7f',
-          video: 'RCyOUR2FbU8',
-          url:   'https://www.youtube.com/playlist?list=PLSHbn8ag9TRqSPKFAsIU1EslcLhLzTA7f' },
+          video: 'RCyOUR2FbU8' },
         /* ▸ CHECK THIS. The link given for this one is a single video,
            not a list — so it plays as one track and the skip keys stay
            dark. Paste the `list=` value in beside the name whenever it
            becomes a real playlist and they light up on their own. */
-        { name:  'the worst music you ever heard (music i like)',
-          video: 'hFFz0lCnt84',
-          url:   'https://www.youtube.com/watch?v=hFFz0lCnt84' }
+        { name:  'Ham Music',
+          video: 'hFFz0lCnt84' }
       ]
     },
 
@@ -8975,15 +9167,15 @@ const ES = {
   'Music — deck controls': 'Música — controles de la platina',
   'On the Deck': 'En la platina',
   'Playlists': 'Listas de reproducción',
-  'What I have on while I work. Pick one and it plays from the deck rail at the foot of the panel — everything else keeps working while it runs.': 'Lo que pongo mientras trabajo. Elige una y suena desde la platina al pie del panel — todo lo demás sigue funcionando mientras corre.',
+  'Enjoy some tunes while you browse. I suggest the hacker music to set the mood.': 'Pon algo de música mientras miras. Te recomiendo la hacker music para ambientar.',
   'Playlist': 'Lista',
   'LIST': 'LISTA',
   'SINGLE': 'SENCILLO',
   'Loading…': 'Cargando…',
   'Track unavailable': 'Pista no disponible',
-  'Playback is YouTube’s own player, running in the small monitor on the deck. Nothing loads from YouTube until you press one of these.': 'La reproducción es el propio reproductor de YouTube, dentro del pequeño monitor de la platina. No se carga nada de YouTube hasta que pulses una de estas.',
-  'Level, skip and stop live on the deck rail.': 'El nivel, el salto de pista y la parada están en la platina.',
-  'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. The YouTube link on each row still works.': 'No se pudo conectar con YouTube — una extensión, un filtro de red o una conexión caída bastan para eso. El enlace de YouTube de cada fila sigue funcionando.',
+  'By clicking play, you agree not to judge me by my music taste.': 'Al darle a reproducir, aceptas no juzgarme por mi gusto musical.',
+  'Level, skip and stop live on the pop-up deck.': 'El nivel, el salto de pista y la parada están en la platina emergente.',
+  'YouTube could not be reached — an extension, a network filter or a dropped connection will all do it. Everything else on the panel carries on as normal.': 'No se pudo conectar con YouTube — una extensión, un filtro de red o una conexión caída bastan para eso. Todo lo demás del panel sigue funcionando con normalidad.',
   'Music library.': 'Biblioteca de música.',
   'Playing': 'Reproduciendo',
   'Music stopped.': 'Música detenida.',
@@ -9548,7 +9740,7 @@ function langWalk(fn) {
      keys whose number it can no longer find. */
   if (U.music) {
     ['label', 'keyLabel', 'deckLabel', 'head', 'kicker', 'title', 'sub', 'sec', 'rowLabel',
-     'listTag', 'oneTag', 'out', 'loading', 'gone', 'note', 'foot', 'fail',
+     'listTag', 'oneTag', 'loading', 'gone', 'note', 'foot', 'fail',
      'openSay', 'playSay', 'stopSay', 'closeSay', 'failSay', 'muteSay',
      'liveSay', 'play', 'pause'].forEach(k => P(U.music, k));
   }
@@ -9975,7 +10167,6 @@ const MUS = {
 
 const musList = () => (CFG.ui.music && CFG.ui.music.playlists) || [];
 const MUS_NOTE = '<path d="M9 17.6V4.9l11-2v12.7"/><circle cx="6.4" cy="17.6" r="2.6"/><circle cx="17.4" cy="15.6" r="2.6"/>';
-const MUS_OUT  = '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>';
 
 /* Volume is a preference, not a session — somebody who turned it down
    to 20 meant it. Wrapped, like every other storage call here,
@@ -10186,6 +10377,130 @@ function musMark() {
   [...D.musRows.children].forEach((row, i) => row.classList.toggle('is-live', i === MUS.idx));
 }
 
+/* ── The gag ───────────────────────────────────────────────────────
+   Katakana rain, once, the first time the Hacker Music goes on. The
+   flag is stored so it stays a surprise rather than becoming a thing
+   that happens every time you change the record; storage is wrapped
+   because a file:// or partitioned context throws on access rather
+   than returning null, and if it throws we fall back to the in-memory
+   guard, which at least keeps it to once per visit. */
+const RAIN_KEY = 'jb-rain-1';
+let rainSeen = false, rainLive = null;
+
+function rainDone() {
+  try { localStorage.setItem(RAIN_KEY, '1'); } catch { /* memory only */ }
+  rainSeen = true;
+}
+function rainAlready() {
+  if (rainSeen) return true;
+  try { return localStorage.getItem(RAIN_KEY) === '1'; } catch { return false; }
+}
+
+function rain(ms = 3000) {
+  if (calm() || rainLive || !coldSupported()) return;
+
+  const el  = mk('div', 'rain');
+  const cvs = mk('canvas');
+  el.setAttribute('aria-hidden', 'true');
+  el.appendChild(cvs);
+  D.chassis.appendChild(el);
+
+  const ctx = cvs.getContext('2d');
+  /* Half-width glyphs plus a couple of the Latin characters a terminal
+     would actually have printed. Not the full katakana block: at 15px
+     the rarer forms turn to mush and all that survives is the noise. */
+  const GLYPHS = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789:.=*+-<>¦';
+  const SIZE = 15;
+
+  /* One colour for the field, and the same colour at low alpha for the
+     per-frame wash that makes the trails decay. */
+  const FIELD = '#03100a', FIELD_WASH = 'rgba(3,16,10,.17)';
+  let W = 0, H = 0, DP = 1, cols = 0, drop = [], speed = [], first = true;
+  function measure() {
+    const r = D.chassis.getBoundingClientRect();
+    DP = Math.min(devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(r.width));
+    H = Math.max(1, Math.round(r.height));
+    cvs.width  = Math.round(W * DP);
+    cvs.height = Math.round(H * DP);
+    ctx.setTransform(DP, 0, 0, DP, 0, 0);
+    ctx.font = `${SIZE}px ${getComputedStyle(D.chassis).getPropertyValue('--face-data')}`;
+    ctx.textBaseline = 'top';
+    const next = Math.ceil(W / SIZE);
+    /* Keep the columns that already exist so a resize mid-fall does
+       not restart every stream from the top. */
+    for (let i = cols; i < next; i++) {
+      drop[i]  = -Math.random() * (H / SIZE);
+      speed[i] = 0.55 + Math.random() * 0.85;
+    }
+    cols = next;
+  }
+  measure();
+  addEventListener('resize', measure);
+
+  const t0 = performance.now();
+  const fade = ms - 620;
+
+  function frame(now) {
+    const t = now - t0;
+
+    /* The decay model: instead of clearing, lay down a low-alpha wash
+       of the field colour each frame, so a glyph drawn six frames ago
+       is still faintly there. That trail is the whole effect — without
+       it this is just characters blinking on and off. The first frame
+       lays the field down solid, so the takeover is instant rather
+       than washing in over half a second. */
+    ctx.fillStyle = first ? FIELD : FIELD_WASH;
+    first = false;
+    ctx.fillRect(0, 0, W, H);
+
+    for (let i = 0; i < cols; i++) {
+      const x = i * SIZE;
+      const y = Math.floor(drop[i]) * SIZE;
+      if (y > -SIZE && y < H) {
+        /* The head of a stream is nearly white and the character above
+           it has already cooled to the panel's own green lamp, which
+           is what keeps this looking like it belongs to this machine
+           rather than to a screensaver. */
+        ctx.fillStyle = '#dffbe8';
+        ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], x, y);
+        ctx.fillStyle = '#4fb26c';
+        ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], x, y - SIZE);
+      }
+      drop[i] += speed[i];
+      if (drop[i] * SIZE > H && Math.random() > 0.975) {
+        drop[i] = -2 - Math.random() * 8;
+        speed[i] = 0.55 + Math.random() * 0.85;
+      }
+    }
+
+    if (t >= fade && !el.hasAttribute('data-out')) {
+      el.removeAttribute('data-in');
+      el.setAttribute('data-out', '');
+    }
+    if (t >= ms) { rainStop(); return; }
+    rainLive.raf = requestAnimationFrame(frame);
+  }
+
+  function rainStop() {
+    if (!rainLive) return;
+    cancelAnimationFrame(rainLive.raf);
+    removeEventListener('resize', measure);
+    el.remove();
+    rainLive = null;
+  }
+
+  rainLive = { raf: 0, stop: rainStop };
+  requestAnimationFrame(() => el.setAttribute('data-in', ''));
+  rainLive.raf = requestAnimationFrame(frame);
+}
+
+/* A tab that goes to the background mid-gag comes back to a frozen
+   three seconds it has already spent, so it ends rather than waits. */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && rainLive) rainLive.stop();
+});
+
 function musPick(i) {
   const pl = musList()[i];
   if (!pl) return;
@@ -10201,6 +10516,11 @@ function musPick(i) {
   musTitle(M.loading);
   MUS.len = pl.list ? 2 : 1;      /* provisional, until the list reports in */
   musArrows();
+
+  /* Fired here rather than after the player resolves: the gag belongs
+     to the press, and YouTube can take a second or more to answer —
+     or never answer at all, on a connection that is going to fail. */
+  if (pl.hacker && !rainAlready()) { rainDone(); rain(); }
 
   musPlayer().then(p => {
     if (pl.list) {
@@ -10285,14 +10605,6 @@ function buildMusic() {
     go.appendChild(mk('span', 'mus-idx', pl.list ? M.listTag : M.oneTag));
     go.addEventListener('click', () => { clack(0.85, 1500, 0.07); musPick(i); });
     row.appendChild(go);
-
-    const out = mk('a', 'row-copy mus-out', M.out);
-    out.href = pl.url;
-    out.target = '_blank';
-    out.rel = 'noopener noreferrer';
-    out.setAttribute('aria-label', `${M.out} — ${pl.name}`);
-    out.appendChild(svgIcon(MUS_OUT, 'row-go'));
-    row.appendChild(out);
 
     D.musRows.appendChild(row);
   });
