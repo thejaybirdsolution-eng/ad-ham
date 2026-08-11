@@ -5240,11 +5240,14 @@ a.row-main:active { transform: scale(.992); }
   color: var(--p-mid);
 }
 .mus-now-src { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* --p-dim is documented at its definition as rules-and-glyphs only
+   (2.9:1, below AA). This is a readable position count, so it takes
+   --p-mid (5.8:1, AA) — the same tier its own head row already uses. */
 .mus-now-at {
   margin-left: auto; padding-left: 8px;
   letter-spacing: .14em;
   font-variant-numeric: tabular-nums slashed-zero;
-  color: var(--p-dim);
+  color: var(--p-mid);
 }
 .mus-now-win { overflow: hidden; }
 .mus-now-t {
@@ -5424,10 +5427,12 @@ a.row-main:active { transform: scale(.992); }
    at the right of every row. With the chip gone the tag takes the
    edge back, and the row stops looking like it is missing something. */
 .mus-row .row-main { padding-right: 15px; width: 100%; text-align: left; }
+/* Same rules-and-glyphs-only problem as .mus-now-at: LIST / SINGLE is
+   a word the reader is meant to read, not a rule or a glyph. */
 .mus-idx {
   font-family: var(--face-data);
   font-size: .62rem; font-weight: 600; letter-spacing: .1em;
-  color: var(--p-dim);
+  color: var(--p-mid);
   font-variant-numeric: tabular-nums slashed-zero;
 }
 .row.is-live .row-icon,
